@@ -13,7 +13,7 @@ import os
 from django.conf.global_settings import STATIC_ROOT, SESSION_ENGINE
 from django.template.defaultfilters import addslashes
 
-BASE_DIR = os.path.dirname(os.path.dirname(__file__) , '../..')
+BASE_DIR = os.path.join(os.path.dirname(__file__) , '../..')
 
 
 # Quick-start development settings - unsuitable for production
