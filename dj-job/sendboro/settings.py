@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
+import os, socket
 from django.conf.global_settings import STATIC_ROOT, SESSION_ENGINE
 from django.template.defaultfilters import addslashes
 
@@ -117,9 +117,18 @@ import dj_database_url
 
 DATABASES={}
 DATABASES['default'] =  dj_database_url.config()
+#DATABASES = {
+#        'default' : {
+#                  'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#                  'NAME': 'sendboro',                      
+#                  'USER': 'postgres',
+#                  'PASSWORD': 'gungun',
+#            }
+#    }
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Allow all host headers
 ALLOWED_HOSTS = ['*']
+    

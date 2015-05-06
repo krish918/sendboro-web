@@ -14,7 +14,6 @@ from common.sms import TextMessage
 from django.core.servers.basehttp import FileWrapper
 from django.db import connection
 from django.core.urlresolvers import resolve, Resolver404
-from django.contrib.sites.models import Site
 import os, mimetypes
 
 
@@ -28,6 +27,11 @@ class PushView(View):
     
     @method_decorator(LoginRequired())
     def post(self, request, *args, **kwargs):
+        
+        self.host = request.META.get('HTTP_HOST',
+                                request.META.get('SERVER_NAME',False))
+        if not self.host:
+            self.host = 'localhost:8080'
         
         self.recipient = request.POST['receiver']
         self.blind = request.POST.get('blind', False)
@@ -72,8 +76,7 @@ class PushView(View):
             
     def sendsms(self, phone,fid, url):
         type = Helper().getFormattedType(self.type,self.name,True)
-        host = Site.objects.get_current().domain
-        texturl = 'https://'+str(host)+'/file/direct?id='+str(fid)+'&url='+str(url)
+        texturl = 'https://'+str(self.host)+'/file/direct?id='+str(fid)+'&url='+str(url)
         
         msg = ("Hi! %s has sent you a %s file via sendboro."\
                +" Please sign up for sendboro to receive the file."\
