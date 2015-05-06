@@ -6,7 +6,6 @@ from common.utils.decorator import LoginRequired
 from home.models import Picture
 from common.models import User
 import simplejson, traceback, re
-from sorl.thumbnail import get_thumbnail
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.db import transaction
 from django.db.utils import IntegrityError
