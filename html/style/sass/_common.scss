@@ -1,0 +1,425 @@
+/*
+Property of Pigeo
+All rights reserved
+Pigeo © 2015 
+*/
+
+@font-face {
+    font-family: 'pigeosans';
+    src: url('webfont/montserrat-regular-webfont.eot');
+    src: url('webfont/montserrat-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('webfont/montserrat-regular-webfont.woff2') format('woff2'),
+         url('webfont/montserrat-regular-webfont.woff') format('woff'),
+         url('webfont/montserrat-regular-webfont.ttf') format('truetype'),
+         url('webfont/montserrat-regular-webfont.svg#montserratregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'droidsans';
+    src: url('webfont/droidsans-webfont.eot');
+    src: url('webfont/droidsans-webfont.eot?#iefix') format('embedded-opentype'),
+         url('webfont/droidsans-webfont.woff2') format('woff2'),
+         url('webfont/droidsans-webfont.woff') format('woff'),
+         url('webfont/droidsans-webfont.ttf') format('truetype'),
+         url('webfont/droidsans-webfont.svg#droid_sansregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'sinkinsans';
+    src: url('webfont/SinkinSans-300Light-webfont.eot');
+    src: url('webfont/SinkinSans-300Light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('webfont/SinkinSans-300Light-webfont.woff') format('woff'),
+         url('webfont/SinkinSans-300Light-webfont.ttf') format('truetype'),
+         url('webfont/SinkinSans-300Light-webfont.svg#sinkin_sans300_light') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+* {
+	outline: none;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	vertical-align: baseline;
+	alignment-baseline: baseline;
+	alignment-adjust: baseline;
+	font-size: 100%;
+	font: inherit;
+}
+
+strong {
+	font-weight: bold;
+}	
+
+body {
+	overflow-y: auto;
+	margin: 0;
+	line-height: 1;
+}
+
+div {
+	line-height: 1.2;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	word-break: keep-all;
+}
+
+html {
+	font-family: 'pigeosans', 'sinkinsans', 'droidsans', arial, helvetica, sans-serif;
+}
+
+img {
+	vertical-align: middle;
+	border: 0;
+}
+
+a {
+	text-decoration: none;
+	cursor: pointer;
+	border: none;
+	color: inherit;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+.not-bold {
+	font-weight: normal;
+}
+
+.default-cursor {
+	cursor: default;
+}
+
+div.decent-text {
+	padding: 8px;
+	font-size: 12px;
+	color: #606060;
+	line-height: 1.5;
+}
+
+div.error-text {
+	padding: 8px;
+	font-size: 12px;
+	color: #aa6887;
+}
+
+.topofall {
+	z-index: 5;
+}
+
+.arrow {
+	position: absolute;
+	width: 0;
+	height: 0;
+}
+
+.invisible {
+	visibility: hidden;
+}
+
+.display {
+	display: block;
+}
+
+textarea {
+	overflow-y: auto;
+}
+
+p {
+	margin-bottom: 10px;
+}
+
+
+.tiny-error {
+	padding: 5px;
+	background-color: #ffe0e0;
+	border: solid 1px #ffbaba;
+	font-family: tahoma, 'droidsans', helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #505050;
+	visibility: hidden;
+}
+
+.stretch {
+	width: 100%;
+	height: 0;
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+	font-size: 0;
+	line-height: 0;
+	padding: 0;
+	margin: 0;
+}
+
+.faded-text {
+	color: #777;
+}
+
+.inline-box {
+	display: inline;
+	padding: 0 2px;
+}
+
+.visible {
+	visibility: visible;
+}
+
+.dnone {
+	display: none;
+}
+
+
+
+.inline {
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+}
+
+.inline-middle {
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+	vertical-align: middle;
+	alignment-adjust: middle;
+}
+
+.inline-top {
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+	vertical-align: top;
+}
+
+.inline-bottom {
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+	vertical-align: bottom;
+}
+
+.back-cover-container img {
+	position : fixed;
+	top : 0;
+	left : 0;
+	
+	width : 100%;
+	height : auto;
+	
+	min-height : 100%;
+	min-width : 1024px;
+	z-index : -1;
+}
+
+.img-cover {
+	position : fixed;
+	top : 0;
+	left : 0;
+	height : 100%;
+	width : 100%;
+	z-index : -1;
+}
+
+
+
+.pgo-input {
+	font: normal 15pt/1 'pigeosans', 'sinkinsans', arial, sans-serif;
+	@include input-box($border:solid 1px #a0d0d0, $shadow:false);
+	
+	&:focus {
+		@include input-box($border:solid 1px darken(#a0d0d0,20), $shadow:true);
+	}
+	
+}
+
+
+
+.pgo-button {
+	font: normal 14pt/1 'pigeosans', 'sinkinsans', arial, sans-serif;
+	@include button($rounded:5px, $border:groove 2px lighten($sweet-blue,5));
+	color : white;
+	
+	&:active {
+		border:ridge 2px lighten($sweet-blue,1);
+	}
+	
+	&.medsize {
+		font-size: 12pt;
+		@include button($width: 110px, $padding:10px);
+	}
+	
+	&.disabled {
+		background : rgb(80,90,80);
+		border : groove 2px lighten(rgb(80,90,80),10);
+		cursor: not-allowed;
+	}
+}
+
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button,
+ {
+	-webkit-appearance : none;
+	-moz-appearance: none;
+	-o-appearance: none;
+	-ms-appearance: none;
+	appearance: none;
+	margin :0;
+}
+
+input[type=number] {
+	-moz-appearance: textfield;
+}
+
+.small-cross {
+	position:absolute;
+	right:0;
+	top:0;
+	background-color: darken(#df1320,3);
+	padding : 3px 8px; 
+	font: normal 13pt/1 'sinkinsans',arial,sans-serif;
+	cursor:pointer;
+	@include radius (0 7px 0 0);
+}
+
+.gen-dialog {
+	position:fixed;
+	top:10%;
+	left: 50%;
+	width: 520px;
+	margin-left: -250px;
+	background: white;
+	font: normal 12pt/1 'pigeosans','sinkinsans',arial, sans-serif;
+	@include radius(7px);
+	overflow: hidden;
+	z-index:2;
+	@include shadow(#b0b0b0,90px,0);
+	
+	.dialog-head {
+		@include radius(7px 7px 0 0);
+		padding: 20px 0;
+		background: #303030;
+		@include shadow(#303030,7px,1px);
+		color: #f0f0f0;
+	}
+	
+	.dialog-middle {
+		
+	}
+	
+	.dialog-lower {
+		border-top: solid 1px #dadada;
+	}
+	
+}
+
+.bigfont {
+	font-size: 19pt;
+}
+
+.italic {
+	font-style: italic;
+}
+
+.pale-blue {
+	color: #347856;
+}
+
+.alert-text {
+	color:#a95645;
+}
+
+.mid-size-text {
+	font-size : 10pt;
+}
+
+.mid-more-text {
+	font-size : 12pt;
+	line-height: 1.5;
+}
+
+.loader-cover-small {
+	position:relative;
+	width: 34px;
+	height: 34px;
+	background:transparent;
+	margin-left : -38px;
+}
+
+.view-transit {
+	&.ng-enter  {
+			@include transition(all linear 0.5s);
+			opacity : 1;
+			
+		}
+		&.ng-enter {
+				opacity: 0;
+			}
+		&.ng-enter.ng-enter-active {
+			opacity:1;
+		}
+		&.ng-leave.ng-leave-active {
+			opacity: 0;
+		}
+		
+	&.ui-disappear {
+		@include transition(all linear 0.2s);
+		opacity:0;
+	}
+
+}
+
+
+
+%small-msg-box {
+	color: darken(#F8F2DC,70);
+	text-align: center;
+	font: normal 10pt/1.6 'sinkinsans','pigeosans',arial, sans-serif;
+	padding: 10px;
+	background: #F8F2DC;
+	@include radius(4px);
+	border: solid 2px darken(#F8F2DC,10);
+}
+
+.view-loader {
+	position: fixed;
+	width:64px;
+	height:64px;
+	top: 200px;
+	left: 50%;
+	margin-left: -32px;
+	background-color: transparent;
+	z-index:5;
+}
+
+.loader-error {
+	margin-left: -115px;
+	text-align: center;
+	width:250px;
+	font: normal normal normal 13pt/2 'pigeosans','sinkinsans',arial,sans-serif;
+}
+
+.invalid-entry {
+	@include shake-keyframes(10px);
+	@include apply-animate(shake 0.8s);
+}
+
+.red-border {
+	border: solid 1px red;
+}
+
+.italic {
+	font-style:italic;
+}

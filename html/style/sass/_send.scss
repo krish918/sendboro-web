@@ -1,0 +1,170 @@
+@import "widget";
+
+.widget-header {
+	.widget-title {
+		@include vertCenter(50px);
+		font-size: 12pt;
+	}
+	
+}
+
+.widget-body.send-page {
+	padding: 30px;
+	@include transform3d(0deg);
+	
+	.send-desc {
+		line-height: 2;
+	}
+	
+	.inpt-container {
+		padding: 20px 0px;
+		
+	}
+	
+	.upload-button-container {
+		margin:0;
+		margin-top: 10px;
+		&.dummy {
+			cursor:not-allowed;
+			margin:0;
+			margin-top:-35px;
+			opacity:0;
+			width:143px;
+		}
+	}
+	
+	.inpt-upload.file {
+		opacity:0;
+		margin-top:-34px;
+		padding:0;
+		width: 138px;
+		font-size:25px;
+	}
+	
+	.upload-progress {
+		margin-top:20px;
+		padding:20px 5px;
+		border-top: solid 1px #f6f6f6;
+		height: 100px;
+		
+		.widget-error {
+			position:static;
+			margin: 0 auto;
+		}
+		
+		.small-loader {
+			width: 50px;
+			margin:0 auto;
+		}
+		
+	}
+	
+	.dnd-suggestion {
+		margin-top:20px;
+		border-top: solid 1px #f0f0f0;
+		border-bottom: solid 1px #f0f0f0;
+		padding:20px 5px;
+		font-size: 8pt;
+		line-height:1.8;
+		color: #a0a0a0;
+	}
+}
+
+.gen-dialog.blind-send {
+	top:13%;
+	left:49.5%;
+	.dialog-head {
+		font-size:15pt;
+		padding-left :20px;
+	}
+	
+	.dialog-middle {
+		font: normal 10pt/2 'sinkinsans','pigeosans','droidsans',arial, sans-serif;
+		padding:20px;
+	}
+	
+	.dialog-lower {
+		padding:20px 15px;
+		.negative {
+			width:250px;
+			background: #808080;
+			border-color: lighten(#808080,10);
+		}
+		
+		.btn-container {
+			float:right;
+			padding-bottom: 20px;
+		}
+	}
+	@include transition(all linear 0.3s);
+	
+	&.ng-hide {
+		@include transform3d(90deg, Y);
+	}
+}
+
+.upload-progress-bar {
+	.progress-line {
+		background:#FF9933;
+		height:8px;
+		width:0%;
+		@include radius(8px);
+		@include linear-gradient-top(#FF9933, lighten(#FF9933,15));
+	}
+	
+	.progress-bulb {
+		margin-left:-10px;
+		width:8px;
+		height:8px;
+		@include radius(8px);
+		background-color: darken(#FF9933,15);
+		@include shadow(darken(#FF9933,10),20px,5px);
+		@include linear-gradient-top(#FF9933, darken(#FF9933,13));
+	}
+	
+	.send-desc {
+		margin-top:15px;
+		font-size:9pt;
+		
+	}
+	
+	.cancel-upload {
+		float: right;
+		margin-top:15px;	
+		
+		background: $my-red;
+		
+		padding: 3px 10px;
+		
+		color:white;
+		font: bold 9pt/1 'pigeosans','sinkinsans','droidsans',arial,sans-serif;
+		
+		@include radius(20px);
+		cursor:pointer;
+		
+		&:hover {
+			background: darken($my-red,10);
+			@include scaleTransform(1.1,1.1);
+		}
+		&:active {
+			@include scaleTransform(1,1);
+		}
+		
+	}
+	
+}
+
+.success-msg {
+	padding:15px;
+	font: normal 12pt/1 'pigeosans', 'sinkinsans', 'droidsans', arial, sans-serif;
+	background: $light-blue;
+	border: solid 1px darken($light-blue, 6);
+	@include radius(4px);
+	text-align:center;
+	color:#404040;
+	@include transition(all linear 0.2s);
+	
+	&.ng-hide {
+		@include scaleTransform(1,0.3);
+	} 
+} 

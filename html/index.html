@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!--
+All Right Reservred
+Pigeo © 2015
+----------------------------------------
+AUTHORS
+Gunjan Seth
+Alpika Singhal
+-->
+<html lang="en">
+    <head>
+        <title>Sendboro</title>
+        <meta charset="UTF-8">
+        {% load staticfiles %} 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="{% static 'style/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'style/css/team.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'style/css/head.css' %}">
+        
+        <script src="{% static 'js/vendor/angular.min.js' %}"></script>
+        <script src="{% static 'js/vendor/angular-cookies.min.js' %}"></script>
+        <script src="{% static 'js/vendor/angular-animate.min.js' %}"></script>
+        <script src="{% static 'js/vendor/angular-ui.min.js' %}"></script>
+        <script src="{% static 'js/main.js' %}"></script>
+        <script src="{% static 'js/controller/auth.js' %}"></script>
+        <script src="{% static 'js/controller/panel.js' %}"></script>
+        <script src="{% static 'js/directive/authpanel.js' %}"></script>
+        <script src="{% static 'js/directive/authproblem.js' %}"></script>
+        <script src="{% static 'js/directive/routeloader.js' %}"></script>
+    </head>
+    <body class="pigeo-home" ng-app="init">
+    	<div ng-controller="loaderCtrl">
+    			<route-loader size="large" color="green" type="square"></route-loader>
+    		</div>
+    	<div ui-view class="view-transit" ng-class="uiTransit"></div>
+
+    	{% if logout %}
+<!--     		<div class="logout-msg"> -->
+<!--     			You have been logged out. Please look for your -->
+<!--     			new password in your phone inbox. -->
+<!--     		</div> -->
+    	{% endif %}
+    </body>
+</html>

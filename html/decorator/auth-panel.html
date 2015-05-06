@@ -1,0 +1,85 @@
+<div class="auth-panel" ng-hide="panels.isClicked(0)"
+	ng-class="visibility">
+	<div class="big-cross right">X</div>
+	<div class="form-box" ng-hide="panels.isClicked(0)">
+		<div ng-controller="authController as authCtrl">
+			<div class="signup-box" ng-show="panels.isClicked(1)">
+
+				<div class="head-text">
+					<span class="ultra">Ahoy!</span> <br /> Enter your phone no. to
+					sign up.
+				</div>
+
+				<form name="signupForm" class="signup-form"
+					ng-submit="frmCtrl.validateForm(signupForm) && authCtrl.signup(panels)"
+					novalidate>
+					<span class="area-code">+91</span> {% csrf_token %}
+					<!-- hidden element to accomodate areacode as it's user-independent right now -->
+					<input type="hidden" ng-init="authCtrl.areacode='+91'"
+						ng-model="authCtrl.areacode"> <input type="number"
+						min="1000000000" max="9999999999999" ng-model="authCtrl.data.tel"
+						ng-model-options="{updateOn : 'submit'}" name="phone"
+						ng-class="inputClass" class="pgo-input" placeholder="Phone Number"
+						autocomplete="off" required>
+					<div class="signup-hint">No annoying texts or calls, we
+						promise. Sendboro is available right now, only in India.</div>
+					<input type="submit" name="signup" class="pgo-button"
+						value="Sign Up" ng-show="authCtrl.checkProcess(0)"> <input
+						type="button" class="pgo-button disabled" value="Sign Up"
+						ng-show="authCtrl.checkProcess(1)">
+
+					<div class="big-cross right">
+						<input type="reset" value="X" ng-click="panels.showPanel(0)">
+					</div>
+				</form>
+				<div class="form-extra">
+					<a class="auth-form-link" href="terms.html">Terms Of Use</a>
+				</div>
+			</div>
+
+			<div class="signin-box" ng-show="panels.isClicked(2)">
+				<div class="head-text">
+					<div class="ultra glyphicon glyphicon-log-in"></div>
+					<div class="signin-text">Sign in to sendboro</div>
+				</div>
+
+				<form name="signinForm" class="signin-form"
+					ng-submit="authCtrl.validateSignIn() && authCtrl.signin(panels)"
+					novalidate>
+					<span class="area-code">+91</span> <input type="hidden"
+						ng-init="areacode='+91'" ng-model="areacode"> <input
+						type="number" 
+						ng-model="authCtrl.data.siphone" 
+						name="phone" ng-class="inputClass1" class="pgo-input"
+						placeholder="Phone Number" autocomplete="off"> <input
+						type="password" ng-model="authCtrl.data.sipass"
+						 name="phrase"
+						class="pgo-input pgo-phrase" ng-class="inputClass2"
+						placeholder="Code" minlength="4" required> <br /> 
+						<input
+						type="submit" name="signin" class="pgo-button" value="Sign In"
+						 ng-show="authCtrl.checkProcess(0)">
+						<input
+						type="button" class="pgo-button disabled" value="Sign In"
+						ng-show="authCtrl.checkProcess(1)">
+					
+					<div class="big-cross right">
+						<input type="reset" value="X" ng-click="panels.showPanel(0)">
+					</div>
+				</form>
+				<div class="form-extra">
+					<a class="auth-form-link" ng-click="panels.showPanel(3)">Problem
+						signing in? </a>
+				</div>
+			</div>
+
+
+			<div>{% include 'decorator/codeverify-panel.html' %}</div>
+
+
+
+		</div>
+	</div>
+
+
+</div>

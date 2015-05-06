@@ -1,0 +1,48 @@
+@import "vars";
+@import "mixins";
+@import "common";
+
+.logo {
+	margin: 40px auto;
+	margin-bottom: 10px;
+	text-align:center;
+}
+
+ .upper-pb {
+ 	margin-top:-80px;
+	text-align: center;
+}
+
+.lower-pb {
+	margin:110px auto;
+	margin-bottom: 40px;
+	text-align:center;
+	width:200px;
+}
+
+.quote-container {
+	margin:0;
+	padding:20px;
+	text-align: center;
+	background: $rumy-green;
+	color: #fff;
+	
+	.quote {
+		margin:0 auto;
+		width: 260px;
+		text-align:right;
+		font: italic normal normal 18pt/1.6 'sinkinsans','pigeosans',arial, sans-serif;
+	}
+	strong{
+		font-size:20pt;
+	}
+}
+
+.wait-text {
+	font: normal 12pt/1.5 'sinkinsans','pigeosans',arial, sans-serif;
+	margin:120px auto;
+	margin-bottom:0;
+	width:400px;
+	text-align:center;
+	color: #507050;
+}

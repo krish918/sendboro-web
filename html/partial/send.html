@@ -1,0 +1,83 @@
+{% load staticfiles %}
+<div class="widget-container" ng-class="shareAnimClass" ng-init="init()">
+	<div class="widget-header">
+		<div class="widget-title inline-middle">Send files</div>
+		<div class="widget-icon inline-middle">
+			<span class="glyphicon glyphicon-send"></span>
+		</div>
+	</div>
+	<div class="widget-body send-page">
+		<div class="send-desc">Enter the username or phone no. of the
+			person and select the file to be sent.</div>
+		<div class="inpt-container">
+			<input type="text" class="pgo-input" ng-model="recipient"
+				ng-change="shCtrl.checkRecipient()" ng-class="inptErrorClass"
+				placeholder="Username/Phone with country code">
+		</div>
+		<div class="select-file-container">
+			<div class="upload-button-container">
+				<span class="up-butt-label inline-middle"> Select File </span>
+				<div class="glyphicon glyphicon-upload inline-middle"></div>
+			</div>
+			{% csrf_token %}
+			<input class="inpt-upload file" type="file" nv-file-select
+				uploader="uploader"
+				onchange="angular.element(this).scope().initPushEngine()">
+			<div class="upload-button-container dummy" ng-show="blockSelect"
+				ng-click="showInability()">
+				Can't select
+				<div class="glyphicon glyphicon-upload inline-middle"></div>
+			</div>
+		</div>
+		<div class="upload-progress">
+			<div class="widget-error sendfile" ng-hide="errorHide">
+				{% verbatim %} {{errorMessage}} {% endverbatim %}
+			</div>
+			<div class="small-loader" ng-show="verifying">
+				<img src="{% static 'resource/loader/tiny-green-square.gif' %}">
+				<div class="inline-middle loader-cover-small"></div>
+			</div>
+			<div class="upload-progress-bar" ng-show="showProgress">
+				<div class="progress-line inline-middle" ng-style="{'width': progress+'%'}"></div>
+				<div class="progress-bulb inline-middle" ng-hide="progress==100"></div>
+				<div class="send-desc-container">
+					<div class="send-desc inline-middle">
+						Sending {% verbatim %} 
+							<span class="pale-blue bold"> {{filename}} </span> : 
+								{{progress + '%'}} 
+							{% endverbatim %}
+					</div>
+					<div class="cancel-upload inline-middle" title="Cancel sending" ng-click="shCtrl.cancel()">
+				  		X
+					</div>
+				</div>	 
+			</div>
+			<div class="success-msg" ng-show="showSuccess">
+				Cheers! Your file was sent successfully.
+			</div>
+		</div>
+		<div class="dnd-suggestion">
+			You can even drag-n-drop file on
+			this panel after specifying recipient.
+		</div>
+
+	</div>
+</div>
+<div class="gen-dialog blind-send" ng-hide="dialogHide">
+	<div class="dialog-head">Please confirm blind-send</div>
+	<div class="dialog-middle">The recipient doesn't use sendboro. We
+		will send him/her a text message regarding this file. Recipient will
+		be able to receive the file only after joining sendboro. Is that ok?</div>
+	<div class="dialog-lower">
+	  <div class="btn-container">
+	  	<input type="button"
+			class="pgo-button medsize negative" value="No! Don't text this guy."
+			ng-click="shCtrl.closeDialog()">
+	  	<input type="button" class="pgo-button medsize" value="Yups!"
+			ng-click="shCtrl.resumeProcess()"> 
+		
+	  </div>
+		
+	</div>
+
+</div>

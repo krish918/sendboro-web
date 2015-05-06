@@ -1,0 +1,96 @@
+{% load staticfiles %}
+<div class="splash-container">
+            <img src="{% static 'resource/splash/splash-3.jpg' %}" alt="">
+            <div class="cover-text">
+                <div class="cover-title">
+                    Your File Courier
+                    <div class="cover-desc">
+                        Simplest way to send <br />files on Internet.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="splash-container-cover">
+        </div>
+        <div class="middle-panel-container">
+            <div class="middle-panel">
+                <div class="middle-box left-box inline-middle">
+                    <div class="features-icon">
+                        <img src="{% static 'resource/icons/simple.png' %}" alt="">
+                    </div>
+                    <div class="features-title">
+                        Simple & Fun
+                    </div>
+                    <div class="features-desc">
+                        A simple and intuitive interface makes sending & receiving files 
+                        a fun. 
+                    </div>
+                </div>
+                <div class="middle-box center-box inline-middle">
+                    <div class="features-icon">
+                        <img src="{% static 'resource/icons/responsive.png' %}" alt="">
+                    </div>
+                    <div class="features-title">
+                        Responsive
+                    </div>
+                    <div class="features-desc">
+                        Say goodbye to email attachments. No more try again syndromes.
+                        Just tell sendboro about file & recipients and go for a vacation.
+                        It will deliver whenever it finds a way.
+                    </div>
+                </div>
+                <div class="middle-box right-box inline-middle">
+                    <div class="features-icon">
+                        <img src="{% static 'resource/icons/free.png' %}" alt="">
+                    </div>
+                    <div class="features-title">
+                        Absolutely Free
+                    </div>
+                    <div class="features-desc">
+                        Yes, sendboro will remain free till China attacks India.
+                        Seriously, we mean it. :p
+                    </div>
+                </div>
+                <span class="stretch"></span>
+                <div class="bottom-panel-container">
+                    <div class="bottom-text">
+                        <div class="inline-middle bottom-link">
+                            <a class="gen" href="#">About</a>
+                        </div>
+                        <div class="inline-middle bottom-link">
+                            <a class="gen" href="{% url 'team' %}" ui-sref="team">Team</a>
+                        </div>
+                        <div class="inline-middle bottom-link">
+                            <a class="gen" href="#">Terms</a>
+                        </div>
+                        <div class="inline-middle bottom-link">
+                            <a class="gen" href="#">Privacy</a>
+                        </div>
+                        <div class="copy-notice">
+                             pigeo &copy; 2015&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; All rights reserved.
+                        </div>
+                    </div>
+                </div>
+            </div>	
+
+        </div>
+
+     <div ng-controller="panelController as panels">
+        
+        <div class="header">
+            <div class="logo">
+                <img src="{% static 'resource/picture/logo-home-2.png' %}" alt="">
+            </div>
+            <div class="header-links-container">
+                <div class="inline-middle header-links">
+                    <a class="gen" ng-click="panels.showPanel(2)">Sign In</a>
+                </div>
+                <div class="inline-middle header-links">
+                    <a class="gen" ng-click="panels.showPanel(1)">Sign Up</a>
+                </div>
+            </div>
+        </div>
+        <auth-panel></auth-panel>
+       	<auth-problem-panel></auth-problem-panel> 
+      </div> 

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<!--
+All Right Reservred
+Pigeo © 2015
+----------------------------------------
+AUTHORS
+Gunjan Seth
+Alpika Singhal
+-->
+<html lang="en">
+    <head>
+        <title>Sendboro</title>
+        <meta charset="UTF-8">
+        {% load staticfiles %}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 		<link rel="stylesheet" type="text/css" href="{% static 'style/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'style/css/welcome.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'style/css/homeframe.css' %}">
+        
+        <script src="{% static 'js/vendor/angular.min.js' %}"></script>
+        <script src="{% static 'js/vendor/angular-cookies.min.js' %}"></script>
+        <script src="{% static 'js/vendor/angular-animate.min.js' %}"></script>
+        <script src="{% static 'js/vendor/angular-ui.min.js' %}"></script>
+         <script src="{% static 'js/vendor/angular-file-upload.min.js' %}"></script>
+        <script src="{% static 'js/main.js' %}"></script>
+        <script src="{% static 'js/directive/routeloader.js' %}"></script>
+        <script src="{% static 'js/directive/homeloader.js' %}"></script>        
+        <script src="{% static 'js/controller/quickcontact.js' %}"></script>
+        <script src="{% static 'js/controller/borocasa-prime.js' %}"></script>
+        <script src="{% static 'js/controller/send.js' %}"></script>
+        <script src="{% static 'js/service/metaboro.js' %}"></script>
+        <script src="{% static 'js/service/pushboro.js' %}"></script>
+
+    </head>
+    <body class="sendboro-home">
+    	<div id="hFrame" ng-app="borocasa">
+    		<home-loader></home-loader>
+    		<div ui-view="frame" class="view-transit"></div>
+    	</div>
+    		
+    </body>
+</html>
