@@ -1,0 +1,1 @@
+-r ./dj-job/requirements.txt
