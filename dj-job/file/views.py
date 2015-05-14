@@ -76,7 +76,7 @@ class PushView(View):
             
     def sendsms(self, phone,fid, url):
         type = Helper().getFormattedType(self.type,self.name,True)
-        texturl = 'https://'+str(self.host)+'/file/direct?id='+str(fid)+'&url='+str(url)
+        texturl = 'http://'+str(self.host)+'/file/direct?id='+str(fid)+'&url='+str(url)
         
         msg = ("Hi! %s has sent you a %s file via sendboro."\
                +" Please sign up for sendboro to receive the file."\
