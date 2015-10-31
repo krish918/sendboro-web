@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project basedir="." default="">
 	
-	<property name="exec_file" value="C:\Ruby200-x64\bin\sass.bat" />
+	<property name="exec_file" value="sass" />
 	<property name="sass.dir" value="style/sass" />
 	<property name="css.dir" value="style/css" />
 

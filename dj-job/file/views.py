@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, Http404
 from django.views.generic import View
 from common.utils.decorator import LoginRequired
 from common.utils.general import UserTrace
@@ -14,6 +14,7 @@ from common.sms import TextMessage
 from django.core.servers.basehttp import FileWrapper
 from django.db import connection
 from django.core.urlresolvers import resolve, Resolver404
+from urllib.parse import urlparse
 import os, mimetypes
 
 
@@ -135,39 +136,41 @@ class DirectLinkView(View):
         uid = request.session.get('user_id', False)
         url_to_visit = request.GET.get('url', False)
         
-        nf = 'Invalid Request'
+        if not fid or not url_to_visit:
+            return HttpResponseNotFound('Invalid Request')
         
-        if fid and url_to_visit:
-            if uid:
-                try:
-                    cursor = connection.cursor()
-                    cursor.execute('''UPDATE file_delivery SET 
+        if uid:
+            try:
+                cursor = connection.cursor()
+                cursor.execute('''UPDATE file_delivery SET 
                                     status = CASE 
                                                 WHEN status='1' OR status='3' THEN '3' 
                                                 WHEN status='2' THEN '4'
                                                 ELSE '3' 
                                              END 
                                     WHERE file_id = %s AND user_id = %s''', [fid, uid])
-                except:
-                    pass
+            except:
+                pass
         
-            else:
-                trace = UserTrace(request)
-                ip = trace.getIp()
-                ua = trace.getUastring()
-            
-                try:
-                    fileobj = File.objects.get(pk=fid)
-                    DirectUnsignedView.objects.create(file=fileobj,viewer_ip=ip,viewer_ua=ua)
-                except:
-                    pass
-        
+        else:
+            trace = UserTrace(request)
+            ip = trace.getIp()
+            ua = trace.getUastring()
             
             try:
-                resolve(url_to_visit)
-                return HttpResponseRedirect(url_to_visit)
-            except Resolver404:
-                nf ='Invalid Url'
+                fileobj = File.objects.get(pk=fid)
+                DirectUnsignedView.objects.create(file=fileobj,viewer_ip=ip,viewer_ua=ua)
+            except:
                 pass
+        
             
-        return HttpResponseNotFound(nf)
+        response = HttpResponseRedirect(url_to_visit)
+        
+        try:
+            resolve(urlparse(url_to_visit)[2])
+        except Resolver404:
+            pass
+            #return HttpResponseNotFound()
+           
+        return response
+    

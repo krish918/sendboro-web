@@ -95,6 +95,7 @@
 							$window.location.href = '/';
 						}
 						else {
+							console.log(res);
 							self.logoutMsg = "Sorry! There was an error.";
 							cleanup();
 						}
