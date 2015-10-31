@@ -1026,7 +1026,7 @@ html {
 
 .splash-container {
   position: fixed;
-  height: 70%;
+  height: 100%;
   width: 100%;
   overflow: hidden;
   min-height: 300px; }
@@ -1048,25 +1048,23 @@ html {
 
 .header {
   position: fixed;
-  top: 8%;
+  top: 0;
   width: 100%;
-  height: 70px;
-  background-color: black;
-  background-color: rgba(0, 0, 0, 0.6);
-  -moz-box-shadow: 0 0 2px 0 #101010;
-  -o-box-shadow: 0 0 2px 0 #101010;
-  -webkit-box-shadow: 0 0 2px 0 #101010;
-  -ms-box-shadow: 0 0 2px 0 #101010;
-  box-shadow: 0 0 2px 0 #101010;
+  height: 60px;
+  /*background-color : black;
+  background-color :rgba(0,0,0,0.6);
+  @include linear-gradient-top(#404040,transparent);*/
+  border-bottom: solid 5px rgba(200, 200, 200, 0.4);
   min-width: 700px; }
 
 .logo {
-  margin-left: 40px;
+  background-color: red;
   float: left; }
 
 .header-links-container {
   float: right;
-  margin-right: 90px; }
+  margin-right: 90px;
+  display: none; }
 
 .header-links {
   height: 70px;
@@ -1080,7 +1078,8 @@ html {
   bottom: 23%;
   width: 100%;
   text-align: right;
-  min-width: 1024px; }
+  min-width: 1024px;
+  display: none; }
 
 .cover-title {
   padding-right: 150px;
@@ -1097,7 +1096,8 @@ html {
   height: 100%;
   width: 100%;
   min-height: 430px;
-  min-width: 1024px; }
+  min-width: 1024px;
+  display: none; }
 
 .middle-panel {
   position: absolute;
@@ -1106,7 +1106,8 @@ html {
   width: 100%;
   text-align: justify;
   text-justify: distribute;
-  background: white; }
+  background: white;
+  display: hidden; }
 
 .middle-box {
   width: 280px;
@@ -1164,7 +1165,8 @@ html {
   background: #0f617b;
   background-image: url("../../resource/pattern/teal/teal-1.png");
   height: 150px;
-  width: 100%; }
+  width: 100%;
+  display: none; }
 
 .bottom-text {
   font: normal normal normal 11pt/2 'pigeosans', 'sinkinsans', arial,helvetica, sans-serif;
