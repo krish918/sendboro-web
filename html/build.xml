@@ -20,6 +20,6 @@
         	</firstmatchmapper>
         	
         </apply>
-    	<eclipse.refreshLocal resource="pigeo/html/style/css" depth="infinite"/>
+    	<eclipse.refreshLocal resource="style/css" depth="infinite"/>
     </target>
 </project>
