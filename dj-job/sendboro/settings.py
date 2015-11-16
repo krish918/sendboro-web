@@ -101,6 +101,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
+#static root is empty so that gunicorn doesn't serves static files
 STATIC_ROOT = ''
 
 STATIC_URL = '/static/'

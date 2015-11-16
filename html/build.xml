@@ -3,6 +3,7 @@
 	
 	<property name="exec_file" value="sass" />
 	<property name="sass.dir" value="style/sass" />
+	<property name="fa-sass.dir" value="style/sass/fa-scss" />
 	<property name="css.dir" value="style/css" />
 
     <target name="sass.compile">
@@ -13,6 +14,7 @@
         	<targetfile/>
         	
             <fileset dir="${sass.dir}" includes="*.scss,*.sass" excludes="_*.*" />
+            <fileset dir="${fa-sass.dir}" includes="*.scss,*.sass" excludes="_*.*" />
         	
         	<firstmatchmapper>
         	      <globmapper from="*.sass" to="*.css" />

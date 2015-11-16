@@ -6,3 +6,4 @@
 /.externalToolBuilders
 *.pyc
 /media/*
+*.map
