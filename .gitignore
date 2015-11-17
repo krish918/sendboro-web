@@ -5,3 +5,6 @@
 /.externalToolBuilders
 *.pyc
 /media/*
+/html/.sass-cache
+/html/style/css/*.map
+*/migrations

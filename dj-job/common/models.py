@@ -15,7 +15,7 @@ class User(models.Model):
     
 class Session(models.Model):
     sessionid = models.AutoField(null=False, unique=True, primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
     uastring = models.CharField(null=False, max_length=512)
     ipaddress = models.CharField(null=False, max_length=16)
     active = models.BooleanField(default=True)
