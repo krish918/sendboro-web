@@ -1,89 +1,112 @@
 {% load staticfiles %}
-<div class="splash-container">
+	 <div class="splash-container">
             <img src="{% static 'resource/splash/splash-5.jpg' %}" alt="">
-            <div class="cover-text">
-                <div class="cover-title">
-                    Your File Courier
-                    <div class="cover-desc">
-                        Simplest way to send <br />files on Internet.
-                    </div>
-                </div>
-            </div>
-        </div>
+     </div>
         
-        <div class="splash-container-cover">
-        </div>
-        <div class="middle-panel-container">
-            <div class="middle-panel">
-                <div class="middle-box left-box inline-middle">
-                    <div class="features-icon">
-                        <img src="{% static 'resource/icons/simple.png' %}" alt="">
-                    </div>
-                    <div class="features-title">
-                        Simple & Fun
-                    </div>
-                    <div class="features-desc">
-                        A simple and intuitive interface makes sending & receiving files 
-                        a fun. 
-                    </div>
-                </div>
-                <div class="middle-box center-box inline-middle">
-                    <div class="features-icon">
-                        <img src="{% static 'resource/icons/responsive.png' %}" alt="">
-                    </div>
-                    <div class="features-title">
-                        Responsive
-                    </div>
-                    <div class="features-desc">
-                        Say goodbye to email attachments. No more try again syndromes.
-                        Just tell sendboro about file & recipients and go for a vacation.
-                        It will deliver whenever it finds a way.
-                    </div>
-                </div>
-                <div class="middle-box right-box inline-middle">
-                    <div class="features-icon">
-                        <img src="{% static 'resource/icons/free.png' %}" alt="">
-                    </div>
-                    <div class="features-title">
-                        Absolutely Free
-                    </div>
-                    <div class="features-desc">
-                        Yes, sendboro will remain free till China attacks India.
-                        Seriously, we mean it. :p
-                    </div>
-                </div>
-                <span class="stretch"></span>
-                <div class="bottom-panel-container">
-                    <div class="bottom-text">
-                        <div class="inline-middle bottom-link">
-                            <a class="gen" href="#">About</a>
-                        </div>
-                        <div class="inline-middle bottom-link">
-                            <a class="gen" href="{% url 'team' %}" ui-sref="team">Team</a>
-                        </div>
-                        <div class="inline-middle bottom-link">
-                            <a class="gen" href="#">Terms</a>
-                        </div>
-                        <div class="inline-middle bottom-link">
-                            <a class="gen" href="#">Privacy</a>
-                        </div>
-                        <div class="copy-notice">
-                             pigeo &copy; 2015&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; All rights reserved.
-                        </div>
-                    </div>
-                </div>
-            </div>	
-
-        </div>
-
+     <div class="splash-container-cover">
+     </div>
+       
      <div ng-controller="panelController as panels">
         
-        <div class="header">
-            <div class="logo">
-                <img src="{% static 'resource/picture/logo-home-4.png' %}" alt="">
-            </div>
-            
+        <div class="header" id="zero-top">
+        	<a href="/">
+            	<div class="logo">
+                	<img src="{% static 'resource/picture/boro-logo-xs.png' %}" alt="">
+            	</div>
+         	</a>
         </div>
-        <auth-panel></auth-panel>
-       	<auth-problem-panel></auth-problem-panel> 
+        
+        <div class="main-content">
+        	<div class="main-text" ng-class="mainTextClass">
+        	And when answer is simple, then <br /> God is answering.
+        		<div class="credit">Albert Einstein</div>
+        	</div>
+        	<div class="main-text-desc" ng-class="mainTextClass">
+        	Sendboro helps you send files  in amazingly simple ways.
+        	</div>
+        </div>
+        
+        <!-- The single sign-on button -->
+        <div class="enter-site-button" ng-class="enterButtonClass">
+        	 	<div class="signup-text">enter</div>
+        	 	<div class="signin-text">return</div>
+        </div>
+        
+        <!-- Dictionary meaning of words `file` and `send` -->
+        <div class="dictionary-words" ng-class="dictWordsClass">
+        	<div class="word-meaning inline-top">
+        		<div class="heading"><strong>send</strong><sup>1</sup> |sɛnd|</div>
+				<div class="part-of-speech">verb (past and past participle <strong>sent</strong> |sɛnt| )</div> 
+				<ol>
+				<li> [ with obj. ] cause to go or be taken to a particular
+						destination; arrange for the delivery of, especially by post: <span class="italic">we sent a reminder 
+						letter but received no reply</span> | [ with two objs ] : <span class="italic">
+						he sent her a nice little note.</span>
+						• cause <strong>(a message or computer file)</strong> to be transmitted electronically: 
+						<span class="italic">send your document as a PDF attachment</span>
+				 		| [ with two objs ] : <span class="italic">I sent him an email last week.</span>
+						• [ no obj., with infinitive ]
+						send a message or letter: <span class="italic">he sent to invite her to supper.</span>
+				</ol>
+        	</div>
+        	<div class="word-meaning file inline-top">
+        		<div class="heading"><strong>file</strong><sup>1</sup> |fʌɪl|<br /></div> 
+				<div class="part-of-speech">noun</div>
+				<ol>
+				<li> a folder or box for holding loose papers together and in 
+						order for easy reference: a file of correspondence.
+						• a collection of information about a particular person 
+						or thing: <span class="italic">MI5 were keeping a file on him.</span>
+						• <strong>Computing</strong> a collection of data, programs, etc. stored in 
+						a computer's memory or on a storage device under a single identifying name: 
+						<span class="italic">you can save the file to your hard disk.</span>
+				<li> Canadian a number of issues and responsibilities 
+						relating to a particular policy area: <span class="italic">what progress has 
+						the Prime Minister made on the unity file?</span>
+				</ol>
+        	</div>
+        </div>
+        
+        <!-- pull-up and pull-down buttons -->
+        <div class="scroll-more-text pull-up" ng-click="panels.toggleComeOverPage()" ng-hide="panels.isPageShown(2)">
+        	<div class="inline-middle">
+        		want us to brag more?
+        	</div>
+        	<div class="inline-middle draw-icon">
+        		<i class="fa fa-caret-up"></i>
+        	</div> 
+        </div>
+        
+        <div class="scroll-more-text pull-down" ng-hide="panels.isPageShown(1)">
+        		<div class="inline-middle" ng-click="panels.toggleComeOverPage()">
+        			Pull Down
+        		</div>
+        		<div class="inline-middle draw-icon" ng-click="panels.toggleComeOverPage()">
+        			<i class="fa fa-caret-down"></i>
+        		</div>
+        </div>
+        
+        <!--  the second page -->
+        <div class="come-over-page" id="co-page" ng-scroll="panels.wrapUpContent($event)">
+        	
+        	<div class="main-text">
+        		I bet you think that's pretty clever don't you boy?
+        		<div class="credit">High &amp; Dry(Radiohead)</div>
+        	</div>
+        	
+			<feature-panel></feature-panel>
+			
+			<!-- Feature Panel Navigator -->
+			<div class="feature-browse right" ng-click="panels.slideFeature(1)" ng-hide="panels.isSlideShown(4)">
+        		&gt;
+			</div>
+			<div class="feature-browse left" ng-click="panels.slideFeature(0)" ng-hide="panels.isSlideShown(1)">
+        		&lt;
+			</div>
+        	
+        	<!-- footer links -->
+        	<div class="bottom-panel">
+        		<a href="/team">Plans</a> &middot; Payment &middot; Cast & Crew &middot; Terms of use
+        	</div>
+        </div>
       </div> 

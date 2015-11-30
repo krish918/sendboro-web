@@ -33,6 +33,13 @@
 			controllerAs: 'frmCtrl'
 		};
 		
+	})
+	
+	.directive('featurePanel', function(){
+		return {
+			restrict: 'E',
+			templateUrl: '/decorator/feature-panel'
+		};
 	});
 	
 })();

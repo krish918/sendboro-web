@@ -33,6 +33,10 @@ Pigeo  2015
   font-size: 100%;
   font: inherit; }
 
+sup {
+  font-size: xx-small;
+  vertical-align: super; }
+
 strong {
   font-weight: bold; }
 
@@ -358,15 +362,32 @@ input[type=number] {
   border-radius: 4px;
   border: solid 2px #f0e2b2; }
 
-.view-loader {
+.loader-template .progress-bar-container, .loader-template .loading-failed {
+  width: 360px;
+  margin: 20px auto;
+  text-align: center; }
+
+.loader-template {
   position: fixed;
-  width: 64px;
-  height: 64px;
-  top: 200px;
-  left: 50%;
-  margin-left: -32px;
-  background-color: transparent;
-  z-index: 5; }
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fffff6; }
+  .loader-template .app-logo {
+    width: 360px;
+    text-align: center;
+    margin: 250px auto;
+    margin-bottom: 20px;
+    height: 100px; }
+  .loader-template .progress-bar-container {
+    border: solid 2px #47ca86;
+    -moz-border-radius: 10px;
+    -o-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    height: 11px; }
 
 .loader-error {
   margin-left: -115px;
@@ -672,6 +693,7 @@ input[type=number] {
   -o-transition: all linear 0.3s;
   transition: all linear 0.3s; }
   .widget-error.ng-hide {
+    -webkit-transform-style: flat;
     -webkit-transform: rotateY(90deg);
     -moz-transform: rotateY(90deg);
     -o-transform: rotateY(90deg);
@@ -704,6 +726,7 @@ input[type=number] {
 
 .widget-body {
   padding: 20px 0;
+  -webkit-transform-style: flat;
   -webkit-transform: rotateX(180deg);
   -moz-transform: rotateX(180deg);
   -o-transform: rotateX(180deg);
@@ -758,6 +781,7 @@ input[type=number] {
     -ms-transition: all linear 0.2s;
     -o-transition: all linear 0.2s;
     transition: all linear 0.2s;
+    -webkit-transform-style: flat;
     -webkit-transform: rotateX(0deg);
     -moz-transform: rotateX(0deg);
     -o-transform: rotateX(0deg);
@@ -882,6 +906,7 @@ img.loader {
   -o-transition: all linear 0.3s;
   transition: all linear 0.3s; }
   .widget-error.ng-hide {
+    -webkit-transform-style: flat;
     -webkit-transform: rotateY(90deg);
     -moz-transform: rotateY(90deg);
     -o-transform: rotateY(90deg);
@@ -896,6 +921,7 @@ img.loader {
 
 .widget-body.send-page {
   padding: 30px;
+  -webkit-transform-style: flat;
   -webkit-transform: rotateX(0deg);
   -moz-transform: rotateX(0deg);
   -o-transform: rotateX(0deg);
@@ -964,6 +990,7 @@ img.loader {
       float: right;
       padding-bottom: 20px; }
   .gen-dialog.blind-send.ng-hide {
+    -webkit-transform-style: flat;
     -webkit-transform: rotateY(90deg);
     -moz-transform: rotateY(90deg);
     -o-transform: rotateY(90deg);
@@ -1064,6 +1091,7 @@ img.loader {
   height: auto; }
 
 .widget-body.inbox-page {
+  -webkit-transform-style: flat;
   -webkit-transform: rotateX(0deg);
   -moz-transform: rotateX(0deg);
   -o-transform: rotateX(0deg);
@@ -1178,6 +1206,7 @@ a {
   -ms-border-radius: 3px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
+  -webkit-transform-style: flat;
   -webkit-transform: rotateX(180deg);
   -moz-transform: rotateX(180deg);
   -o-transform: rotateX(180deg);
@@ -1200,6 +1229,7 @@ a {
     opacity: 0;
     cursor: pointer;
     overflow: hidden;
+    -webkit-transform-style: flat;
     -webkit-transform: rotateY(360deg);
     -moz-transform: rotateY(360deg);
     -o-transform: rotateY(360deg);
@@ -1216,6 +1246,7 @@ a {
       color: white; }
     .contact-contain .contact-block.animate-blocks {
       opacity: 1;
+      -webkit-transform-style: flat;
       -webkit-transform: rotateY(0deg);
       -moz-transform: rotateY(0deg);
       -o-transform: rotateY(0deg);
@@ -1241,6 +1272,7 @@ a {
       .contact-contain .contact-block .text-over.ng-hide {
         margin-bottom: -60px; }
   .contact-contain.animate-contacts {
+    -webkit-transform-style: flat;
     -webkit-transform: rotateX(0deg);
     -moz-transform: rotateX(0deg);
     -o-transform: rotateX(0deg);

@@ -27,12 +27,17 @@ html{
 	background: white;
 }
 
+
 .splash-container {
     position : fixed;
     height : 100%;
     width : 100%;
     overflow:hidden;
-    min-height : 300px;
+    min-height : 400px;
+    min-width:750px;
+    top:0;
+    left:0;
+    z-index:1;
     
     img {
     	position : absolute;
@@ -46,21 +51,24 @@ html{
 }
  
 .splash-container-cover {
-    position : absolute;
-    height : 70%;
+    position : fixed;
+    height : 100%;
     width : 100%;
     overflow:hidden;
     min-height : 400px;
+    z-index:2;
 }
 
 .header {
     position : fixed;
     top : 0;
+    left:0;
     width : 100%;
     height : 60px;
-    /*background-color : black;
-    background-color :rgba(0,0,0,0.6);
-    @include linear-gradient-top(#404040,transparent);*/
+    z-index:6;
+    /*background-color : black;*/
+   /* background-color :rgba(100,0,0,1);*/
+    /*@include linear-gradient-top(#404040,transparent);*/
     border-bottom: solid 5px rgba(200,200,200,0.4);
 
     min-width : 700px;
@@ -68,9 +76,300 @@ html{
 
 
 .logo {
-        background-color: red;
         float : left;
       	height:60px;
+      	margin-left:10px;
+}
+
+.main-content {
+	position:fixed;
+	top:100px;
+	left:50%;
+	margin-left: -400px;
+	width: 800px;
+	text-align:center;
+	font: normal 13pt/1.8 'Hero',arial, sans-serif;
+	background:transparent;
+	z-index:4;
+	
+	%animate-main-content {
+		@include transition(linear all 0.3s);
+	
+		&.skew-text {
+			@include scaleTransform(0.5,0.5);
+			opacity:0;	
+		}
+	}
+	
+	.main-text {
+		font-size:28pt;
+		font-family: 'ChunkFive';
+		color: darken(#567890,10);
+		@extend %animate-main-content;
+		
+		.credit {
+			font-size:16pt;
+			color: #567890;
+			font-style:italic;
+		}
+		
+		padding-bottom: 20px;
+		border-bottom: solid 1px #c0c0c0;
+	}
+	.main-text-desc {
+		margin-top:40px;
+		font-size:20pt;
+		color: lighten(#567890,1);
+		@extend %animate-main-content;
+	}
+	
+}
+.enter-site-button {
+		position:fixed;
+		width: 240px;
+		left:50%;
+		margin-left:-120px;
+		padding:10px 15px;
+		top:350px;
+		text-align:right;
+		background: $sweet-blue;
+		color:white;
+		font: normal 13pt/1.8 'Hero',arial, sans-serif;
+		z-index:7;
+		@include radius(6px);
+		cursor:pointer;
+		
+		.signup-text {
+		
+		}
+		.signin-text {
+			font-size:18pt;
+			margin-top:20px;
+		}
+		
+		@include transition(all linear 0.4s);
+		
+		&.translate-to-bottom {
+			@include translate(0,190%);
+		}
+}
+
+.dictionary-words {
+	position:fixed;
+	top:540px;
+	width:100%;
+	left:0;
+	font: normal 9pt/1.3 'Hero',arial,sans-serif;
+	color: rgba(250,250,250,0.2);
+	z-index:6;
+	
+	.word-meaning {
+		width:270px;
+		margin-left:45px;
+		
+		&.file {
+			float: right;
+			margin-right:45px;
+		}
+		
+		.heading {
+			font-size:11pt;
+		}
+		
+		.part-of-speech {
+			font-size:10pt;
+		}
+	}
+	
+	@include transition(all linear 0.2s);
+	
+	&.hide-meaning {
+		@include scaleTransform(0.5,0.5);
+		opacity:0;
+	}
+	
+	&.bring-on-next {
+		@include scaleTransform(1,1);
+		color: rgba(100,100,100,0.7);
+		opacity:1;
+	}
+	
+}
+
+.scroll-more-text {
+	position:fixed;
+	bottom:0px;
+	width:260px;
+	left:50%;
+	z-index:7;
+	text-align:center;
+	margin-left:-130px;
+	font: normal 13pt/1.6 'Hero', arial, sans-serif;
+	color:white;
+	
+	&.pull-down {
+		top:0;
+		bottom: auto;
+		font-size:9pt;
+		
+		.inline-middle {
+			@include radius(0 0 0 5px);
+			height: 12px;
+			background: rgba(80,80,80,0.5);
+		}
+		
+		.draw-icon {
+			@include radius(0 0 5px 0);
+			background: rgba(60,60,60,0.7);
+			margin-left:-4px;
+		}
+	}
+	
+	.inline-middle {
+		padding:7px;
+		background: rgba(80,80,80,0.7);
+		cursor:pointer;
+		height:20px;
+		@include radius(5px 0 0 0);
+	}
+	
+	.draw-icon {
+		@include radius(0 5px 0 0);
+		margin-left:-5px;
+		padding:7px 14px;
+		background: rgba(60,60,60,0.9);
+	}
+	
+	@include transition(all linear 0.2s);
+	
+	&.ng-hide {
+		@include translate(0,50px);
+		opacity:0;
+	}
+}
+
+.come-over-page {
+	position:absolute;
+	top:100%;
+	left:0;
+	width:100%;
+	height:100%;
+	z-index: 5;
+	background:rgba(255,255,255,0.8);
+	font: normal 12pt/1.6 'Hero', arial,sans-serif;
+	
+	min-width: 750px;
+	
+	.main-text {
+		width: 600px;
+		text-align:center;
+		margin:90px auto;
+		margin-bottom: 20px;
+		font-family: 'ChunkFive', arial, sans-serif;
+		font-size: 15pt;
+		color:#6090c0;
+		
+		.credit {
+			margin-top: 5px;
+			font-size:11pt;
+			font-style:italic;
+			color: lighten(#6090c0,5);
+		}
+	}
+	
+	.feature-display {
+		margin-top:40px;
+		width:400%;
+		@include flexDisplay(row nowrap, space-around);
+		
+		%show-item-effect {
+				opacity:1;
+				@include scaleTransform(1,1);
+			}
+		
+		.item {
+			flex: 0 1 auto;
+			text-align:center;
+			width:210px;
+			padding: 20px 15px;
+			color: #606050;
+			background: rgba(210,210,190,0.1);
+			@include radius(5px);
+			border: solid 1px #eaeaea;
+			opacity:0;
+			@include scaleTransform(0.5,0.5);
+			
+			.icon {
+				margin: 0px auto;
+				font-size:35px;
+				color: lighten(#2e87bb,10);
+			}
+			
+			.desc {
+				font-size: 22pt;
+				margin:10px auto;
+				color: #808030;
+			}
+			.detail {
+				line-height:1.4;
+			}
+			
+			@include transition(all linear 0.2s);
+			
+			
+			&.show-items {
+				@extend %show-item-effect;
+			}
+		}
+		
+		
+		@include transition(all linear 0.4s);
+		
+		&.show-slide-2 {
+			@include translate(-25%,0);	
+		}
+		
+		&.show-slide-3 {
+			@include translate(-50%,0);
+		}
+		
+		&.show-slide-4 {
+			@include translate(-75%,0);
+		}
+		
+	}
+	
+	.bottom-panel {
+		position:absolute;
+		bottom:0;
+		left:0;
+		width:100%;
+		padding:10px 0;
+		font-size: 10pt;
+		color: #505050;
+		text-align:center;
+		background: rgba(180,180,180,0.6);
+	}
+	
+	.feature-browse {
+		position: relative;
+		font: normal 70pt/1 'Hero', arial, sans-serif;
+		color: rgba(190,190,190,0.7);
+		margin-top: -180px;
+		cursor:pointer;
+		width: 40px;
+		
+		&.left {
+			text-align: right;
+		}
+		
+		&.right {
+			float:right;
+		}
+		&:hover {
+			color: lighten(#2e87bb,20); 
+		}
+	}
 }
 
 .header-links-container {
@@ -107,111 +406,6 @@ html{
 	}
 }
 
-
-
-.middle-panel-container {
-     position : absolute;
-     top:0;
-     left:0;
-     height : 100%;
-     width : 100%;
-     min-height : 430px;
-     min-width : 1024px;
-     display:none;
-}
-
-.middle-panel {
-    position : absolute;
-    top : 70%;
-    height : 300px;
-    width : 100%;   
-    text-align : justify;
-    text-justify : distribute;
-    background: white;
-    display:hidden;
-}
-
-.middle-box {
-    width : 280px;
-    height : 260px;
-    border : solid 1px #c0c0c0;
-    margin : 20px 80px; 
-    background : rgb(255,255,255);
-    -moz-box-shadow : 0 0 8px 0 rgb(60,175,165);
-    -ms-box-shadow : 0 0 8px 0 rgb(60,175,165);
-    -webkit-box-shadow : 0 0 8px 0 rgb(60,175,165);
-    -o-box-shadow : 0 0 8px 0 rgb(60,175,165);
-    box-shadow : 0 0 8px 0 rgb(60,175,165);
-    
-    -moz-border-radius : 3px;
-    -webkit-border-radius : 3px;
-    -ms-border-radius : 3px;
-    -o-border-radius : 3px;
-    border-radius : 3px;
-    font : normal normal normal 12pt/1 'sinkinsans', arial, helvetica, sans-serif;
-    text-align : center;
-    color : black;
-    
-    &.center-box {
-    	margin : -30px 0;
-    	height : 360px;
-    	color : #4a5a05;
-	}
-}
-
-.left-box { 
-    margin-right : 0;
-     color : #9e1b4a;
-}
-.right-box {
-    margin-left : 0;
-    color : #0f617b;
-}
-
-.features-icon {
-    margin : 10px auto;
-    width : 100px;
-    height : 100px;
-    
-     img  {
-		width : 100%;
-		height : auto;
-		min-width: 100%;
-		min-height : auto;
-	}
-}
-
-.features-title {
-    font-size : 18pt;
-   
-}
-
-.features-desc {
-    padding : 15px 20px;
-    line-height : 1.5;
-    color : #303030;
-}
-
-.bottom-panel-container {
-    position : absolute;
-    margin-top : 60px;
-    background : #0f617b;
-    background-image: url("../../resource/pattern/teal/teal-1.png");
-    height : 150px;
-    width : 100%;
-    display:none;
-}
-
-.bottom-text {
-    font : normal normal normal 11pt/2 'pigeosans', 'sinkinsans', arial,helvetica, sans-serif;
-    width : 500px;
-    text-align : center;
-    margin : 30px auto;
-    color : #e5e5e5;
-}
-.bottom-link {
-    width : 100px;
-}
 .copy-notice {
     margin-top : 20px;
     color : #c0c0c0;

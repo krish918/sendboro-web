@@ -55,6 +55,11 @@ Pigeo  2015
 	font: inherit;
 }
 
+sup {
+	font-size: xx-small;
+	vertical-align: super;
+}
+
 strong {
 	font-weight: bold;
 }	
@@ -393,15 +398,39 @@ input[type=number] {
 	border: solid 2px darken(#F8F2DC,10);
 }
 
-.view-loader {
-	position: fixed;
-	width:64px;
-	height:64px;
-	top: 200px;
-	left: 50%;
-	margin-left: -32px;
-	background-color: transparent;
-	z-index:5;
+%loader-position {
+	width:360px;
+	margin:20px auto;
+	text-align:center;
+}
+
+.loader-template {
+	position:fixed;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	background: lighten(#faff9f,17);
+	
+	.app-logo {
+		width:360px;
+		text-align:center;
+		margin: 250px auto;
+		margin-bottom:20px;
+		height:100px;
+	}
+	
+	.progress-bar-container {
+		@extend %loader-position;
+		border: solid 2px lighten($rumy-green,20);
+		@include radius(10px);
+		height:11px;
+	}
+	
+	.loading-failed {
+		@extend %loader-position;
+	}
+	
 }
 
 .loader-error {

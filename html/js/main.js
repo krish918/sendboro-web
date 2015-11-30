@@ -6,7 +6,7 @@
 		
 	angular.module('util', ['ui.router']);
 	
-	angular.module('init',['ngAnimate', 'ngCookies', 'ui.router', 'util'])
+	angular.module('init',['ngAnimate', 'ngCookies', 'ui.router', 'util','ngScroll'])
 	
 	.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 				

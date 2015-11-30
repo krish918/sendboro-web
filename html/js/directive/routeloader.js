@@ -2,53 +2,49 @@
 
 	angular.module("util")
 	
-	.controller("loaderCtrl", ['$scope', function ($scope) {
-		$scope.purple = 'purple';
-		$scope.large = 'large';
-		$scope.green = 'green';
-		$scope.square = 'square';
-		$scope.home = 'home';
-	}])
-	
-	.directive('routeLoader', function($rootScope) {
+	.directive('routeLoader', ['$rootScope','$timeout',function($rootScope, $timeout) {
 		
-		var template = '<div class="view-loader" ng-if="isRouteLoading">'
-			+ '<img ng-src="static/resource/loader/'
-			+ '{{size}}-{{color}}-{{type}}.gif">'
-			+ '<div class="inline-middle loader-cover-small"></div>' + '</div>'
-			+ '<div class="view-loader loader-error" ng-if="isLoadingFailed">'
-			+ '<div class="alert-text">'
-			+ 'Dayum! There was some error.' + ' Please try later.'
-			+ '</div>' + '</div>';
+		var template = '<div class="loader-template" ng-if="isRouteLoading">'
+			+'<div class="app-logo">'
+			+'  <img ng-src="/static/resource/picture/boro-logo-s-1.png">'
+			+'</div>'
+			+'<div class="progress-bar-container" ng-hide="isLoadingFailed"></div>'
+			+'<div class="loading-failed alert-text" ng-show="isLoadingFailed">'
+			+'Hiccch! <br /> An error ocurred. Please try later!</div>'
+			+'</div>';
 		
 		return {
 			restrict : 'E',
-			template : template,
+			template: template,
 			scope: {
 				size: '=',
 				color: '=',
 				type: '='
 			},
-			link: function($scope) {
+			link: function($scope) {				
 				$scope.isRouteLoading = true;
 				$scope.isLoadingFailed = false;
 
 				$scope.$on('$stateChangeStart', function() {
+					NProgress.configure({parent : '.progress-bar-container'});
+	    			NProgress.start();
 					$scope.isRouteLoading = true;
 					$rootScope.uiTransit = 'ui-disappear';
 				});
 
 				$scope.$on('$stateChangeSuccess', function() {
-					$scope.isRouteLoading = false;
 					$rootScope.uiTransit = '';
+					NProgress.done();
+					$timeout(function(){
+						$scope.isRouteLoading = false;
+					},1000);
 				});
 
-				$scope.$on('$stateChangeError', function() {
-					$scope.isRouteLoading = false;
+				$scope.$on('$stateChangeError', function() {					
 					$scope.isLoadingFailed = true;
 				});
 
 			}
 		};
-	});
+	}]);
 })();
