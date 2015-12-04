@@ -24,5 +24,8 @@ def featurePanel(request):
     #cookie.update(csrf(request))
     return render(request, 'decorator/feature-panel.html')
 
+def authPanel(request):
+    return render(request, 'decorator/auth-panel.html')
+
 def authProblemPanel(request):
     return render(request, 'decorator/auth-problem-panel.html')

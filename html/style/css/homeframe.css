@@ -5,21 +5,21 @@ All rights reserved
 Pigeo  2015 
 */
 @font-face {
-  font-family: 'pigeosans';
-  src: url("webfont/montserrat-regular-webfont.eot");
-  src: url("webfont/montserrat-regular-webfont.eot?#iefix") format("embedded-opentype"), url("webfont/montserrat-regular-webfont.woff2") format("woff2"), url("webfont/montserrat-regular-webfont.woff") format("woff"), url("webfont/montserrat-regular-webfont.ttf") format("truetype"), url("webfont/montserrat-regular-webfont.svg#montserratregular") format("svg");
-  font-weight: normal;
-  font-style: normal; }
-@font-face {
-  font-family: 'droidsans';
-  src: url("webfont/droidsans-webfont.eot");
-  src: url("webfont/droidsans-webfont.eot?#iefix") format("embedded-opentype"), url("webfont/droidsans-webfont.woff2") format("woff2"), url("webfont/droidsans-webfont.woff") format("woff"), url("webfont/droidsans-webfont.ttf") format("truetype"), url("webfont/droidsans-webfont.svg#droid_sansregular") format("svg");
-  font-weight: normal;
-  font-style: normal; }
-@font-face {
   font-family: 'sinkinsans';
   src: url("webfont/SinkinSans-300Light-webfont.eot");
   src: url("webfont/SinkinSans-300Light-webfont.eot?#iefix") format("embedded-opentype"), url("webfont/SinkinSans-300Light-webfont.woff") format("woff"), url("webfont/SinkinSans-300Light-webfont.ttf") format("truetype"), url("webfont/SinkinSans-300Light-webfont.svg#sinkin_sans300_light") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+@font-face {
+  font-family: 'BoroChunkFive';
+  src: url("webfont/Chunkfive-webfont.eot");
+  src: url("webfont/Chunkfive-webfont.eot?#iefix") format("embedded-opentype"), url("webfont/Chunkfive-webfont.woff") format("woff"), url("webfont/Chunkfive-webfont.ttf") format("truetype"), url("webfont/Chunkfive-webfont.svg#droid_sansregular") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+@font-face {
+  font-family: 'BoroHero';
+  src: url("webfont/hero.eot");
+  src: url("webfont/hero.eot?#iefix") format("embedded-opentype"), url("webfont/hero.woff2") format("woff2"), url("webfont/hero.woff") format("woff"), url("webfont/hero.ttf") format("truetype"), url("webfont/hero.svg#heroregular") format("svg");
   font-weight: normal;
   font-style: normal; }
 * {
@@ -52,7 +52,7 @@ div {
   word-break: keep-all; }
 
 html {
-  font-family: 'pigeosans', 'sinkinsans', 'droidsans', arial, helvetica, sans-serif; }
+  font-family: 'BoroHero', 'sinkinsans', arial, helvetica, sans-serif; }
 
 img {
   vertical-align: middle;

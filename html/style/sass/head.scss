@@ -88,7 +88,7 @@ html{
 	margin-left: -400px;
 	width: 800px;
 	text-align:center;
-	font: normal 13pt/1.8 'Hero',arial, sans-serif;
+	font: normal 13pt/1.8 'BoroHero',arial, sans-serif;
 	background:transparent;
 	z-index:4;
 	
@@ -103,7 +103,7 @@ html{
 	
 	.main-text {
 		font-size:28pt;
-		font-family: 'ChunkFive';
+		font-family: 'BoroChunkFive';
 		color: darken(#567890,10);
 		@extend %animate-main-content;
 		
@@ -134,7 +134,7 @@ html{
 		text-align:right;
 		background: $sweet-blue;
 		color:white;
-		font: normal 13pt/1.8 'Hero',arial, sans-serif;
+		font: normal 13pt/1.8 'BoroHero',arial, sans-serif;
 		z-index:7;
 		@include radius(6px);
 		cursor:pointer;
@@ -159,7 +159,7 @@ html{
 	top:540px;
 	width:100%;
 	left:0;
-	font: normal 9pt/1.3 'Hero',arial,sans-serif;
+	font: normal 9pt/1.3 'BoroHero',arial,sans-serif;
 	color: rgba(250,250,250,0.2);
 	z-index:6;
 	
@@ -204,7 +204,7 @@ html{
 	z-index:7;
 	text-align:center;
 	margin-left:-130px;
-	font: normal 13pt/1.6 'Hero', arial, sans-serif;
+	font: normal 13pt/1.6 'BoroHero', arial, sans-serif;
 	color:white;
 	
 	&.pull-down {
@@ -256,7 +256,7 @@ html{
 	height:100%;
 	z-index: 5;
 	background:rgba(255,255,255,0.8);
-	font: normal 12pt/1.6 'Hero', arial,sans-serif;
+	font: normal 12pt/1.6 'BoroHero', arial,sans-serif;
 	
 	min-width: 750px;
 	
@@ -265,7 +265,7 @@ html{
 		text-align:center;
 		margin:90px auto;
 		margin-bottom: 20px;
-		font-family: 'ChunkFive', arial, sans-serif;
+		font-family: 'BoroChunkFive', arial, sans-serif;
 		font-size: 15pt;
 		color:#6090c0;
 		
@@ -353,7 +353,7 @@ html{
 	
 	.feature-browse {
 		position: relative;
-		font: normal 70pt/1 'Hero', arial, sans-serif;
+		font: normal 70pt/1 'BoroHero', arial, sans-serif;
 		color: rgba(190,190,190,0.7);
 		margin-top: -180px;
 		cursor:pointer;
