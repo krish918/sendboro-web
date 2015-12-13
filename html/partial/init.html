@@ -27,7 +27,7 @@
         </div>
         
         <!-- The single sign-on button -->
-        <div class="enter-site-button" ng-class="enterButtonClass">
+        <div class="enter-site-button" ng-class="enterButtonClass" ng-click="panels.toggleAuthPanel()">
         	 	<div class="signup-text">enter</div>
         	 	<div class="signin-text">return</div>
         </div>
@@ -74,7 +74,7 @@
         	</div>
         	<div class="inline-middle draw-icon">
         		<i class="fa fa-caret-up"></i>
-        	</div> 
+        	</div>
         </div>
         
         <div class="scroll-more-text pull-down" ng-hide="panels.isPageShown(1)">
@@ -109,8 +109,8 @@
         		<a href="/team">Plans</a> &middot; Payment &middot; Cast & Crew &middot; Terms of use
         	</div>
         </div>
+        
+        <!-- Authentication Panel -->
+      
+      	<auth-panel></auth-panel> 
       </div>
-      
-      <!-- Authentication Panel -->
-      
-      <auth-panel></auth-panel> 

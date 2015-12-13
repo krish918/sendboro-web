@@ -4,6 +4,8 @@
 		return {
 			restrict: 'E',
 			templateUrl: '/decorator/auth-panel',
+			controller: 'authController',
+			controllerAs: 'authCtrl'
 		};
 		
 	})

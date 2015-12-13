@@ -1,10 +1,14 @@
-
 (function () {
 	angular.module("init")
 		.controller('panelController', ['scroll','smoothScroll','$scope','$timeout', 
 		                                function (scroll, smoothScroll,$scope,$timeout) {
 			this.page = 1;
 			this.slide = 1;
+			this.hideAuthFlag = true;
+			this.toggleAuthPanel = function () {
+				this.hideAuthFlag = !this.hideAuthFlag;
+			};
+			
 			
 			this.slideFeature = function(dir) {
 				var classArr = ['','show-slide-2', 'show-slide-3', 'show-slide-4'];
