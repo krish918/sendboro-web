@@ -7,6 +7,10 @@
 			this.hideAuthFlag = true;
 			this.toggleAuthPanel = function () {
 				this.hideAuthFlag = !this.hideAuthFlag;
+				if(!this.hideAuthFlag)
+					$scope.coPageClass = 'fix-comeover';
+				else
+					$scope.coPogeClass = '';
 			};
 			
 			
@@ -28,6 +32,10 @@
 			this.isPageShown = function(page) {
 				return this.page === page;
 			};
+			
+			this.isAuthShown = function(panel) {
+				return !this.hideAuthFlag;
+			}
 			
 			this.toggleComeOverPage = function() {
 				if (this.page === 1)

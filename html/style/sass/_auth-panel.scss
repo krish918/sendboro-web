@@ -12,14 +12,13 @@ style for authentication-panel at homepage
 	width:100%;
 	height:100%;
 	text-align:center;
-	z-index:9;
-	background:rgba(181,181,181,0.95);
+	z-index:7;
+	background:rgba(224,240,252,0.95);
 	
 	.auth-box {
 		width:600px;
 		height: 100%;
 		margin:0 auto;
-		background: lighten(rgba(211,211,211,0.95), 4);
 		@include transition(all linear 0.4s);
 		
 		&.ng-hide {
@@ -125,7 +124,7 @@ style for authentication-panel at homepage
 		visibility: visible;
 	}
 	  
-	&.ng-hide{
+	&.ng-hide {
 		opacity:0;
 		width:0;
 		left:50%;

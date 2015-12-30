@@ -607,8 +607,8 @@ style for authentication-panel at homepage
   width: 100%;
   height: 100%;
   text-align: center;
-  z-index: 9;
-  background: rgba(181, 181, 181, 0.95);
+  z-index: 7;
+  background: rgba(224, 240, 252, 0.95);
   -webkit-transition: all linear 0.2s;
   -moz-transition: all linear 0.2s;
   -ms-transition: all linear 0.2s;
@@ -618,7 +618,6 @@ style for authentication-panel at homepage
     width: 600px;
     height: 100%;
     margin: 0 auto;
-    background: rgba(221, 221, 221, 0.95);
     -webkit-transition: all linear 0.4s;
     -moz-transition: all linear 0.4s;
     -ms-transition: all linear 0.4s;
@@ -1115,7 +1114,7 @@ html {
   left: 0;
   width: 100%;
   height: 60px;
-  z-index: 6;
+  z-index: 8;
   /*background-color : black;*/
   /* background-color :rgba(100,0,0,1);*/
   /*@include linear-gradient-top(#404040,transparent);*/
@@ -1242,7 +1241,7 @@ html {
   bottom: 0px;
   width: 260px;
   left: 50%;
-  z-index: 7;
+  z-index: 9;
   text-align: center;
   margin-left: -130px;
   font: normal 13pt/1.6 'BoroHero', arial, sans-serif;

@@ -68,7 +68,8 @@
         </div>
         
         <!-- pull-up and pull-down buttons -->
-        <div class="scroll-more-text pull-up" ng-click="panels.toggleComeOverPage()" ng-hide="panels.isPageShown(2)">
+        <div class="scroll-more-text pull-up" ng-click="panels.toggleComeOverPage()" 
+        	ng-hide="panels.isPageShown(2) || panels.isAuthShown()">
         	<div class="inline-middle">
         		want us to brag more?
         	</div>
@@ -77,7 +78,7 @@
         	</div>
         </div>
         
-        <div class="scroll-more-text pull-down" ng-hide="panels.isPageShown(1)">
+        <div class="scroll-more-text pull-down" ng-hide="panels.isPageShown(1) || panels.isAuthShown()">
         		<div class="inline-middle" ng-click="panels.toggleComeOverPage()">
         			Pull Down
         		</div>
@@ -87,7 +88,7 @@
         </div>
         
         <!--  the second page -->
-        <div class="come-over-page" id="co-page" ng-scroll="panels.wrapUpContent($event)">
+        <div class="come-over-page" id="co-page" ng-scroll="panels.wrapUpContent($event)" ng-class="coPageClass">
         	
         	<div class="main-text">
         		I bet you think that's pretty clever don't you boy?
