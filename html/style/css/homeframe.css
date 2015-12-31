@@ -44,6 +44,9 @@ body {
   overflow-y: auto;
   margin: 0;
   line-height: 1; }
+  body.fix {
+    height: 100%;
+    overflow: hidden; }
 
 div {
   line-height: 1.2;

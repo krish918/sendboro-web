@@ -1,6 +1,7 @@
-<div class="auth-panel-container" ng-hide="panels.hideAuthFlag">
+<div class="auth-panel-container" ng-hide="panels.hideAuthFlag" id="auth-panel">
 	<div class="auth-box" ng-hide="panels.hideAuthFlag">
-		<div class="exit-button">
+		<div class="exit-button" ng-click="panels.toggleAuthPanel()">
+			X
 		</div>
 	</div>
 </div>

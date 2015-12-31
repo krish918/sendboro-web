@@ -67,6 +67,11 @@ body {
 	overflow-y: auto;
 	margin: 0;
 	line-height: 1;
+	
+	&.fix {
+		height:100%;
+		overflow:hidden;
+	}
 }
 
 div {

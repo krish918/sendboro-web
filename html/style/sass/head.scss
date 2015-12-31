@@ -258,6 +258,10 @@ html{
 	
 	min-width: 750px;
 	
+	&.fix-comeover {
+		position:fixed;
+	}
+	
 	.main-text {
 		width: 600px;
 		text-align:center;

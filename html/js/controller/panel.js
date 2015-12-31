@@ -1,16 +1,17 @@
 (function () {
 	angular.module("init")
-		.controller('panelController', ['scroll','smoothScroll','$scope','$timeout', 
-		                                function (scroll, smoothScroll,$scope,$timeout) {
+		.controller('panelController', ['scroll','smoothScroll','$scope','$timeout', 'Offset', 
+		                                function (scroll, smoothScroll,$scope,$timeout,Offset) {
 			this.page = 1;
 			this.slide = 1;
 			this.hideAuthFlag = true;
 			this.toggleAuthPanel = function () {
 				this.hideAuthFlag = !this.hideAuthFlag;
-				if(!this.hideAuthFlag)
-					$scope.coPageClass = 'fix-comeover';
+				if(!this.hideAuthFlag) {
+					document.body.className = 'pigeo-home fix';
+				}
 				else
-					$scope.coPogeClass = '';
+					document.body.className = 'pigeo-home';
 			};
 			
 			

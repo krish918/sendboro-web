@@ -49,6 +49,9 @@ body {
   overflow-y: auto;
   margin: 0;
   line-height: 1; }
+  body.fix {
+    height: 100%;
+    overflow: hidden; }
 
 div {
   line-height: 1.2;
@@ -1308,6 +1311,8 @@ html {
   background: rgba(255, 255, 255, 0.8);
   font: normal 12pt/1.6 'BoroHero', arial,sans-serif;
   min-width: 750px; }
+  .come-over-page.fix-comeover {
+    position: fixed; }
   .come-over-page .main-text {
     width: 600px;
     text-align: center;
