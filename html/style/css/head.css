@@ -611,7 +611,7 @@ style for authentication-panel at homepage
   height: 100%;
   text-align: center;
   z-index: 7;
-  background: rgba(224, 240, 252, 0.95);
+  background: rgba(224, 240, 252, 0.97);
   -webkit-transition: all linear 0.2s;
   -moz-transition: all linear 0.2s;
   -ms-transition: all linear 0.2s;
@@ -634,6 +634,76 @@ style for authentication-panel at homepage
       transform: scale(0.3, 0.3); }
   .auth-panel-container.ng-hide {
     opacity: 0; }
+  .auth-panel-container .exit-button {
+    width: 60px;
+    margin: 90px auto;
+    margin-bottom: 20px;
+    color: white;
+    font: normal 13pt/1 'BoroHero', arial, sans-serif;
+    -moz-border-radius: 4px;
+    -o-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    border: solid 1px #808080;
+    color: #808080;
+    padding: 4px;
+    cursor: pointer; }
+    .auth-panel-container .exit-button:hover {
+      background: #808080;
+      color: white; }
+  .auth-panel-container .quote {
+    margin: 20px auto;
+    margin-bottom: 10px;
+    padding: 20px;
+    border-top: solid 1px #d0d0e0;
+    color: #4080d0;
+    font: normal 20pt/2.5 'BoroChunkFive', arial, sans-serif; }
+    .auth-panel-container .quote .credit {
+      font-size: 12pt;
+      font-style: italic; }
+  .auth-panel-container .description {
+    font: normal 12pt/1.6 'BoroHero', arial, sans-serif;
+    width: 400px;
+    margin: auto;
+    color: #404060; }
+  .auth-panel-container .signon-form {
+    margin: 20px auto;
+    width: 370px;
+    font: normal 14pt/1.6 'BoroHero', arial, sans-serif;
+    text-align: center; }
+    .auth-panel-container .signon-form .country-list {
+      width: 100%;
+      color: #606060;
+      background: #6bb3cd;
+      -webkit-appearance: none;
+      -moz-border-radius: 0;
+      -o-border-radius: 0;
+      -ms-border-radius: 0;
+      -webkit-border-radius: 0;
+      border-radius: 0;
+      padding: 10px;
+      text-align: center;
+      color: white;
+      cursor: pointer; }
+    .auth-panel-container .signon-form input {
+      padding: 10px;
+      margin-top: 10px;
+      font: normal 14pt/1.6 'BoroHero', arial, sans-serif;
+      color: #404060; }
+      .auth-panel-container .signon-form input.dialcode-list {
+        width: 50px; }
+      .auth-panel-container .signon-form input.phone-num {
+        width: 273px; }
+    .auth-panel-container .signon-form button {
+      background: none;
+      padding: 10px;
+      padding-bottom: 0;
+      line-height: 1;
+      margin: 10px auto;
+      font-size: 32pt;
+      color: #0080f0;
+      cursor: pointer; }
 
 .auth-panel .form-box .signup-box, .auth-panel .form-box .signin-box {
   margin: auto;

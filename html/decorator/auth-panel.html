@@ -1,7 +1,28 @@
 <div class="auth-panel-container" ng-hide="panels.hideAuthFlag" id="auth-panel">
 	<div class="auth-box" ng-hide="panels.hideAuthFlag">
 		<div class="exit-button" ng-click="panels.toggleAuthPanel()">
-			X
+			esc
 		</div>
+		<div class="quote">
+		  <div class="text">
+		  	I am pleased to see you.
+		  </div>
+		  <div class="credit">
+		  	The Great Gatsby(2013)
+		  </div>
+		</div>
+		<div class="description">
+			Enter your phone number to create account or access existing one.
+		</div>
+		<form class="signon-form">
+			<select class="country-list">
+				<option>Choose a country</option>
+				<option value="india">India</option>
+				<option value="us">United States Of America</option>
+			</select>
+			<input class="dialcode-list inline-middle" value="+1" ng-model="dialCode" placeholder="+1"> 
+			<input class="phone-num inline-middle" ng-model="phone" placeholder="Phone Number">
+			<button type="submit"><i class="fa fa-chevron-circle-right"></i></button>
+		</form>
 	</div>
-</div>
+</div>	
