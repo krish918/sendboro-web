@@ -49,6 +49,7 @@ style for authentication-panel at homepage
 		}
 	}
 	
+	
 	.quote {
 		margin: 20px auto;
 		margin-bottom:10px;
@@ -72,20 +73,21 @@ style for authentication-panel at homepage
 	
 	.signon-form {
 		margin:20px auto;
-		width:370px;
+		width:400px;
 		font: normal 14pt/1.6 'BoroHero', arial, sans-serif;
 		text-align:center;
 		
 		.country-list {
 			width:100%;
 			color: #606060;
-			background: lighten(#45a0c0,10);
+			background: lighten($sweet-blue,20);
 			-webkit-appearance: none;
 			@include radius(0);
 			padding:10px;
 			text-align: center;
 			color:white;
 			cursor: pointer;
+			font-size:13pt;
 		}
 		
 		input {
@@ -94,11 +96,12 @@ style for authentication-panel at homepage
 			font: normal 14pt/1.6 'BoroHero', arial, sans-serif;
 			color: #404060;
 			&.dialcode-list {
-				width: 50px;
+				width: 55px;
+				color: #0890f0;
 			}
 			
 			&.phone-num {
-				width: 273px;
+				width: 298px;
 			}
 		}
 		
@@ -111,7 +114,33 @@ style for authentication-panel at homepage
 			font-size: 32pt;
 			color: $sweet-blue;
 			cursor: pointer;
+			@include transition(all linear 0.3s);
+			
+			&.hide-button {
+				opacity:0;
+				@include translate(200px,0);
+			}
 		}
+	}
+	
+	.error-disp {
+		font: normal 11pt/1.5 'BoroHero', arial, sans-serif;
+		color: $my-red;
+		padding:10px;
+		border-right: solid 4px lighten($my-red, 20);
+		background: lighten($my-red, 44);
+		margin-top: -60px;
+		
+		@include transition(all linear 0.2s);
+		
+		&.ng-hide {
+			opacity:0;
+			@include translate(-200px, 0);
+		} 
+	}
+	
+	.auth-loader {
+		margin-top: -60px;
 	}
 }
 

@@ -669,13 +669,13 @@ style for authentication-panel at homepage
     color: #404060; }
   .auth-panel-container .signon-form {
     margin: 20px auto;
-    width: 370px;
+    width: 400px;
     font: normal 14pt/1.6 'BoroHero', arial, sans-serif;
     text-align: center; }
     .auth-panel-container .signon-form .country-list {
       width: 100%;
       color: #606060;
-      background: #6bb3cd;
+      background: #57b1ff;
       -webkit-appearance: none;
       -moz-border-radius: 0;
       -o-border-radius: 0;
@@ -685,16 +685,18 @@ style for authentication-panel at homepage
       padding: 10px;
       text-align: center;
       color: white;
-      cursor: pointer; }
+      cursor: pointer;
+      font-size: 13pt; }
     .auth-panel-container .signon-form input {
       padding: 10px;
       margin-top: 10px;
       font: normal 14pt/1.6 'BoroHero', arial, sans-serif;
       color: #404060; }
       .auth-panel-container .signon-form input.dialcode-list {
-        width: 50px; }
+        width: 55px;
+        color: #0890f0; }
       .auth-panel-container .signon-form input.phone-num {
-        width: 273px; }
+        width: 298px; }
     .auth-panel-container .signon-form button {
       background: none;
       padding: 10px;
@@ -703,7 +705,40 @@ style for authentication-panel at homepage
       margin: 10px auto;
       font-size: 32pt;
       color: #0080f0;
-      cursor: pointer; }
+      cursor: pointer;
+      -webkit-transition: all linear 0.3s;
+      -moz-transition: all linear 0.3s;
+      -ms-transition: all linear 0.3s;
+      -o-transition: all linear 0.3s;
+      transition: all linear 0.3s; }
+      .auth-panel-container .signon-form button.hide-button {
+        opacity: 0;
+        -webkit-transform: translate(200px, 0);
+        -ms-transform: translate(200px, 0);
+        -o-transform: translate(200px, 0);
+        -moz-transform: translate(200px, 0);
+        transform: translate(200px, 0); }
+  .auth-panel-container .error-disp {
+    font: normal 11pt/1.5 'BoroHero', arial, sans-serif;
+    color: #E02D4E;
+    padding: 10px;
+    border-right: solid 4px #ed8699;
+    background: #fdf1f3;
+    margin-top: -60px;
+    -webkit-transition: all linear 0.2s;
+    -moz-transition: all linear 0.2s;
+    -ms-transition: all linear 0.2s;
+    -o-transition: all linear 0.2s;
+    transition: all linear 0.2s; }
+    .auth-panel-container .error-disp.ng-hide {
+      opacity: 0;
+      -webkit-transform: translate(-200px, 0);
+      -ms-transform: translate(-200px, 0);
+      -o-transform: translate(-200px, 0);
+      -moz-transform: translate(-200px, 0);
+      transform: translate(-200px, 0); }
+  .auth-panel-container .auth-loader {
+    margin-top: -60px; }
 
 .auth-panel .form-box .signup-box, .auth-panel .form-box .signin-box {
   margin: auto;
