@@ -5,11 +5,17 @@
 			
 			this.countryList = countries.fetch();
 			
-			var self = this;
+			var self = this,
+				usrDialCode = '', 
+				usrCountryCode='';  //for temp storing country info fetched from server
+								   // will be used to fill up the form again
+			                       //  in case user exits auth window
 			
+			//this init is being initialised every time auth-panel
+			// hides from view
 			$scope.init = function() {
-				$scope.countryName = '';
-				$scope.dialCode = '';
+				$scope.dialCode = usrDialCode;
+				$scope.countryCode = usrCountryCode;
 				$scope.phone = '';
 				$scope.disableClass = '';
 				self.error = 0;
@@ -18,9 +24,60 @@
 				self.formSubmittable = true;
 			};
 			
+			//anonumous function for fetching country from user
+			// location once the controller is initialiesd
+			(function() {
+				$http({
+					url : 'api/country',
+					method: 'get',
+					headers: {
+						'X-CSRFToken': $cookies.csrftoken
+					}
+				})
+				.success(function(res){
+					if(res.success === true) {
+						for(var obj of self.countryList) {
+							if(obj.code == res.data.country_code) {
+								usrDialCode = $scope.dialCode = obj.dial_code;
+								usrCountryCode = $scope.countryCode = obj.code;
+								break;
+							}
+						}
+						
+					}
+				})
+				.error(function(){});
+			})();
+			
+			
 			$scope.hideErrors = function() {
+				if(self.processingFlag)
+					return;
 				self.error = 0;
 				$scope.disableClass = '';
+			};
+			
+			//for changing dialcode input on selecting country
+			$scope.syncInputSelect = function() {
+				$scope.hideErrors();
+				for(var obj of self.countryList) {
+					if($scope.countryCode == obj.code) {
+						$scope.dialCode = obj.dial_code;
+						break;
+					}
+				}
+			};
+			
+			//for slecting correct country after changing dialCode manually
+			$scope.syncInputText = function() {
+				$scope.hideErrors();
+				$scope.countryCode = '';
+				for(var obj of self.countryList) {
+					if($scope.dialCode == obj.dial_code) {
+						$scope.countryCode = obj.code;
+						break;
+					}
+				}
 			};
 			
 			//for showing loader while authenticating
@@ -38,11 +95,6 @@
 				this.scene = scn;
 			};
 			
-			//fill country code in input box when a country a selected
-			this.fillCountryCode = function() {
-				$scope.hideErrors();
-				$scope.dialCode = $scope.countryName;
-			};
 			
 			//for checking error code showing appropriate message
 			this.isErrorCode = function(error) {
@@ -54,9 +106,10 @@
 				    sDialCode = $scope.dialCode.trim(),
 				    reDialCode = new RegExp("^[\+][1-9][0-9]*[ ]?[0-9]*$"),
 				    rePhone = new RegExp("[^0-9 ]"),
-				    reUserName = new RegExp("^[a-zA-Z][0-9a-zA-Z\.]+$")
+				    reUserName = new RegExp("^[a-zA-Z][0-9a-zA-Z\. ]+$")
 				    reAltCredential = new RegExp("[a-zA-Z]");  //for testing if UN is provided instead of phone 
 				
+				total_length_phone = (sDialCode.replace(' ','').length - 1) + sPhone.replace(' ','').length
 				//for hiding submit button
 				$scope.disableClass = 'hide-button';
 				
@@ -66,10 +119,12 @@
 				else if(reAltCredential.test(sPhone) && !reUserName.test(sPhone)) {
 					this.error = 4;
 				} 
-				else if(!reAltCredential.test(sPhone) && rePhone.test(sPhone)) {
+				else if(!reAltCredential.test(sPhone) && 
+						(rePhone.test(sPhone) || sPhone.length < 3 || total_length_phone > 15)) {
 					this.error = 2;
 				}
-				else if (!reAltCredential.test(sPhone) && !reDialCode.test(sDialCode)) {
+				else if (!reAltCredential.test(sPhone) && 
+						(!reDialCode.test(sDialCode)|| $scope.countryCode.trim().length==0)) {
 					this.error = 3;
 				}
 				
@@ -83,8 +138,42 @@
 				if (!this.formSubmittable)
 					return;
 				this.formSubmittable = false;
-				console.log('form submitted');
-			}
+				
+				var
+					phone = encodeURIComponent($scope.phone),
+					dialcode = encodeURIComponent($scope.dialCode),
+					countrycode = encodeURIComponent($scope.countryCode)
+					request_headers = {
+						'Content-Type': 'application/x-www-form-urlencoded',
+						'X-CSRFToken' : $cookies.csrftoken
+					};
+				$http({
+					url : 'authmod/signon',
+					data : 'crdntl='+phone+'&dc='+dialcode+'&cc='+countrycode,
+					method : 'POST',
+					headers : request_headers
+					
+				}).success(function(res) {
+					console.log(res);
+					
+					if(res.success == false) {
+						self.error = res.errorcode;
+						self.processingFlag = false;
+						self.formSubmittable = true;
+					}
+					else {
+						self.changeScene(2);
+					}
+				}).error(function(res) {
+					console.log(res);
+					self.formSubmittable = true;
+					self.processingFlag = false;
+					self.error = 6
+				});
+					
+				
+			};
+			
 //			this.inProcess = 0;	//request in process flag
 //			this.sum = 0;		//sum of phone no.| just for fun
 //			this.attempt = 0;   //attempt to verify code 

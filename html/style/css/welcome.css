@@ -67,6 +67,13 @@ a {
   border: none;
   color: inherit; }
 
+input, button, select {
+  -webkit-outline: none;
+  -moz-outline: none;
+  outline: none; }
+  input::-moz-focus-outer, button::-moz-focus-outer, select::-moz-focus-outer {
+    border: 0; }
+
 .bold {
   font-weight: bold; }
 

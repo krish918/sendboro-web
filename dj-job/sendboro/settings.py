@@ -15,7 +15,6 @@ from django.template.defaultfilters import addslashes
 
 BASE_DIR = os.path.join(os.path.dirname(__file__) , '../..')
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
@@ -23,7 +22,7 @@ BASE_DIR = os.path.join(os.path.dirname(__file__) , '../..')
 SECRET_KEY = '#&!l7951^bj-p^30z0_lwl&up5hem+u%a_lrhkz6ev3a&c3$nm'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 TEMPLATE_DEBUG = True
 
@@ -39,6 +38,7 @@ STATICFILES_DIRS = (
 
 ALLOWED_HOSTS = []
 
+GEOIP_PATH = os.path.join(BASE_DIR, 'html/resource/utils')
 
 # Application definition
 

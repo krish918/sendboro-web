@@ -97,6 +97,16 @@ a {
 	color: inherit;
 }
 
+input,button, select {
+	-webkit-outline:none;
+	-moz-outline: none;	
+	outline: none;
+	
+	&::-moz-focus-outer {
+		border:0;
+	}
+}
+
 .bold {
 	font-weight: bold;
 }

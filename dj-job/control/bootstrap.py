@@ -1,4 +1,6 @@
 from common.models import *
+from authmod.models import RawUser
+from django.db.models import F
 from common.sms import TextMessage
 from django.db import IntegrityError, transaction
 from common.utils.general import Random,UserTrace
@@ -16,16 +18,20 @@ class Borouser():
     
     def __init__(self,**kwargs):
         if 0 < len(kwargs):
-            self.countrycode = kwargs['cc']
+            self.dialcode = kwargs['dialcode']
             self.phone = kwargs['phone']
             self.req = kwargs['req']
+            self.fullphone = self.dialcode+self.phone
         
-    def sendphrase(self):
+    def sendphrase(self, **kwargs):
         #phrase decoded back to string
-        text = ("Please use this code as your "+ 
-                    "password to login next time on sendboro: ")+self.phrase.decode()
-        full_phone = self.countrycode+self.phone
-        sms = TextMessage(text,full_phone)
+        if 'msg' in kwargs:
+            message = kwargs['msg']
+        else:
+            message = ("Hello! You tried signing up for Sendboro."+
+                " Please use this code to proceed : ")     
+        text = message+self.phrase.decode()
+        sms = TextMessage(text,self.fullphone)
         sms.send()
         
     @method_decorator(transaction.atomic)   
@@ -80,4 +86,35 @@ class Borouser():
         #setting session objects
         self.req.session['user_id'] = self.uid
         self.req.session['session_id'] = sid
+    
+    def addraw(self):
+        retry = False
+        try:
+            full_phone = self.dialcode + self.phone
+            hash = self.createhash()
+            trace = UserTrace(self.req)
+            ip = trace.getIp()
+            ua = trace.getUastring()
+            ru = RawUser(phone_no=full_phone, vericode=hash,
+                             ipaddress=ip, uastring=ua)
+            ru.save()
+        except IntegrityError:
+             RawUser.objects.filter(phone_no=full_phone).update(vericode=hash,
+                                                                 attempt=F('attempt')+1)
+             retry = True  #overwritten request
+        except:
+             raise  # unknown error
+        try:
+            self.sendphrase()
+        except:
+            raise Exception("Text gateway error")
+        return {
+                    'dialcode' : self.dialcode,
+                    'phone'    : self.phone,
+                    'retry'    : retry,
+                    'return'   : False,
+                    'success'  : True
+                }
+        
+
         

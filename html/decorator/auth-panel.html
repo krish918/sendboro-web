@@ -1,5 +1,5 @@
 {% load staticfiles %} 
-<div class="auth-panel-container" ng-hide="panels.hideAuthFlag" id="auth-panel" ng-init="init()">
+<div class="auth-panel-container" ng-hide="panels.hideAuthFlag" id="auth-panel" ng-init="init()" ng-class="hideClass">
 	<div class="auth-box" ng-hide="panels.hideAuthFlag">
 		<div class="exit-button" ng-click="panels.toggleAuthPanel()">
 			esc
@@ -17,15 +17,17 @@
 				Enter your phone number to create account or access existing one.
 			</div>
 			<form class="signon-form" ng-submit="authCtrl.validateForm() && authCtrl.sendCredential()">
-				<select class="country-list" ng-model="countryName" ng-change="authCtrl.fillCountryCode()">
+				{% csrf_token %}
+				<select class="country-list" ng-model="countryCode" ng-change="syncInputSelect()">
 					<option value="" disabled>Choose your country</option>
 					<option ng-repeat="country in authCtrl.countryList"
-						value="{% verbatim %}{{country.dial_code}}{% endverbatim %}">
+						value="{% verbatim %}{{country.code}}{% endverbatim %}">
 							{% verbatim %} {{country.name}} {% endverbatim %}
 					</option>		
 				</select>
-				<input class="dialcode-list inline-middle" ng-model="dialCode" placeholder="+1" ng-change="hideErrors()"> 
-				<input class="phone-num inline-middle" ng-model="phone" placeholder="Phone Number" ng-change="hideErrors()">
+				<input class="dialcode-list inline-middle" ng-model="dialCode" placeholder="+1" ng-change="syncInputText()"> 
+				<input class="phone-num inline-middle" ng-model="phone" placeholder="Phone Number" ng-change="hideErrors()"
+				ng-focus="focus=true;blur=false">
 				
 				<button type="submit" ng-class="disableClass"><i class="fa fa-chevron-circle-right"></i></button>
 				
@@ -41,13 +43,19 @@
 				<div class="error-disp" ng-show="authCtrl.isErrorCode(4)">
 					Username is invalid.
 				</div>
+				<div class="error-disp" ng-show="authCtrl.isErrorCode(5)">
+					Username does not exist. Please verify or provide phone number.
+				</div>
+				<div class="error-disp" ng-show="authCtrl.isErrorCode(6)">
+					Ahhh! Service is unavailable. Please try later.
+				</div>
 				<div class="auth-loader" ng-show="authCtrl.isProcessing()">
 					<img src="{% static 'resource/loader/loader.GIF' %}">
 				</div>
 			</form>
 		</div>
 		<div ng-hide="authCtrl.isScenePresented(1)">
-			
+			ram rahim
 		</div>
 	</div>
 </div>	

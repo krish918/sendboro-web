@@ -10,7 +10,8 @@ from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.db import transaction
 from django.db.utils import IntegrityError
 from file.models import Delivery,File,BlindDelivery
-from common.utils.general import Helper,Time
+from common.utils.general import Helper,Time,UserTrace
+from django.contrib.gis.geoip import GeoIP
 
 
 class MetaUserView(View):
@@ -234,4 +235,20 @@ class VerifyView(View):
                 
         data = simplejson.dumps(self.res)
         return HttpResponse(data, content_type='application/json')
+    
+class Country(View):
+    
+    def get(self, request, *args, **kwargs):
+        ip = UserTrace(request).getIp()
+        country = {'success': False}
+        if ip:
+            try:
+                geoip = GeoIP()
+                country['data'] = geoip.country("airtel.in")
+                country['success'] = True
+            except TypeError:
+                pass
+        res = simplejson.dumps(country)
+        return HttpResponse(res, content_type='application/json')
+
         

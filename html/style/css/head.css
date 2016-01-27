@@ -72,6 +72,13 @@ a {
   border: none;
   color: inherit; }
 
+input, button, select {
+  -webkit-outline: none;
+  -moz-outline: none;
+  outline: none; }
+  input::-moz-focus-outer, button::-moz-focus-outer, select::-moz-focus-outer {
+    border: 0; }
+
 .bold {
   font-weight: bold; }
 
@@ -627,6 +634,7 @@ style for authentication-panel at homepage
     -o-transition: all linear 0.4s;
     transition: all linear 0.4s; }
     .auth-panel-container .auth-box.ng-hide {
+      opacity: 0;
       -ms-transform: scale(0.3, 0.3);
       -webkit-transform: scale(0.3, 0.3);
       -o-transform: scale(0.3, 0.3);
@@ -677,13 +685,15 @@ style for authentication-panel at homepage
       color: #606060;
       background: #57b1ff;
       -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
       -moz-border-radius: 0;
       -o-border-radius: 0;
       -ms-border-radius: 0;
       -webkit-border-radius: 0;
       border-radius: 0;
       padding: 10px;
-      text-align: center;
+      text-align: left;
       color: white;
       cursor: pointer;
       font-size: 13pt; }
@@ -738,7 +748,7 @@ style for authentication-panel at homepage
       -moz-transform: translate(-200px, 0);
       transform: translate(-200px, 0); }
   .auth-panel-container .auth-loader {
-    margin-top: -60px; }
+    margin-top: -53px; }
 
 .auth-panel .form-box .signup-box, .auth-panel .form-box .signin-box {
   margin: auto;

@@ -3,7 +3,7 @@ from django.core.validators import RegexValidator
 
 class RawUser(models.Model):
     phone_no = models.CharField(max_length=16, unique=True)
-    vericode = models.CharField(max_length=4, null=False, blank=False)
+    vericode = models.CharField(max_length=255, null=False, blank=False)
     attempt = models.IntegerField(default=1)
     uastring = models.CharField(max_length=512, default=None, null=True)
     ipaddress = models.CharField(max_length=16, default=None, null=True)

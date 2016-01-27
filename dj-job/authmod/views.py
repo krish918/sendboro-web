@@ -4,7 +4,6 @@ from django.views.decorators.http import require_POST
 from django.utils.decorators import method_decorator
 from authmod.models import RawUser
 from django.db import IntegrityError, transaction
-from django.db.models import F
 from common.models import User
 from common.sms import TextMessage
 from common.utils.general import Random, UserTrace
@@ -16,7 +15,89 @@ try:
 except:
     import simplejson
 import re, sys, traceback
+from common.base.boroexception import BoroException
+from common.base.constant import Const
 
+class SignonView(View):
+    
+    @method_decorator(require_POST)
+    def dispatch(self, *args, **kwargs):
+        return super(SignonView, self).dispatch(*args, **kwargs)
+    
+    def post(self, request, *args, **kwargs):
+        self.response = {}
+        self.dialcode = request.POST.get('dc',False)
+        self.credential = request.POST.get('crdntl',False)
+        self.countrycode = request.POST.get('cc',False)
+        try:
+           res = self.validateInput()
+           if isinstance(res, User):
+               acc = Account(res)
+               self.response = acc.signin()
+           else:
+               bu = Borouser(dialcode=self.dialcode,phone=self.credential,req=request)
+               acc = Account(bu)
+               self.response = acc.signup()
+               self.response['countrycode'] = self.countrycode
+                  
+        except BoroException as e:
+            self.response = {'success' : False, 'errorcode' : e.code }
+        except Exception as e:
+            self.response = { 'success' : False,
+                              'errorcode' : Const.AUTH_ERROR,
+                              'message' : e.__str__()
+                              }
+            
+        dump = simplejson.dumps(self.response)
+        return HttpResponse(dump, content_type='application/json')
+    
+    def validateInput(self):
+        dialCodeWithoutSpace = False
+        
+        patternUserName = r'^[a-zA-Z][a-zA-Z0-9\.]+$'
+        patternAltCredent = r'[a-zA-Z]'
+        patternDialCode = r'^\+[0-9]{1,8}$'
+        patternPhone = r'[^0-9]'
+        
+        if self.credential is False:
+            raise BoroException("No credential in request.",Const.INVALID_REQUEST)
+        
+        credential = self.credential.strip().replace(' ','')
+        
+        if self.dialcode is not False:
+            dialCodeWithoutSpace = self.dialcode.strip().replace(' ','')
+            countryCode = self.countrycode.strip()
+            matchDialCode = re.search(patternDialCode, dialCodeWithoutSpace)
+            
+        matchAltCredent = re.search(patternAltCredent, credential)
+        matchUserName = re.search(patternUserName, credential)
+        
+        if matchAltCredent and matchUserName:
+            try:
+                user = User.objects.get(username=credential)
+                return user
+            except:
+                raise BoroException("",Const.USERNAME_NOTEXIST)
+            
+        elif matchAltCredent and not matchUserName:
+            raise BoroException("", Const.INVALID_USERNAME)
+        elif dialCodeWithoutSpace is False or not matchDialCode\
+         or len(countryCode) == 0:
+            raise BoroException("",Const.INVALID_DIALCODE)
+        else:
+            matchNotPhone = re.search(patternPhone, credential)
+            if matchNotPhone or len(credential) == 0 or len(dialCodeWithoutSpace+credential) > 16:
+                raise BoroException("", Const.INVALID_PHONE)
+            try:
+                user = User.objects.get(phone=credential,countrycode=dialCodeWithoutSpace)
+                return user
+            except:
+                pass
+        self.credential = credential
+        self.dialcode = dialCodeWithoutSpace
+        return False
+            
+        
 class SigninView(View):
     
     @method_decorator(require_POST)
@@ -62,71 +143,34 @@ class SigninView(View):
         dump = simplejson.dumps(self.data)
         return HttpResponse(dump, content_type="application/json")
         
-class SignupView(View):
-    
-    data_dump = {}
-    phone = None
-    areacode = None
-    code = None
-    
-    @method_decorator(require_POST)
-    def dispatch(self, *args, **kwargs):
-        return super(SignupView, self).dispatch(*args, **kwargs)
-    
-    def post(self, request, *args, **kwargs):
-        self.data_dump = {}
-        self.code = None
-        pattern_ph = r'^\d{10,15}$'
-        pattern_ac = r'^\+\d{1,3}$'
-        self.phone = request.POST['phone']
-        self.areacode = request.POST['ac']
-        match_ph = re.search(pattern_ph, self.phone)
-        match_ac = re.search(pattern_ac, self.areacode)
- 
-        if match_ph and match_ac:
-            try:
-                check_exist = User.objects.get(countrycode=self.areacode, phone=self.phone)
-                
-                #user already registered
-                self.data_dump['error'] = 3
-            except:
-                #add user as he/she seems fresh
-                self.addRawUser(request) 
+class Account:
+        
+    def __init__(self, userObj):
+        if isinstance(userObj, User) or isinstance(userObj, Borouser):
+            self.user = userObj
         else:
-            self.data_dump['error'] = 2  #validation error
+            raise Exception("Invalid User Object")
         
-        #prepare json dump for API response
-        data = simplejson.dumps(self.data_dump)
-        return HttpResponse(data, content_type='application/json')
+    def signup(self):
+        response = self.user.addraw()
+        return response
     
-    def addRawUser(self,request):
+    def siginin(self):
+        borouser = Borouser()
+        hash = borouser.createhash(); 
         try:
-            full_phone = self.areacode + self.phone
-            self.code = Random(1, 4, 4).create()
-            trace = UserTrace(request)
-            ip = trace.getIp()
-            ua = trace.getUastring()
-            ph = RawUser(phone_no=full_phone, vericode=self.code,
-                             ipaddress=ip, uastring=ua)
-            ph.save()
-            self.data_dump['success'] = 1  #fresh user
-        except IntegrityError:
-             RawUser.objects.filter(phone_no=full_phone).update(vericode=self.code,
-                                                                 attempt=F('attempt')+1)
-             self.data_dump['success'] = 2  #overwritten request
+            self.user.objects.filter(phone_no=full_phone).update(vericode=hash)
+            borouser.sendphrase(msg="Your Sendboro login code : ");
         except:
-             self.data_dump['error'] = 1  # unknown error
+            raise Exception("Couldn't Update hash or send text")
         
-        if 'success' in self.data_dump:
-            self.sendCode(full_phone)
-            self.data_dump['phone'] = self.phone
-            self.data_dump['areacode'] = self.areacode
-            
-    
-    def sendCode(self, full_phone):
-        text = "Your sendboro phone verification code is " + str(self.code) + "."
-        sms = TextMessage(text, full_phone)
-        sms.send()
+        return {
+                'userid' : self.usr.userid,
+                'return' : True,
+                'success': True
+                }
+        
+        
         
         
 class VerifyCodeView(View):

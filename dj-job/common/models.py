@@ -2,7 +2,7 @@ from django.db import models
 
 class User(models.Model):
     userid = models.AutoField(null=False, unique=True, primary_key=True)
-    countrycode = models.CharField(null=False, max_length=4)
+    countrycode = models.CharField(null=False, max_length=8)
     phone = models.BigIntegerField(null=False, unique=True)
     username = models.CharField(null=True, blank=False, max_length=16, default=None, unique=True)
     phash = models.CharField(null=False, blank=False, max_length=512)
