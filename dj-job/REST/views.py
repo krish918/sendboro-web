@@ -30,7 +30,7 @@ class MetaUserView(View):
         try:
             uid = request.session['user_id']
             usr = User.objects.get(pk=uid)
-            fullphone = str(usr.countrycode)+str(usr.phone)
+            fullphone = str(usr.dialcode)+str(usr.phone)
         
             for key in User._meta.get_all_field_names():
                 if key != 'phash':
@@ -96,7 +96,7 @@ class MetaUserView(View):
                 sender_un = False
                 if sender.username is not None:
                     sender_un = sender.username
-                sender_phone = str(sender.countrycode)+str(sender.phone)
+                sender_phone = str(sender.dialcode)+str(sender.phone)
                         
                 if file.type:
                     file_type = Helper().getFormattedType(file.type,file.filename)
@@ -219,7 +219,7 @@ class VerifyView(View):
         elif re.search(rePhone, recipient):
             try:
                 user = User.objects.raw('''SELECT userid FROM (SELECT userid,
-                                 COALESCE(countrycode,'')||COALESCE(phone,0)
+                                 COALESCE(dialcode,'')||COALESCE(phone,0)
                                  AS fullphone FROM common_user) t1  WHERE
                                  fullphone = %s''', [recipient])
                 if len(list(user)) is 0:

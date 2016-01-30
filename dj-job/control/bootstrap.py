@@ -8,20 +8,17 @@ from django.utils.decorators import method_decorator
 import hashlib, uuid
 
 class Borouser():
-    countrycode = None
-    phone = None
-    username = None
-    phrase = None
-    fullname = None
-    uid = None
-    req = None
     
     def __init__(self,**kwargs):
-        if 0 < len(kwargs):
+        if 'user' in kwargs:
+            self.udata = kwargs['user']
+        if 'dialcode' in kwargs and 'phone' in kwargs:
             self.dialcode = kwargs['dialcode']
             self.phone = kwargs['phone']
+        if 'countrycode' in kwargs:
+            self.countrycode = kwargs['countrycode']
+        if 'req' in kwargs:
             self.req = kwargs['req']
-            self.fullphone = self.dialcode+self.phone
         
     def sendphrase(self, **kwargs):
         #phrase decoded back to string
@@ -87,34 +84,44 @@ class Borouser():
         self.req.session['user_id'] = self.uid
         self.req.session['session_id'] = sid
     
-    def addraw(self):
+    def addraw(self, **kwargs):
         retry = False
         try:
-            full_phone = self.dialcode + self.phone
+            self.fullphone = self.dialcode + self.phone
             hash = self.createhash()
+            if 'resend' in kwargs:
+                raise IntegrityError
             trace = UserTrace(self.req)
             ip = trace.getIp()
             ua = trace.getUastring()
-            ru = RawUser(phone_no=full_phone, vericode=hash,
+        
+            ru = RawUser(phone_no=self.fullphone, vericode=hash,
                              ipaddress=ip, uastring=ua)
             ru.save()
         except IntegrityError:
-             RawUser.objects.filter(phone_no=full_phone).update(vericode=hash,
+             RawUser.objects.filter(phone_no=self.fullphone).update(vericode=hash,
                                                                  attempt=F('attempt')+1)
-             retry = True  #overwritten request
+             retry = True
         except:
-             raise  # unknown error
-        try:
-            self.sendphrase()
-        except:
-            raise Exception("Text gateway error")
+             raise
+        
+        #self.sendphrase()    
         return {
-                    'dialcode' : self.dialcode,
-                    'phone'    : self.phone,
-                    'retry'    : retry,
-                    'return'   : False,
-                    'success'  : True
+                    'dialcode'   : self.dialcode,
+                    'phone'      : self.phone,
+                    'countrycode': self.countrycode,
+                    'retry'      : retry
                 }
         
-
+        
+    def attemptlogin(self):
+        self.fullphone = self.udata.dialcode+str(self.udata.phone)
+        hash = self.createhash()
+        self.udata.vericode = hash
+        self.udata.save()
+        #self.sendphrase(msg = "Your Sendboro login code: ");
+        return {
+                'user' : self.udata,
+                'return' : True
+                }
         

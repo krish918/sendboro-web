@@ -4,7 +4,7 @@
 		<div class="exit-button" ng-click="panels.toggleAuthPanel()">
 			esc
 		</div>
-		<div ng-hide="authCtrl.isScenePresented(2)">
+		<div ng-hide="authCtrl.isScenePresented(1)">
 			<div class="quote">
 		  		<div class="text">
 		  			I am pleased to see you.
@@ -44,7 +44,7 @@
 					Username is invalid.
 				</div>
 				<div class="error-disp" ng-show="authCtrl.isErrorCode(5)">
-					Username does not exist. Please verify or provide phone number.
+					Username does not exist. Please verify.
 				</div>
 				<div class="error-disp" ng-show="authCtrl.isErrorCode(6)">
 					Ahhh! Service is unavailable. Please try later.
@@ -54,8 +54,18 @@
 				</div>
 			</form>
 		</div>
-		<div ng-hide="authCtrl.isScenePresented(1)">
-			ram rahim
+		<div ng-hide="authCtrl.isScenePresented(2)" class="code-verify-scene">
+			<div class="quote">
+				<div class="text">
+		  			Now tell me. Am I a machine? Am I a human?
+		  		</div>
+			  	<div class="credit">
+		  			Alan Turing, The Imitation Game(2014)
+		  		</div>
+			</div>
+			<div class="description">
+				
+			</div>
 		</div>
 	</div>
 </div>	

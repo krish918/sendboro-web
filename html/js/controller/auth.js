@@ -22,6 +22,7 @@
 				self.scene = 1;
 				self.processingFlag = false;
 				self.formSubmittable = true;
+				self.authdata = {};
 			};
 			
 			//anonumous function for fetching country from user
@@ -163,6 +164,7 @@
 					}
 					else {
 						self.changeScene(2);
+						self.authdata = res;
 					}
 				}).error(function(res) {
 					console.log(res);
