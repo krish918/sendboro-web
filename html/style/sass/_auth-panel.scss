@@ -67,14 +67,14 @@ style for authentication-panel at homepage
 	}
 	
 	.description {
-		font: normal 12pt/1.6 'BoroHero', arial, sans-serif;
+		font: normal 15pt/1.4 'BoroHero', arial, sans-serif;
 		width:400px;
 		margin: auto;
-		color:#404060;
+		color:#606070;
 	}
 	
 	.signon-form {
-		margin:20px auto;
+		margin:15px auto;
 		width:400px;
 		font: normal 14pt/1.6 'BoroHero', arial, sans-serif;
 		text-align:center;
@@ -108,8 +108,10 @@ style for authentication-panel at homepage
 				width: 298px;
 			}
 		}
-		
-		button {
+	}
+	
+	button {
+			display: block;
 			background: none;
 			padding:10px;
 			padding-bottom:0;
@@ -125,7 +127,6 @@ style for authentication-panel at homepage
 				@include translate(200px,0);
 			}
 		}
-	}
 	
 	.error-disp {
 		font: normal 11pt/1.5 'BoroHero', arial, sans-serif;
@@ -145,6 +146,13 @@ style for authentication-panel at homepage
 	
 	.auth-loader {
 		margin-top: -53px;
+		
+		@include transition(all linear 0.3s);
+		
+		&.ng-hide {
+			opacity:0;
+			@include scaleTransform(0.2, 0.2);		
+		}
 	}
 }
 
@@ -156,4 +164,100 @@ style for authentication-panel at homepage
 			font-size: 11pt;	
 		}
 	}
+	
+	input.code-quantum-inpt {
+		margin:15px 5px;
+		margin-bottom: 10px;
+		width:50px;
+		@include vertCenter(50px);
+		background: white;
+		font: normal 16pt/1 'BoroChunkFive', 'BoroHero', arial, sans-serif;
+		text-align:center;
+		color: $sweet-blue;
+		@include radius(40px);
+		border: solid 1px lighten($sweet-blue,30);
+	}
+	
+	button {
+		color: lighten(#8f90cf,3);
+		margin-top: 4px;
+		
+		@include transition(all linear 0.2s);
+		
+		&.ng-hide {
+			opacity:0;
+			@include scaleTransform(0.4,0.4);
+		}
+	}
+	
+	.error-disp {
+		margin-top: 15px;
+	}
+	
+	.auth-loader {
+		margin-top: 10px;
+	}
 }
+
+.scene {
+	@include transition(all linear 0.3s);
+	&.credential-scene.ng-hide {
+		opacity:0;
+		@include scaleTransform(0.4,0.4);
+	}
+	&.code-verify-scene.ng-hide {
+		opacity:0;
+		@include scaleTransform(0.4,0.4);
+	}
+}
+
+.resend-code {
+	font-size: 10pt;
+	height:15px;
+	
+	.timer {
+		min-width:17px;
+		text-align:center;
+		margin:0;
+		padding:0;
+	}
+	
+	.resend-button {
+		text-align:center;
+		background: #b0b0b0;
+		padding:3px;
+		@include radius(3px);
+		color:white;
+		
+		&.active {
+			background: lighten($sweet-blue,20);
+			cursor: pointer;
+		}
+		&.wait {
+			background: lighten($rumy-green,20);
+			cursor: pointer;
+		}
+	}
+	
+	.resendtext {
+		max-width:150px;
+		max-height:15px;
+		overflow:hidden;
+		&.ng-hide-add, &.ng-hide-remove {
+			@include transition(all linear 0.2s);
+		}
+		
+		&.ng-hide {
+			max-width:0;
+			opacity:0;
+		}
+	}
+	
+	@include transition(all linear 0.2s);
+	&.ng-hide {
+		opacity:0;
+		@include scaleTransform(0.4,0.4);
+	}
+	
+}	
+	

@@ -1,34 +1,28 @@
-from common.models import *
-from authmod.models import RawUser
+from common.models import User, Session
+from authmod.models import RawUser, CodeHash
 from django.db.models import F
 from common.sms import TextMessage
 from django.db import IntegrityError, transaction
-from common.utils.general import Random,UserTrace
+from common.utils.general import Random,UserTrace,Helper
 from django.utils.decorators import method_decorator
+from common.base.constant import Const
 import hashlib, uuid
 
 class Borouser():
     
     def __init__(self,**kwargs):
-        if 'user' in kwargs:
-            self.udata = kwargs['user']
         if 'dialcode' in kwargs and 'phone' in kwargs:
             self.dialcode = kwargs['dialcode']
             self.phone = kwargs['phone']
+            self.fullphone = self.dialcode + str(self.phone)
         if 'countrycode' in kwargs:
             self.countrycode = kwargs['countrycode']
         if 'req' in kwargs:
             self.req = kwargs['req']
         
-    def sendphrase(self, **kwargs):
+    def sendphrase(self, msg):
         #phrase decoded back to string
-        if 'msg' in kwargs:
-            message = kwargs['msg']
-        else:
-            message = ("Hello! You tried signing up for Sendboro."+
-                " Please use this code to proceed : ")     
-        text = message+self.phrase.decode()
-        sms = TextMessage(text,self.fullphone)
+        sms = TextMessage(msg, self.fullphone)
         sms.send()
         
     @method_decorator(transaction.atomic)   
@@ -84,44 +78,51 @@ class Borouser():
         self.req.session['user_id'] = self.uid
         self.req.session['session_id'] = sid
     
+    @method_decorator(transaction.atomic)
     def addraw(self, **kwargs):
-        retry = False
+        reattempt = False
+        trace = UserTrace(self.req)
+        ip = trace.getIp()
+        ua = trace.getUastring()
         try:
-            self.fullphone = self.dialcode + self.phone
-            hash = self.createhash()
-            if 'resend' in kwargs:
-                raise IntegrityError
-            trace = UserTrace(self.req)
-            ip = trace.getIp()
-            ua = trace.getUastring()
-        
-            ru = RawUser(phone_no=self.fullphone, vericode=hash,
-                             ipaddress=ip, uastring=ua)
-            ru.save()
+            with transaction.atomic():
+                ru = RawUser(phone_no=self.fullphone, ipaddress=ip, uastring=ua)
+                ru.save()
         except IntegrityError:
-             RawUser.objects.filter(phone_no=self.fullphone).update(vericode=hash,
-                                                                 attempt=F('attempt')+1)
-             retry = True
+             RawUser.objects.filter(phone_no=self.fullphone).update(attempt=F('attempt')+1)
+             reattempt = True
         except:
              raise
         
-        #self.sendphrase()    
+        self.sendvericode(Const.SIGNUP)
         return {
                     'dialcode'   : self.dialcode,
                     'phone'      : self.phone,
-                    'countrycode': self.countrycode,
-                    'retry'      : retry
+                    'reattempted': reattempt,
                 }
         
+    def sendvericode(self, mode):
+        generated_hash = self.createhash()
+        hash_entity = CodeHash(hash=generated_hash)
+        hash_entity.save()
+        hashid = hash_entity.id
+        self.req.session['hashid'] = hashid
+        link = Helper().getHostString(self.req)+'/'+str(hashid)+'/'+self.phrase.decode()
+        linktext = "You may also tap on this link: "+link
+        if mode == Const.SIGNUP:
+            msg = "Hello! You tried signing up for Sendboro. Please use this code to proceed: "
+            msg += self.phrase.decode()+". "+linktext
+        elif mode == Const.SIGNIN:
+            msg = "Your Sendboro login code is: "+self.phrase.decode()+". "+linktext
+            msg += ". DO NOT visit this link if it wasn't requested by you!"
+        #self.sendphrase(msg)        
         
-    def attemptlogin(self):
-        self.fullphone = self.udata.dialcode+str(self.udata.phone)
-        hash = self.createhash()
-        self.udata.vericode = hash
-        self.udata.save()
-        #self.sendphrase(msg = "Your Sendboro login code: ");
+    def attemptlogin(self, **kwargs):
+        self.sendvericode(Const.SIGNIN)
+        
         return {
-                'user' : self.udata,
-                'return' : True
+                'dialcode': self.dialcode,
+                'phone'  : self.phone,
+                'return' : True,
                 }
         

@@ -10,10 +10,10 @@
 				if(!this.hideAuthFlag) {
 					document.body.className = 'pigeo-home fix';
 					$scope.hideClass = 'show-auth';
+					$scope.init();  //to clear the auth-panel form
 				}
 				else {
 					document.body.className = 'pigeo-home';
-					$scope.init();  //to clear the auth-panel form
 				}
 			};
 			

@@ -672,12 +672,12 @@ style for authentication-panel at homepage
       font-size: 12pt;
       font-style: italic; }
   .auth-panel-container .description {
-    font: normal 12pt/1.6 'BoroHero', arial, sans-serif;
+    font: normal 15pt/1.4 'BoroHero', arial, sans-serif;
     width: 400px;
     margin: auto;
-    color: #404060; }
+    color: #606070; }
   .auth-panel-container .signon-form {
-    margin: 20px auto;
+    margin: 15px auto;
     width: 400px;
     font: normal 14pt/1.6 'BoroHero', arial, sans-serif;
     text-align: center; }
@@ -708,27 +708,28 @@ style for authentication-panel at homepage
         color: #0890f0; }
       .auth-panel-container .signon-form input.phone-num {
         width: 298px; }
-    .auth-panel-container .signon-form button {
-      background: none;
-      padding: 10px;
-      padding-bottom: 0;
-      line-height: 1;
-      margin: 10px auto;
-      font-size: 32pt;
-      color: #0080f0;
-      cursor: pointer;
-      -webkit-transition: all linear 0.3s;
-      -moz-transition: all linear 0.3s;
-      -ms-transition: all linear 0.3s;
-      -o-transition: all linear 0.3s;
-      transition: all linear 0.3s; }
-      .auth-panel-container .signon-form button.hide-button {
-        opacity: 0;
-        -webkit-transform: translate(200px, 0);
-        -ms-transform: translate(200px, 0);
-        -o-transform: translate(200px, 0);
-        -moz-transform: translate(200px, 0);
-        transform: translate(200px, 0); }
+  .auth-panel-container button {
+    display: block;
+    background: none;
+    padding: 10px;
+    padding-bottom: 0;
+    line-height: 1;
+    margin: 10px auto;
+    font-size: 32pt;
+    color: #0080f0;
+    cursor: pointer;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
+    transition: all linear 0.3s; }
+    .auth-panel-container button.hide-button {
+      opacity: 0;
+      -webkit-transform: translate(200px, 0);
+      -ms-transform: translate(200px, 0);
+      -o-transform: translate(200px, 0);
+      -moz-transform: translate(200px, 0);
+      transform: translate(200px, 0); }
   .auth-panel-container .error-disp {
     font: normal 11pt/1.5 'BoroHero', arial, sans-serif;
     color: #E02D4E;
@@ -749,12 +750,131 @@ style for authentication-panel at homepage
       -moz-transform: translate(-200px, 0);
       transform: translate(-200px, 0); }
   .auth-panel-container .auth-loader {
-    margin-top: -53px; }
+    margin-top: -53px;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
+    transition: all linear 0.3s; }
+    .auth-panel-container .auth-loader.ng-hide {
+      opacity: 0;
+      -ms-transform: scale(0.2, 0.2);
+      -webkit-transform: scale(0.2, 0.2);
+      -o-transform: scale(0.2, 0.2);
+      -moz-transform: scale(0.2, 0.2);
+      transform: scale(0.2, 0.2); }
 
 .code-verify-scene .quote {
   font-size: 16pt; }
   .code-verify-scene .quote .credit {
     font-size: 11pt; }
+.code-verify-scene input.code-quantum-inpt {
+  margin: 15px 5px;
+  margin-bottom: 10px;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  vertical-align: middle;
+  background: white;
+  font: normal 16pt/1 'BoroChunkFive', 'BoroHero', arial, sans-serif;
+  text-align: center;
+  color: #0080f0;
+  -moz-border-radius: 40px;
+  -o-border-radius: 40px;
+  -ms-border-radius: 40px;
+  -webkit-border-radius: 40px;
+  border-radius: 40px;
+  border: solid 1px #8ac8ff; }
+.code-verify-scene button {
+  color: #9a9bd4;
+  margin-top: 4px;
+  -webkit-transition: all linear 0.2s;
+  -moz-transition: all linear 0.2s;
+  -ms-transition: all linear 0.2s;
+  -o-transition: all linear 0.2s;
+  transition: all linear 0.2s; }
+  .code-verify-scene button.ng-hide {
+    opacity: 0;
+    -ms-transform: scale(0.4, 0.4);
+    -webkit-transform: scale(0.4, 0.4);
+    -o-transform: scale(0.4, 0.4);
+    -moz-transform: scale(0.4, 0.4);
+    transform: scale(0.4, 0.4); }
+.code-verify-scene .error-disp {
+  margin-top: 15px; }
+.code-verify-scene .auth-loader {
+  margin-top: 10px; }
+
+.scene {
+  -webkit-transition: all linear 0.3s;
+  -moz-transition: all linear 0.3s;
+  -ms-transition: all linear 0.3s;
+  -o-transition: all linear 0.3s;
+  transition: all linear 0.3s; }
+  .scene.credential-scene.ng-hide {
+    opacity: 0;
+    -ms-transform: scale(0.4, 0.4);
+    -webkit-transform: scale(0.4, 0.4);
+    -o-transform: scale(0.4, 0.4);
+    -moz-transform: scale(0.4, 0.4);
+    transform: scale(0.4, 0.4); }
+  .scene.code-verify-scene.ng-hide {
+    opacity: 0;
+    -ms-transform: scale(0.4, 0.4);
+    -webkit-transform: scale(0.4, 0.4);
+    -o-transform: scale(0.4, 0.4);
+    -moz-transform: scale(0.4, 0.4);
+    transform: scale(0.4, 0.4); }
+
+.resend-code {
+  font-size: 10pt;
+  height: 15px;
+  -webkit-transition: all linear 0.2s;
+  -moz-transition: all linear 0.2s;
+  -ms-transition: all linear 0.2s;
+  -o-transition: all linear 0.2s;
+  transition: all linear 0.2s; }
+  .resend-code .timer {
+    min-width: 17px;
+    text-align: center;
+    margin: 0;
+    padding: 0; }
+  .resend-code .resend-button {
+    text-align: center;
+    background: #b0b0b0;
+    padding: 3px;
+    -moz-border-radius: 3px;
+    -o-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    color: white; }
+    .resend-code .resend-button.active {
+      background: #57b1ff;
+      cursor: pointer; }
+    .resend-code .resend-button.wait {
+      background: #47ca86;
+      cursor: pointer; }
+  .resend-code .resendtext {
+    max-width: 150px;
+    max-height: 15px;
+    overflow: hidden; }
+    .resend-code .resendtext.ng-hide-add, .resend-code .resendtext.ng-hide-remove {
+      -webkit-transition: all linear 0.2s;
+      -moz-transition: all linear 0.2s;
+      -ms-transition: all linear 0.2s;
+      -o-transition: all linear 0.2s;
+      transition: all linear 0.2s; }
+    .resend-code .resendtext.ng-hide {
+      max-width: 0;
+      opacity: 0; }
+  .resend-code.ng-hide {
+    opacity: 0;
+    -ms-transform: scale(0.4, 0.4);
+    -webkit-transform: scale(0.4, 0.4);
+    -o-transform: scale(0.4, 0.4);
+    -moz-transform: scale(0.4, 0.4);
+    transform: scale(0.4, 0.4); }
 
 a.gen {
   color: white; }

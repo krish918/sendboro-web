@@ -1,4 +1,41 @@
 (function(){
+	
+	angular.module('init')
+	
+	.factory('$poll', function($http,$q, $cookies){
+		return {
+			get: function(api) {
+				var deferred = $q.defer(),
+					getheaders = {
+						'X-CSRFToken': $cookies.csrftoken
+					};
+				$http.get(api, {headers: getheaders}).then(function(res){
+					deferred.resolve(res.data);
+				}, 	function(res){
+					deferred.reject({'errorcode':-1});
+				});
+				
+				return deferred.promise;
+			},
+			post: function(api,data) {
+				var deferred = $q.defer(),
+					postheaders = {
+						'Content-Type': 'application/x-www-form-urlencoded',
+						'X-CSRFToken' : $cookies.csrftoken
+					};
+				
+				$http.post(api, data, {headers: postheaders}).then(function(res) {
+					deferred.resolve(res.data);
+				}, function(res) {
+					console.log(res.data);
+					deferred.reject({'errorcode': -1});
+				});
+				
+				return deferred.promise;
+			}
+		};
+	});
+	
 	angular.module('util')
 	
 	.factory('Offset', function() {

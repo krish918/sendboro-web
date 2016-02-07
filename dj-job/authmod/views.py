@@ -1,8 +1,8 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound
 from django.views.generic import View
 from django.views.decorators.http import require_POST
 from django.utils.decorators import method_decorator
-from authmod.models import RawUser
+from authmod.models import RawUser, CodeHash
 from django.db import IntegrityError, transaction
 from common.models import User
 from common.utils.general import Random, UserTrace
@@ -15,6 +15,7 @@ except:
     import simplejson
 import re, sys, traceback
 from common.base.boroexception import BoroException
+from datetime import datetime
 from common.base.constant import Const
 from common.base.account import Account
 
@@ -33,23 +34,22 @@ class SignonView(View):
         try:
            res = self.validateInput()
            if isinstance(res, User):
-               registeredUser = Borouser(user = res)
+               registeredUser = Borouser(dialcode=res.dialcode,phone=res.phone,req=request)
                acc = Account(registeredUser)
                self.response = acc.signin(self.uname)
+               self.response['userid'] = res.userid
            else:
-               unregisterdUser = Borouser(dialcode=self.dialcode,
-                                          phone=self.credential,
-                                          countrycode=self.countrycode,
-                                          req=request)
+               unregisterdUser = Borouser(dialcode=self.dialcode,phone=self.credential,req=request)
                acc = Account(unregisterdUser)
                self.response = acc.signup()
+               self.response['countrycode'] = self.countrycode
                   
         except BoroException as e:
             self.response = {'success' : False, 'errorcode' : e.code }
         except Exception as e:
             self.response = { 'success' : False,
                               'errorcode' : Const.AUTH_ERROR,
-                              'message' : e.__str__()
+                              'message' : e.__str__(),
                               }
             
         dump = simplejson.dumps(self.response)
@@ -99,8 +99,58 @@ class SignonView(View):
                 pass
             
         return True
-            
+    
+class ResendCodeView(View):
+    
+    response = {}
+    
+    @method_decorator(require_POST)
+    def dispatch(self, *args, **kwargs):
+        return super(ResendCodeView, self).dispatch(*args, **kwargs)
+    
+    def post(self, request, *args, **kwargs):
+        self.phone = request.POST.get('ph',False)
+        self.dialcode = request.POST.get('dc',False)
+        self.countrycode = request.POST.get('cc',False)
+        self.uid = request.POST.get('id',False)
         
+        try:
+            if len(self.phone) == 0 or len(self.dialcode) == 0:
+                raise Exception("Invalid data")
+            if self.uid is not False:
+                bu = Borouser(dialcode=self.dialcode, phone=self.phone, req=request)
+                bu.sendvericode(Const.SIGNIN)
+            else:
+                bu = Borouser(dialcode=self.dialcode, phone=self.phone, req=request)
+                bu.sendvericode(Const.SIGNUP)
+            self.response['success'] = True
+        except Exception as e:
+                self.response = {
+                                 'success': False,
+                                 'errorcode': Const.AUTH_ERROR,
+                                 'message': e.__str__(),
+                                 }
+                
+        dump = simplejson.dumps(self.response)
+        return HttpResponse(dump, content_type='application/json')
+            
+class AcceptChallenge(View):
+    response = {}
+    def get(self, request, *args, **kwargs):
+        try:
+            acc = Account()
+            chall_resolved = Const.EMPTY_POLL
+            curr_time = datetime.now().timestamp()
+            while chall_resolved == Const.EMPTY_POLL and (datetime.now().timestamp() - curr_time) < 30:
+                chall_resolved = acc.pollChallenge(request.session['hashid'])
+            self.response = {'status': chall_resolved,'time':request.session['hashid'],}
+        except Exception as e:
+            self.response = {'status': False, 'error': e.__str__(), 'errorcode':Const.POLL_ERROR,}
+        dump = simplejson.dumps(self.response)
+        return HttpResponse(dump, content_type='application/json')
+        
+            
+                
 class SigninView(View):
     
     @method_decorator(require_POST)
@@ -147,18 +197,41 @@ class SigninView(View):
         return HttpResponse(dump, content_type="application/json")
                  
         
-class VerifyCodeView(View):
-    code = None
-    areacode = None
-    phone = None
-
-    @method_decorator(require_POST)
-    def dispatch(self, *args, **kwargs):
-        return super(VerifyCodeView, self).dispatch(*args, **kwargs)
+class InitChallenge(View):
+    response = {}
     
     def post(self, request, *args, **kwargs):
-        datadump = {}
-        self.code = request.POST['code']
+        try:
+            if 'code' not in kwargs or 'hashid' not in request.session:
+                raise BoroException('No hashid or challenge found.', Const.AUTH_ERROR)
+            self.challenge = kwargs['code']
+            self.updateChallenge(request.session['hashid'])
+            self.response['success'] = True
+        except Exception as e:
+            self.response = {'success': False, 'message':e.__str__(), 'errorcode':Const.AUTH_ERROR,}
+        
+        dump = simplejson.dumps(self.response)
+        return HttpResponse(dump, content_type="application/json")
+    
+    def get(self, request, *args, **kwargs):
+        if 'hashid' not in kwargs or 'code' not in kwargs:
+            return HttpResponseNotFound
+        self.challenge = kwargs['code']
+        hashid = kwargs['hashid']
+        try:
+            self.updateChallenge(hashid)
+            self.response['success'] = True
+        except Exception as e:
+            self.success['success'] = False
+        
+        
+    def updateChallenge(self,hashid):
+        CodeHash.objects.filter(id=hashid).update(challenge=self.challenge)
+        
+        
+    
+    
+            
         self.areacode = request.POST['ac']
         self.phone = request.POST['ph']
         full_phone = self.areacode + self.phone

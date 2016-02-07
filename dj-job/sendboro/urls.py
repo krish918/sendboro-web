@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^authmod/', include('authmod.urls')),
     url(r'^', include('home.urls')),
+    url(r'^', include('authmod.urls')),
     url(r'^api/', include('REST.urls')),
     url(r'^file/', include('file.urls')),
     

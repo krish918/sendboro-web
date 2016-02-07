@@ -57,9 +57,11 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    #'django.middleware.cache.UpdateCacheMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.cache.FetchFromCacheMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -75,9 +77,10 @@ WSGI_APPLICATION = 'sendboro.wsgi.application'
 
 CACHE = {
          'default' : {
-            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+            'BACKEND' : 'django.core.cache.backends.memcached.MemcachedCache',
             'LOCATION': '127.0.0.1:11211',
-         }
+         },
+         
 }
 
 # using a cached DB for session handling

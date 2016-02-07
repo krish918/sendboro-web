@@ -16,20 +16,17 @@
 		return {
 			restrict : 'E',
 			template: template,
-			scope: {
-				size: '=',
-				color: '=',
-				type: '='
-			},
 			link: function($scope) {				
 				$scope.isRouteLoading = true;
 				$scope.isLoadingFailed = false;
 
-				$scope.$on('$stateChangeStart', function() {
+				$scope.$on('$stateChangeStart', function(event) {
 					NProgress.configure({parent : '.progress-bar-container'});
 	    			NProgress.start();
 					$scope.isRouteLoading = true;
 					$rootScope.uiTransit = 'ui-disappear';
+					if($scope.isAuthenticated)
+						event.preventDefault();
 				});
 
 				$scope.$on('$stateChangeSuccess', function() {
@@ -46,5 +43,18 @@
 
 			}
 		};
-	}]);
+	}])
+	
+	.directive('boroFocus', function($parse,$timeout){
+		return {
+			link: function(scope, element, attrib) {
+				var model = $parse(attrib.boroFocus);
+				scope.$watch(model, function(newValue){
+					$timeout(function(){
+						element[0].focus();	
+					});
+				});
+			}
+		};
+	});
 })();

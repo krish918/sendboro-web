@@ -9,7 +9,19 @@ class Helper:
         rand_name = uuid.uuid4().hex;
         new_name = str(rand_name)+'.'+str(filename)
         path = os.path.join("file/"+month+"/"+day+"/", new_name)
-        return path 
+        return path
+    
+    def getHostString(self,req):
+        protocol = req.META.get("SERVER_PORT",False)
+        if protocol == "443":
+            hoststring = "https://"
+        else:
+            hoststring = "http://"
+        host = req.META.get("HTTP_HOST", req.META.get("SERVER_NAME",False))
+        if host is False:
+            host = "sendboro.com"
+        hoststring += host
+        return hoststring 
     
     def getFormattedType(self,type, name, ext_req=False):
 
@@ -57,7 +69,6 @@ class Time:
                                                            t.tm_min,t.tm_sec)).total_seconds())
     
     def getDiff(self):
-        
         
         if self.diff/60 < 1:
             return str(self.diff)+' seconds ago'

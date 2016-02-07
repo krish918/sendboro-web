@@ -1,41 +1,68 @@
 (function () {	
 	angular.module("init")
-		.controller('authController', ['$scope','$http', '$cookies','$timeout','$window','countries',
-		                                  function($scope, $http, $cookies,$timeout,$window,countries) {
+		.controller('authController', ['$scope','$timeout','$window','countries','$parse','$poll',
+		                                  function($scope,$timeout,$window,countries,$parse,$poll) {
 			
+			var TIMER_CONST = 30;
 			this.countryList = countries.fetch();
+			watchTimer();
+			$scope.focus = 0;
 			
 			var self = this,
+				timer,
+				pollTimer,
 				usrDialCode = '', 
-				usrCountryCode='';  //for temp storing country info fetched from server
-								   // will be used to fill up the form again
-			                       //  in case user exits auth window
+				usrCountryCode='';  /* for temp storing country info fetched from server
+								       will be used to fill up the form again
+			                           in case user exits auth window */
 			
-			//this init is being initialised every time auth-panel
-			// hides from view
+			/* init() is being initialised every time auth-panel
+			   comes in view */
 			$scope.init = function() {
 				$scope.dialCode = usrDialCode;
 				$scope.countryCode = usrCountryCode;
 				$scope.phone = '';
 				$scope.disableClass = '';
 				self.error = 0;
-				self.scene = 1;
+				self.changeScene(1);
 				self.processingFlag = false;
 				self.formSubmittable = true;
 				self.authdata = {};
 			};
 			
-			//anonumous function for fetching country from user
-			// location once the controller is initialiesd
-			(function() {
-				$http({
-					url : 'api/country',
-					method: 'get',
-					headers: {
-						'X-CSRFToken': $cookies.csrftoken
+			$scope.incrementFocus = function(e) {
+				/* if clicked on some other input element in scene 1
+				   focus shouldn't go back to the phone number input */
+				if(self.scene == 1 && typeof e !== 'undefined')
+					return;
+				$scope.focus += 1;
+			};
+			
+			function watchTimer() {
+				var model = $parse('resendTimer');
+				$scope.$watch(model, function(value) {
+					if(value <= TIMER_CONST && value > 0) {
+						$scope.resendClass = '';
+						timer = $timeout(function() {
+								$scope.$apply(model.assign($scope, value-1));
+							},1000);
 					}
-				})
-				.success(function(res){
+					else if(value === 0){
+						$timeout.cancel(timer);
+						$scope.resendClass = 'active';
+					}
+					else {
+						$scope.resendClass = '';
+					}
+				});
+			};
+						
+			/* anonymous function for fetching country from user
+			   location once the controller is initialised */
+			
+			(function() {
+				$poll.get('api/country')
+				.then(function(res){
 					if(res.success === true) {
 						for(var obj of self.countryList) {
 							if(obj.code == res.data.country_code) {
@@ -46,8 +73,7 @@
 						}
 						
 					}
-				})
-				.error(function(){});
+				});
 			})();
 			
 			
@@ -69,7 +95,7 @@
 				}
 			};
 			
-			//for slecting correct country after changing dialCode manually
+			//for selecting correct country after changing dialCode manually
 			$scope.syncInputText = function() {
 				$scope.hideErrors();
 				$scope.countryCode = '';
@@ -91,9 +117,39 @@
 				return scn === this.scene;
 			};
 			
-			//changing scene to verification window 
+			//changing scene of auth-panel 
 			this.changeScene = function(scn) {
-				this.scene = scn;
+				/* scn = 0 is called on closing the authpanel. So no more action , just
+				   make the scene zero and return. */
+				if(scn === 0) {
+					this.scene = scn;
+					return;
+				}
+				
+				/* we will give an intermediate value to first let the earlier
+				   scene disappear and then new one appear. */
+				this.scene = -1;
+				this.error = 0;
+				//to keep track of keyup when entering code
+				
+				$timeout.cancel(pollTimer);
+				
+				self.codePressCount = 0;
+				if(scn == 1)
+					$timeout.cancel(timer);
+
+				$timeout(function(){
+					self.scene = scn;
+					$scope.incrementFocus();
+					// for showing submit-button
+					$scope.disableClass = '';
+					if(scn == 2) {
+						//for truncating all codes
+						$scope.code = [];
+						//resetting timer to 30 so that it can be watched
+						$scope.resendTimer = TIMER_CONST;
+					}
+				},400);
 			};
 			
 			
@@ -143,37 +199,154 @@
 				var
 					phone = encodeURIComponent($scope.phone),
 					dialcode = encodeURIComponent($scope.dialCode),
-					countrycode = encodeURIComponent($scope.countryCode)
-					request_headers = {
-						'Content-Type': 'application/x-www-form-urlencoded',
-						'X-CSRFToken' : $cookies.csrftoken
-					};
-				$http({
-					url : 'authmod/signon',
-					data : 'crdntl='+phone+'&dc='+dialcode+'&cc='+countrycode,
-					method : 'POST',
-					headers : request_headers
-					
-				}).success(function(res) {
-					console.log(res);
-					
+					countrycode = encodeURIComponent($scope.countryCode),
+					data = 'crdntl='+phone+'&dc='+dialcode+'&cc='+countrycode;
+				
+				$poll.post('authmod/signon',data)
+				
+				.then(function(res) {
+					self.processingFlag = false;
+					self.formSubmittable = true;
 					if(res.success == false) {
 						self.error = res.errorcode;
-						self.processingFlag = false;
-						self.formSubmittable = true;
 					}
 					else {
+						
 						self.changeScene(2);
+						
 						self.authdata = res;
+						
+						if ('uname' in self.authdata)
+							$scope.username = self.authdata.uname;
+						else
+							$scope.username = '';
+						$scope.codeTarget = self.authdata.dialcode+' '+self.authdata.phone
+						initiateChallengePolling();
 					}
-				}).error(function(res) {
-					console.log(res);
+				}).catch(function(res) {
 					self.formSubmittable = true;
 					self.processingFlag = false;
-					self.error = 6
+					self.error = res.errorcode;
 				});
-					
+			};
+			
+			function initiateChallengePolling() {
+				$poll.get('authmod/challenge')
 				
+				.then(function(res) {
+					console.log(res);
+					if(res.status == false)
+						self.error = res.errorcode;
+					else if(res.status == 3)
+						pollTimer = $timeout(initiateChallengePolling, 3000);
+					else if(res.status == -2) {
+						self.error = res.status;
+						$scope.resendTimer = 0;
+						self.processingFlag = false;
+						$scope.code = [];
+						self.codePressCount = 0;
+						$timeout.cancel(pollTimer);
+						pollTimer = $timeout(initiateChallengePolling, 3000);
+					}
+					else if(res.status == 1) {
+						console.log(res);
+					}
+				}).catch(function(res){
+					self.error = res.errorcode;
+				});
+			}
+			
+			this.resendCode = function() {
+				if ($scope.resendTimer !== 0)
+					return;
+				
+				//a large value for timer show that no overlapping submission 
+				// and this value won't be even watched by scope watcher
+				
+				$scope.resendTimer = -1;
+				var
+				phone = encodeURIComponent(this.authdata.phone)
+				dialcode = encodeURIComponent(this.authdata.dialcode),
+				data = 'ph='+phone+'&dc='+dialcode;
+				
+				if ('return' in this.authdata)
+					data += '&type=i&id='+this.authdata.userid;
+				else
+					data += '&type=u';
+				
+				$poll.post('authmod/resend', data)
+				
+				.then(function(res){
+					if(res.success == false) {
+						throw res;
+					}
+					else {
+						/* if successful restart timer so that if code is not received again
+						   user can try again */
+						$scope.resendTimer = TIMER_CONST;
+					}
+				}).catch(function(res){
+					self.error = res.errorcode;
+					
+					/* timer set to zero so that no countdown occurs and
+					   resend button activated so that user can try again */
+					$scope.resendTimer = 0;
+					
+					//to make error disappear after 5 sec.
+					$timeout(function(){
+						self.error = 0;
+					},5000);
+					
+					console.log(res);
+				});
+			};
+			
+			$scope.fillCodeInput = function(event) {
+				var key = event.keyCode,
+					keyValue;
+				
+				//for stopping backspace from going back in history in some browsers
+				if(key === 8)
+					event.preventDefault();
+					
+				if (self.codePressCount > 4)
+					return;
+				
+				if(key >= 48 && key <=57) {
+					self.error = 0;
+					keyValue = key - 48;
+					$scope.code[self.codePressCount] = keyValue;
+					self.codePressCount += 1
+					if(self.codePressCount > 4) {
+						self.processingFlag = true;
+						sendCode();
+					}
+				}
+				//backspace should delete previous entry until every
+				// code input box is filled up
+				else if(key == 8 && self.codePressCount != 0) {
+					self.codePressCount -= 1;
+					$scope.code[self.codePressCount] = '';
+				}
+			};
+			
+			function sendCode() {
+				var endpoint = '/';
+				$scope.code.forEach(function(value){
+					endpoint += value;
+				});
+				$poll.post(endpoint, null)
+				.then(function(res){
+					console.log(res);
+					if(res.success == false) {
+						throw 'UNKNOWN ERROR';
+					}
+				}).catch(function(res) {
+					self.processingFlag = false;
+					$scope.code = [];
+					self.codePressCount = 0;
+					self.error = -1;
+				});
 			};
 			
 //			this.inProcess = 0;	//request in process flag
