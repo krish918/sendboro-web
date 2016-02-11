@@ -92,14 +92,14 @@
 				 	<div class="inline-middle resend-button" ng-class="resendClass" ng-click="authCtrl.resendCode()">resend</div>
 				</div>
 				<div class="error-disp" ng-show="authCtrl.isErrorCode(-1)">
-					Oooh! Something was broken. Please try later.
+					Oops! Something was broken. Please try later.
 				</div>
 				<div class="error-disp" ng-show="authCtrl.isErrorCode(-2)">
 					The code was invalid.
 				</div>
 				<div class="auth-loader" ng-show="authCtrl.isProcessing()">
 					<img src="{% static 'resource/loader/loader.GIF' %}">
-				</div>		
+				</div>	
 			</div>
 		</div>
 	</div>

@@ -25,8 +25,6 @@
 	    			NProgress.start();
 					$scope.isRouteLoading = true;
 					$rootScope.uiTransit = 'ui-disappear';
-					if($scope.isAuthenticated)
-						event.preventDefault();
 				});
 
 				$scope.$on('$stateChangeSuccess', function() {

@@ -11,6 +11,7 @@
 			var self = this,
 				timer,
 				pollTimer,
+				authAttempt = 0,
 				usrDialCode = '', 
 				usrCountryCode='';  /* for temp storing country info fetched from server
 								       will be used to fill up the form again
@@ -241,20 +242,54 @@
 						pollTimer = $timeout(initiateChallengePolling, 3000);
 					else if(res.status == -2) {
 						self.error = res.status;
-						$scope.resendTimer = 0;
-						self.processingFlag = false;
-						$scope.code = [];
-						self.codePressCount = 0;
+						resetCodeInputView();
 						$timeout.cancel(pollTimer);
+						authAttempt++;
+						if (authAttempt > 3) {
+							$timeout(function(){
+								self.changeScene(1);
+							},2000);
+							authAttempt = 0;
+							return;
+						}
 						pollTimer = $timeout(initiateChallengePolling, 3000);
 					}
 					else if(res.status == 1) {
-						console.log(res);
+						var idx, data = '';
+						for(idx=0; idx<5; idx++)
+							$scope.code[idx] = '#';
+						self.codePressCount = 5;
+						self.processingFlag = true;
+						if ('return' in self.authdata)
+							data += 'mode=i&uid='+self.authdata.userid;
+						else {
+							data += 'mode=u';
+							data += '&dc='+encodeURIComponent(self.authdata.dialcode);
+							data += '&ph='+self.authdata.phone;
+							data += '&cc='+self.authdata.countrycode
+						}
+						$poll.post('authmod/authent',data)
+						.then(function(res){
+							if (res.success == false) {
+								resetCodeInputView();
+								self.error = res.errorcode;
+							}
+							else {
+								$window.location.href = '/';
+							}
+						});
 					}
 				}).catch(function(res){
 					self.error = res.errorcode;
 				});
-			}
+			};
+			
+			function resetCodeInputView() {
+				$scope.resendTimer = 0;
+				self.processingFlag = false;
+				$scope.code = [];
+				self.codePressCount = 0;
+			};
 			
 			this.resendCode = function() {
 				if ($scope.resendTimer !== 0)

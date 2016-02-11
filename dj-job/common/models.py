@@ -27,3 +27,8 @@ class Session(models.Model):
     def __str__(self):
         return self.sessionid
     
+class UserMobileDevice(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    phoneagent = models.CharField(max_length=512, null=False, blank=False)
+    ts = models.DateTimeField(auto_now_add=True)
+    

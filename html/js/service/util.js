@@ -1,6 +1,6 @@
 (function(){
 	
-	angular.module('init')
+	angular.module('util')
 	
 	.factory('$poll', function($http,$q, $cookies){
 		return {
@@ -25,6 +25,7 @@
 					};
 				
 				$http.post(api, data, {headers: postheaders}).then(function(res) {
+					console.log(res.data);
 					deferred.resolve(res.data);
 				}, function(res) {
 					console.log(res.data);

@@ -13,24 +13,36 @@ style for authentication-panel at homepage
 	text-align:center;
 	z-index:7;
 	background:rgba(224,240,252,0.97);
+	display:none;
+	
+	&.show-auth-add, &.show-auth {
+		display:block;
+	}
 	
 	.auth-box {
 		width:600px;
 		height: 100%;
-		margin:0 auto;
-		@include transition(all linear 0.4s);
-		
+		margin: 0 auto;
+		&.ng-hide-add, &.ng-hide-remove {
+			@include transition(all linear 0.3s);
+		}
 		&.ng-hide {
-			opacity:0;
-			@include scaleTransform(0.3,0.3);
+			@include scaleTransform(0.4,0.4);
 		}
 	}
 	
-	@include transition(all linear 0.2s);
+	&.ng-hide-add, &.ng-hide-remove {
+		@include transition(all linear 0.2s);
+	}
 	
 	&.ng-hide {
+		@include transition(all linear 0.2s);
 		opacity:0;
 	}
+	
+/* 	&.ng-hide { */
+/* 		opacity:0; */
+/* 	} */
 	
 	.exit-button {
 		width:60px;

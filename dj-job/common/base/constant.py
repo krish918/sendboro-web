@@ -16,5 +16,9 @@ class Const:
     #constants for polling server to challenge veri code
     VALID_CODE = 1
     INVALID_CODE = -2
+    RESOLVED_CODE = -3
     EMPTY_POLL = 3
     POLL_ERROR = -1
+    
+    #error for User class Hierarchy
+    INSTANCE_ERROR = -1

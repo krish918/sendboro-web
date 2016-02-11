@@ -20,6 +20,8 @@ urlpatterns = patterns('',
     
 )
 
+handler500 = 'sendboro.views.ServerError'
+
 #urlpatterns += patterns('',
 #        url(r'^content/(?P<path>.*)$', static.serve, 
 #            {'document_root': settings.MEDIA_ROOT}),

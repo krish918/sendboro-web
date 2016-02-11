@@ -619,28 +619,40 @@ style for authentication-panel at homepage
   text-align: center;
   z-index: 7;
   background: rgba(224, 240, 252, 0.97);
-  -webkit-transition: all linear 0.2s;
-  -moz-transition: all linear 0.2s;
-  -ms-transition: all linear 0.2s;
-  -o-transition: all linear 0.2s;
-  transition: all linear 0.2s; }
+  display: none;
+  /* 	&.ng-hide { */
+  /* 		opacity:0; */
+  /* 	} */ }
+  .auth-panel-container.show-auth-add, .auth-panel-container.show-auth {
+    display: block; }
   .auth-panel-container .auth-box {
     width: 600px;
     height: 100%;
-    margin: 0 auto;
-    -webkit-transition: all linear 0.4s;
-    -moz-transition: all linear 0.4s;
-    -ms-transition: all linear 0.4s;
-    -o-transition: all linear 0.4s;
-    transition: all linear 0.4s; }
+    margin: 0 auto; }
+    .auth-panel-container .auth-box.ng-hide-add, .auth-panel-container .auth-box.ng-hide-remove {
+      -webkit-transition: all linear 0.3s;
+      -moz-transition: all linear 0.3s;
+      -ms-transition: all linear 0.3s;
+      -o-transition: all linear 0.3s;
+      transition: all linear 0.3s; }
     .auth-panel-container .auth-box.ng-hide {
-      opacity: 0;
-      -ms-transform: scale(0.3, 0.3);
-      -webkit-transform: scale(0.3, 0.3);
-      -o-transform: scale(0.3, 0.3);
-      -moz-transform: scale(0.3, 0.3);
-      transform: scale(0.3, 0.3); }
+      -ms-transform: scale(0.4, 0.4);
+      -webkit-transform: scale(0.4, 0.4);
+      -o-transform: scale(0.4, 0.4);
+      -moz-transform: scale(0.4, 0.4);
+      transform: scale(0.4, 0.4); }
+  .auth-panel-container.ng-hide-add, .auth-panel-container.ng-hide-remove {
+    -webkit-transition: all linear 0.2s;
+    -moz-transition: all linear 0.2s;
+    -ms-transition: all linear 0.2s;
+    -o-transition: all linear 0.2s;
+    transition: all linear 0.2s; }
   .auth-panel-container.ng-hide {
+    -webkit-transition: all linear 0.2s;
+    -moz-transition: all linear 0.2s;
+    -ms-transition: all linear 0.2s;
+    -o-transition: all linear 0.2s;
+    transition: all linear 0.2s;
     opacity: 0; }
   .auth-panel-container .exit-button {
     width: 60px;

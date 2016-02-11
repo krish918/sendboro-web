@@ -6,33 +6,41 @@ from common.base.constant import Const
 import re
 
 class Account:
+           
+    def __init__(self, user):
+        if isinstance(user, Borouser) is False:
+            raise BoroException("Can't init Account instance", Const.INSTANCE_ERROR)
+        self.user = user
         
-    # Account object can be constructed even if identity of user is unknown     
-    def __init__(self, *args):
-        if len(args) != 0 and isinstance(args[0], Borouser):
-            self.user = args[0]
+    def Create(self):
+        self.user.Add()
         
-    def signup(self):
-        response = self.user.addraw()
-        response['success'] = True
-        return response
+    def Signin(self):
+        self.user.StartSession()
     
-    def signin(self, loginName):
-        response = self.user.attemptlogin()
+    def AttemptLogin(self, loginName):
+        self.user.SendVeriCode()
+        response = {'dialcode':self.user.dialcode,
+                         'phone':self.user.phone,
+                         'success':True,
+                         'return':True,
+                         }        
         if loginName is not None:
             response['uname'] = loginName
             #sending obfuscated phone number
             response['phone'] = re.sub(r'(?<=[0-9])[0-9](?=[0-9]{3,3})','*',str(response['phone']))
-        response['success'] = True 
         return response
     
-    def pollChallenge(self,hashid):
+    @staticmethod
+    def PollChallenge(hashid):
         try:
             hc = CodeHash.objects.get(id=hashid, challenge__gt=0)
             challenge = str(hc.challenge)
             orighash = hc.hash
-            givenhash = Borouser().createhash(challenge, (orighash.split('$')[1])[2:-1])
+            givenhash = Borouser.createhash(challenge, (orighash.split('$')[1])[2:-1])
             if givenhash == orighash:
+                hc.resolve_status = True
+                hc.save()
                 return Const.VALID_CODE
             else:
                 hc.challenge = 0
@@ -40,4 +48,4 @@ class Account:
                 return Const.INVALID_CODE
         except CodeHash.DoesNotExist:
             return Const.EMPTY_POLL
-            
+        

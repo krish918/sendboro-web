@@ -30,8 +30,8 @@
 		}])
 		
 		.controller('userPanelController', ['$scope','$timeout','$cookies',
-		                            '$window','$http', '$location','$metaboro',
-		    function($scope,$timeout,$cookies,$window,$http,$location,$metaboro) {
+		                            '$window','$http', '$location','$metaboro','$poll',
+		    function($scope,$timeout,$cookies,$window,$http,$location,$metaboro,$poll) {
 				
 				var metaboro = $metaboro.$$state.value;
 				this.userdata = metaboro.data;
@@ -58,8 +58,7 @@
 					var self = this;
 					
 					if (this.logoutClickCount === 1) {
-						this.logoutMsg = "You will recieve a new password after this."
-									   +" Click again to confirm logout.";
+						this.logoutMsg = "Click again to confirm logout.";
 						loPromise = $timeout(function (){
 							$scope.logoutMsgToggle = false;
 							self.logoutClickCount = 0;
@@ -81,16 +80,8 @@
 						},5000);
 					};
 					
-					$http({
-						url: '/logout',
-						method: 'POST',
-						data : 'cc='+encodeURIComponent(cc)+'&phone='+phone,
-						headers: {
-							'Content-Type': 'application/x-www-form-urlencoded',
-							'X-CSRFToken': $cookies.csrftoken
-						}
-					})
-					.success(function(res){
+					$poll.post('/logout',null)
+					.then(function(res){
 						if ('success' in res) {
 							$window.location.href = '/';
 						}
@@ -99,12 +90,10 @@
 							self.logoutMsg = "Sorry! There was an error.";
 							cleanup();
 						}
-					})
-					.error(function() {
+					}, function() {
 						self.logoutMsg = "Sorry! Server is not responding.";
 						cleanup();
-					})
-					;
+					});
 				};
 				
 				

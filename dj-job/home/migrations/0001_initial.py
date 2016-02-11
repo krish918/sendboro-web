@@ -8,14 +8,14 @@ import django_resized.forms
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('common', '0014_auto_20150403_0348'),
+        ('common', '0001_initial'),
     ]
 
     operations = [
         migrations.CreateModel(
             name='Picture',
             fields=[
-                ('picid', models.AutoField(primary_key=True, serialize=False, unique=True)),
+                ('picid', models.AutoField(unique=True, primary_key=True, serialize=False)),
                 ('large', models.ImageField(upload_to='photo/user/%Y/%m/%d')),
                 ('med', django_resized.forms.ResizedImageField(upload_to='photo/user/%Y/%m/%d')),
                 ('small', django_resized.forms.ResizedImageField(upload_to='photo/user/%Y/%m/%d')),

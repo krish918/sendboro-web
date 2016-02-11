@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Sendboro Code Acknowledgement</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="{% static 'style/css/generic.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'style/css/font-awesome.css' %}">
+	</head>
+	<body>
+		<div class="outer-container">
+			<div class="logo">
+				<img src="{% static 'resource/picture/boro-logo-xs.png' %}" alt="">
+			</div>
+			<div class="main-container">
+				<i class="fa fa-bug"></i>
+				<div class="quote">
+					 <div>
+						 To err is human; to be patient is user.
+					</div>
+				</div>
+				<div class="message">
+					<h3>Broken.</h3>
+					Something has went wrong.<br /> We are trying to fix.
+					<div class="footer-message">You may try again after few moments.</div>
+				</div>
+			</div>
+			<div class="footer">
+				Sendboro &copy; 2016
+			</div>
+		</div>
+	</body>
+</html>

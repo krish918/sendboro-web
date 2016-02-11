@@ -43,14 +43,6 @@ class LogoutView(View):
         self.data = {}
         try:
             Session.objects.filter(pk=int(request.session['session_id'])).update(active=False)
-            bu = Borouser(cc=request.POST['cc'],
-                          phone=request.POST['phone'],req=request)
-            hash = bu.createhash();
-            try:
-                bu.sendphrase()
-                User.objects.filter(pk=request.session['user_id']).update(phash=hash)
-            except:
-                pass
             request.session.clear()
             request.session['logout'] = True
             self.data['success'] = 1
@@ -59,6 +51,11 @@ class LogoutView(View):
             
         data_dump = simplejson.dumps(self.data)
         return HttpResponse(data_dump, content_type='application/json')
+    
+def ServerError(request):
+    response = render(request, '500.html')
+    response.status_code = 500
+    return response 
     
 
 @LoginRequired()    

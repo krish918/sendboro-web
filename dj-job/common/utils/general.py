@@ -11,7 +11,8 @@ class Helper:
         path = os.path.join("file/"+month+"/"+day+"/", new_name)
         return path
     
-    def getHostString(self,req):
+    @staticmethod
+    def getHostString(req):
         protocol = req.META.get("SERVER_PORT",False)
         if protocol == "443":
             hoststring = "https://"
@@ -125,18 +126,15 @@ class Time:
 
 class Random():
     # type: 1 for numeric; 2 for alphabets; 3 for alphanumeric; 4 for alphanumeric+extra
-    type = 1
-    nonce = None
-    min_num_char = None
-    max_num_char = None
-    
+    NUMERIC_CODE = 1
+
     def __init__(self,type,min,max):
         self.type = type
         self.min_num_char = min
         self.max_num_char = max
     
     def create(self):
-        if self.type==1:
+        if self.type== Random.NUMERIC_CODE:
             self.create_numeric()
         return self.nonce
         
@@ -147,9 +145,6 @@ class Random():
         self.nonce = random.randrange(range_bottom,range_top)
         
 class UserTrace():
-    ipaddress = None
-    uastring = None
-    request = None
     
     def __init__(self,req):
         self.request = req

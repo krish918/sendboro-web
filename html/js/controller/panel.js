@@ -37,7 +37,7 @@
 				return this.page === page;
 			};
 			
-			this.isAuthShown = function(panel) {
+			this.isAuthShown = function() {
 				return !this.hideAuthFlag;
 			}
 			
