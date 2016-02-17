@@ -3,7 +3,7 @@
 		.controller('authController', ['$scope','$timeout','$window','countries','$parse','$poll',
 		                                  function($scope,$timeout,$window,countries,$parse,$poll) {
 			
-			var TIMER_CONST = 30;
+			var TIMER_CONST = 10;
 			this.countryList = countries.fetch();
 			watchTimer();
 			$scope.focus = 0;
@@ -198,8 +198,8 @@
 				this.formSubmittable = false;
 				
 				var
-					phone = encodeURIComponent($scope.phone),
-					dialcode = encodeURIComponent($scope.dialCode),
+					phone = cachedPhone = encodeURIComponent($scope.phone),
+					dialcode = cachedDc = encodeURIComponent($scope.dialCode),
 					countrycode = encodeURIComponent($scope.countryCode),
 					data = 'crdntl='+phone+'&dc='+dialcode+'&cc='+countrycode;
 				
@@ -294,20 +294,16 @@
 			this.resendCode = function() {
 				if ($scope.resendTimer !== 0)
 					return;
-				
-				//a large value for timer show that no overlapping submission 
+				//a negative value for timer makes sure there's no re-submission 
 				// and this value won't be even watched by scope watcher
 				
 				$scope.resendTimer = -1;
-				var
-				phone = encodeURIComponent(this.authdata.phone)
-				dialcode = encodeURIComponent(this.authdata.dialcode),
-				data = 'ph='+phone+'&dc='+dialcode;
+				var data;
 				
 				if ('return' in this.authdata)
-					data += '&type=i&id='+this.authdata.userid;
+					data = 'type=i&id='+this.authdata.userid;
 				else
-					data += '&type=u';
+					data = 'type=u&dc='+self.authdata.dialcode+'&ph='+self.authdata.phone;
 				
 				$poll.post('authmod/resend', data)
 				

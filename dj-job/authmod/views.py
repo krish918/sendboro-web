@@ -34,6 +34,7 @@ class SignonView(View):
         return super(SignonView, self).dispatch(*args, **kwargs)
     
     def post(self, request, *args, **kwargs):
+        request.session.clear()
         self.dialcode = request.POST.get('dc',False)
         self.credential = request.POST.get('crdntl',False)
         self.countrycode = request.POST.get('cc',False)
@@ -44,6 +45,7 @@ class SignonView(View):
                registeredUser = Borouser.CreateWithUser(res)
                acc = Account(registeredUser)
                self.response = acc.AttemptLogin(self.uname)
+               request.session['fullphone'] = res.dialcode + str(res.phone)
                self.response['userid'] = res.userid
            else:
                unRegisteredUser = Rawuser.CreateWithPhone(self.dialcode, self.credential)
@@ -120,25 +122,26 @@ class ResendCodeView(View):
     def post(self, request, *args, **kwargs):
         self.phone = request.POST.get('ph',False)
         self.dialcode = request.POST.get('dc',False)
-        self.countrycode = request.POST.get('cc',False)
         self.uid = request.POST.get('id',False)
         
         try:
-            if len(self.phone) == 0 or len(self.dialcode) == 0:
-                raise Exception("Invalid data")
+            if self.phone is not False and self.dialcode is not False:
+                if len(self.phone) == 0 or len(self.dialcode) == 0:
+                    raise Exception("Invalid data")
             Usr.request = request
             if self.uid is not False:
-                bu = Borouser.CreateWithPhone(self.dialcode, self.phone)
+                if 'fullphone' in request.session:
+                    bu = Borouser(request.session['fullphone'])
                 bu.SendVeriCode()
             else:
-                ru = Rawuser(self.dialcode, self.phone)
+                ru = Rawuser.CreateWithPhone(self.dialcode, self.phone)
                 ru.SendVeriCode()
             self.response['success'] = True
         except Exception as e:
                 self.response = {
                                  'success': False,
                                  'errorcode': Const.AUTH_ERROR,
-                                 'message': e.__str__(),
+                                 'message': traceback.format_tb(e.__traceback__),
                                  }
                 
         dump = simplejson.dumps(self.response)

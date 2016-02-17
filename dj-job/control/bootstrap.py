@@ -1,4 +1,4 @@
-from common.models import User as U
+from common.models import User as Usermodel
 from authmod.models import RawUser, CodeHash
 from django.db.models import F
 from django.db import IntegrityError, transaction
@@ -28,13 +28,12 @@ class Rawuser(User):
              reattempt = True
         except:
              raise
-        
         self.SendVeriCode()
         
     def SendVeriCode(self):
         super(Rawuser,self).SendVeriCode()
         msg = "Hello! You tried signing up for Sendboro. Please use this code to proceed: "
-        msg += self.phrase.decode()+". "+self.linktext
+        msg += self.phrase+". "+self.linktext
         self.SendText(msg)
         
 
@@ -45,7 +44,7 @@ class Borouser(User):
     
     @method_decorator(transaction.atomic)   
     def Add(self):
-        self.user = U(dialcode=self.dialcode,phone=self.phone,countrycode=self.countrycode)
+        self.user = Usermodel(dialcode=self.dialcode,phone=self.phone,countrycode=self.countrycode)
         self.user.save()
         self.StartSession()
     
@@ -55,6 +54,6 @@ class Borouser(User):
         
     def SendVeriCode(self):
         super(Borouser,self).SendVeriCode()
-        msg = "Your Sendboro login code is: "+self.phrase.decode()+". "+self.linktext
+        msg = "Your Sendboro login code is: "+self.phrase+". "+self.linktext
         self.SendText(msg)
         

@@ -244,7 +244,7 @@ class Country(View):
         if ip:
             try:
                 geoip = GeoIP()
-                country['data'] = geoip.country("writale.com")
+                country['data'] = geoip.country("airtel.in")
                 country['success'] = True
             except TypeError:
                 pass

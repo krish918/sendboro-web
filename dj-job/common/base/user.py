@@ -63,15 +63,27 @@ class User(metaclass = ABCMeta):
     
     @abstractmethod
     def SendVeriCode(self):
+        if 'hashid' in User.request.session and 'phrase' in User.request.session:
+            self.ReuseVericode()
+        else:
+            self.GenerateVericode()
+    
+    def ReuseVericode(self):
+        self.phrase = User.request.session['phrase']
+        self.hashid = User.request.session['hashid']
+        self.prepareText()
+    
+    def GenerateVericode(self):
         generated_hash, self.phrase = User.createhash()
         trace = UserTrace(User.request)
         hash_entity = CodeHash(hash=generated_hash,requestagent=trace.getUastring(),requestip=trace.getIp())
         hash_entity.save()
-        hashid = hash_entity.id
-        if 'hashid' in User.request.session:
-            User.request.session['hashid'] = None
-        User.request.session['hashid'] = hashid
-        link = Helper.getHostString(User.request)+'/'+str(hashid)+'/'+self.phrase.decode()
+        User.request.session['hashid'] = self.hashid = hash_entity.id
+        User.request.session['phrase'] = self.phrase
+        self.prepareText()
+        
+    def prepareText(self):
+        link = Helper.getHostString(User.request)+'/'+str(self.hashid)+'/'+self.phrase
         self.linktext = "You may also tap on this link: "+link
             
     @staticmethod
@@ -93,7 +105,7 @@ class User(metaclass = ABCMeta):
         stored_hash = 's5$%s$%s' % (str(salt),str(hash))
         if len(args) > 0:
             return stored_hash
-        return stored_hash, phrase
+        return stored_hash, phrase.decode()
     
     def SendText(self, msg):
         #phrase decoded back to string
