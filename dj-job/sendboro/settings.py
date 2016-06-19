@@ -22,18 +22,33 @@ BASE_DIR = os.path.join(os.path.dirname(__file__) , '../..')
 SECRET_KEY = '#&!l7951^bj-p^30z0_lwl&up5hem+u%a_lrhkz6ev3a&c3$nm'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-TEMPLATE_DEBUG = True
-
-
-TEMPLATE_DIRS = (
-                 os.path.join(BASE_DIR, 'html'),
-                 )
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            os.path.join(BASE_DIR, 'html'),
+            os.path.join(BASE_DIR, 'media'),
+        ],
+        'APP_DIRS': True,
+        'DEBUG': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
 
 STATICFILES_DIRS = (
-                    os.path.join(BASE_DIR, 'html'),
-                    os.path.join(BASE_DIR, 'media'),
+                   
                     )
 
 ALLOWED_HOSTS = []
@@ -124,6 +139,7 @@ import dj_database_url
 DATABASES = {
         'default' : {
                   'ENGINE': 'django.db.backends.postgresql_psycopg2',
+                  'HOST': 'localhost',
                   'NAME': 'sendboro',                      
                   'USER': 'postgres',
                   'PASSWORD': 'gungun',

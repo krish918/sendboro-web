@@ -12,6 +12,7 @@ from django.db.utils import IntegrityError
 from file.models import Delivery,File,BlindDelivery
 from common.utils.general import Helper,Time,UserTrace
 from django.contrib.gis.geoip import GeoIP
+from django.views.decorators.csrf import csrf_protect
 
 
 class MetaUserView(View):
@@ -238,13 +239,15 @@ class VerifyView(View):
     
 class Country(View):
     
+    @method_decorator(csrf_protect)
     def get(self, request, *args, **kwargs):
+        header = request.META.get("HTTP_X_CSRFTOKEN");
         ip = UserTrace(request).getIp()
         country = {'success': False}
         if ip:
             try:
                 geoip = GeoIP()
-                country['data'] = geoip.country("airtel.in")
+                country['data'] = geoip.country("106.78.89.100")
                 country['success'] = True
             except TypeError:
                 pass

@@ -3,7 +3,13 @@
 		.controller('authController', ['$scope','$timeout','$window','countries','$parse','$poll',
 		                                  function($scope,$timeout,$window,countries,$parse,$poll) {
 			
-			var TIMER_CONST = 10;
+			var TIMER_CONST = 30,
+				POLL_ERROR = -1,
+				INVALID_CODE = -2,
+				VALID_CODE = 1,
+				EMPTY_POLL = 3,
+				RESOLVED_CODE = -3;
+			
 			this.countryList = countries.fetch();
 			watchTimer();
 			$scope.focus = 0;
@@ -64,6 +70,7 @@
 			(function() {
 				$poll.get('api/country')
 				.then(function(res){
+					console.log(res);
 					if(res.success === true) {
 						for(var obj of self.countryList) {
 							if(obj.code == res.data.country_code) {
@@ -178,7 +185,7 @@
 					this.error = 4;
 				} 
 				else if(!reAltCredential.test(sPhone) && 
-						(rePhone.test(sPhone) || sPhone.length < 3 || total_length_phone > 15)) {
+						(rePhone.test(sPhone) || sPhone.length < 4 || total_length_phone > 15)) {
 					this.error = 2;
 				}
 				else if (!reAltCredential.test(sPhone) && 
@@ -236,11 +243,11 @@
 				
 				.then(function(res) {
 					console.log(res);
-					if(res.status == false)
-						self.error = res.errorcode;
-					else if(res.status == 3)
+					if(res.status == POLL_ERROR || res.status == RESOLVED_CODE)
+						self.error = POLL_ERROR;
+					else if(res.status == EMPTY_POLL)
 						pollTimer = $timeout(initiateChallengePolling, 3000);
-					else if(res.status == -2) {
+					else if(res.status == INVALID_CODE) {
 						self.error = res.status;
 						resetCodeInputView();
 						$timeout.cancel(pollTimer);
@@ -254,7 +261,7 @@
 						}
 						pollTimer = $timeout(initiateChallengePolling, 3000);
 					}
-					else if(res.status == 1) {
+					else if(res.status == VALID_CODE) {
 						var idx, data = '';
 						for(idx=0; idx<5; idx++)
 							$scope.code[idx] = '#';

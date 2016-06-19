@@ -8,12 +8,13 @@ class User(models.Model):
     username = models.CharField(null=True, blank=False, max_length=16, default=None, unique=True)
     fullname = models.CharField(null=True, blank=False, max_length=255, default=None)
     account_ts = models.DateTimeField(auto_now_add=True)
-    update_ts = models.DateTimeField(auto_now=True, default=None)
+    update_ts = models.DateTimeField(auto_now=True)
     
-    unique_together = ("dialcode","phone")
+    class Meta:
+        unique_together = ("dialcode","phone")
     
     def __str__(self):
-        return self.userid
+        return "["+self.dialcode +","+ str(self.phone) +","+ self.countrycode+"]"
     
 class Session(models.Model):
     sessionid = models.AutoField(null=False, unique=True, primary_key=True)
@@ -22,7 +23,7 @@ class Session(models.Model):
     ipaddress = models.CharField(null=False, max_length=16)
     active = models.BooleanField(default=True, null=False)
     start_ts = models.DateTimeField(auto_now_add=True)
-    end_ts = models.DateTimeField(auto_now=True, default=None)
+    end_ts = models.DateTimeField(auto_now=True)
     
     def __str__(self):
         return self.sessionid

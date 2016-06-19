@@ -13,7 +13,7 @@ class RawUser(models.Model):
     
 class CodeHash(models.Model):
     hash = models.CharField(max_length=255, null=False, blank=False)
-    challenge = models.IntegerField(default=0, max_length=7, null=False,blank=False)
+    challenge = models.IntegerField(default=0, null=False,blank=False)
     responseagent = models.CharField(max_length=512, default=None, null=True, blank=False)
     requestip = models.CharField(null=True, default=None,blank=False, max_length=16)
     requestagent = models.CharField(max_length=512, default=None, null=True, blank=False)

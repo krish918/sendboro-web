@@ -1,20 +1,21 @@
-@import "vars";
-@import "mixins";
-@import "common";
-
+ 
 .logo {
-	margin: 40px auto;
+	margin: 90px auto;
 	margin-bottom: 10px;
 	text-align:center;
 }
 
  .upper-pb {
- 	margin-top:-80px;
+ 	position:absolute;
+ 	top: 230px;
+ 	width: 300px;
+ 	margin-left: -150px;
+ 	left: 50%;	
 	text-align: center;
 }
 
 .lower-pb {
-	margin:110px auto;
+	margin:100px auto;
 	margin-bottom: 40px;
 	text-align:center;
 	width:200px;
@@ -39,10 +40,9 @@
 }
 
 .wait-text {
-	font: normal 12pt/1.5 'sinkinsans','pigeosans',arial, sans-serif;
-	margin:120px auto;
+	font: normal 11pt/1.8 'sinkinsans','pigeosans',arial, sans-serif;
+	margin:60px auto;
 	margin-bottom:0;
 	width:400px;
 	text-align:center;
-	color: #507050;
 }

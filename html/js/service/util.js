@@ -3,6 +3,7 @@
 	angular.module('util')
 	
 	.factory('$poll', function($http,$q, $cookies){
+		console.log($cookies.csrftoken);
 		return {
 			get: function(api) {
 				var deferred = $q.defer(),

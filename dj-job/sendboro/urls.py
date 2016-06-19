@@ -3,7 +3,7 @@ from django.contrib import admin
 from sendboro import views,settings
 from django.views import static
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^$', views.index, name="index"),
     url(r'^team$', views.teamcontainer, name="team"),
     url(r'^partial/team$', views.team),
@@ -16,9 +16,8 @@ urlpatterns = patterns('',
     url(r'^', include('home.urls')),
     url(r'^', include('authmod.urls')),
     url(r'^api/', include('REST.urls')),
-    url(r'^file/', include('file.urls')),
-    
-)
+    url(r'^file/', include('file.urls')),   
+]
 
 #urlpatterns += patterns('',
 #        url(r'^content/(?P<path>.*)$', static.serve, 

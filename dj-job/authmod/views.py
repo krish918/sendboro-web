@@ -3,6 +3,7 @@ from django.http import HttpResponse, Http404
 from django.views.generic import View
 from django.views.decorators.http import require_POST
 from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt 
 from authmod.models import RawUser, CodeHash
 from django.db import IntegrityError, transaction
 from common.models import User
@@ -29,6 +30,7 @@ class SignonView(View):
         self.uname = None
         self.response = {}
     
+    @method_decorator(csrf_exempt)
     @method_decorator(require_POST)
     def dispatch(self, *args, **kwargs):
         return super(SignonView, self).dispatch(*args, **kwargs)
@@ -50,8 +52,11 @@ class SignonView(View):
            else:
                unRegisteredUser = Rawuser.CreateWithPhone(self.dialcode, self.credential)
                unRegisteredUser.Add()
-               self.response = {'dialcode':self.dialcode,'phone':self.credential,}
-               self.response['countrycode'] = self.countrycode
+               self.response = {'dialcode':self.dialcode,
+                                'phone':self.credential,
+                                'success':True,
+                                'countrycode': self.countrycode,}
+               self.response['userobj'] = res.get___name__()
                   
         except BoroException as e:
             self.response = {'success' : False, 'errorcode' : e.code }
@@ -71,6 +76,7 @@ class SignonView(View):
         patternAltCredent = r'[a-zA-Z]'
         patternDialCode = r'^\+[0-9]{1,8}$'
         patternPhone = r'[^0-9]'
+        patternRepeatedNum = r'^([\d])\1+$'
         
         if self.credential is False or self.dialcode is False or self.countrycode is False:
             raise BoroException("Invalid request.",Const.INVALID_REQUEST)
@@ -99,8 +105,10 @@ class SignonView(View):
         
         else:
             matchNotPhone = re.search(patternPhone, self.credential)
+            matchRepeatedNum = re.search(patternRepeatedNum, self.credential)
             fullPhone = self.dialcode + self.credential
-            if matchNotPhone or len(self.credential) == 0 or len(fullPhone) > 16:
+            if (matchNotPhone or len(self.credential) < 4 
+                        or matchRepeatedNum or len(fullPhone) > 16):
                 raise BoroException("", Const.INVALID_PHONE)
             try:
                 user = User.objects.get(phone=self.credential,dialcode=self.dialcode)
@@ -115,6 +123,7 @@ class ResendCodeView(View):
     def __init__(self):
         self.response = {}
     
+    @method_decorator(csrf_exempt)
     @method_decorator(require_POST)
     def dispatch(self, *args, **kwargs):
         return super(ResendCodeView, self).dispatch(*args, **kwargs)
@@ -132,7 +141,7 @@ class ResendCodeView(View):
             if self.uid is not False:
                 if 'fullphone' in request.session:
                     bu = Borouser(request.session['fullphone'])
-                bu.SendVeriCode()
+                    bu.SendVeriCode()
             else:
                 ru = Rawuser.CreateWithPhone(self.dialcode, self.phone)
                 ru.SendVeriCode()
@@ -157,9 +166,9 @@ class AcceptChallenge(View):
             curr_time = datetime.now().timestamp()
             while chall_resolved == Const.EMPTY_POLL and (datetime.now().timestamp() - curr_time) < 30:
                 chall_resolved = Account.PollChallenge(request.session['hashid'])
-            self.response = {'status': chall_resolved,'time':request.session['hashid'],}
+            self.response = {'status': chall_resolved,}
         except Exception as e:
-            self.response = {'status': False, 'error': e.__str__(), 'errorcode':Const.POLL_ERROR,}
+            self.response = {'status': Const.POLL_ERROR, 'error': traceback.format_tb(e.__traceback__),}
         dump = simplejson.dumps(self.response)
         return HttpResponse(dump, content_type='application/json')
                  
@@ -167,6 +176,10 @@ class AcceptChallenge(View):
 class InitChallenge(View):
     def __init__(self):
         self.response = {}
+    
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
+        return super(InitChallenge, self).dispatch(*args, **kwargs)
     
     def post(self, request, *args, **kwargs):
         try:
@@ -209,10 +222,13 @@ class InitChallenge(View):
             trace = UserTrace(getrequest)
             ch = CodeHash.objects.get(id=hashid)
             challengehash = Borouser.createhash(self.challenge, (ch.hash.split('$')[1])[2:-1])
-            if ch.resolve_status is True:
-                raise BoroException("CODE RESOLVED", Const.RESOLVED_CODE)
+        
             if challengehash != ch.hash:
                 raise BoroException("INVALID CODE", Const.INVALID_CODE)
+            
+            if ch.resolve_status is True:
+                raise BoroException("CODE RESOLVED", Const.RESOLVED_CODE)
+            
             ch.challenge = self.challenge
             ch.responseagent = trace.getUastring() 
             ch.save()
@@ -224,6 +240,9 @@ class Authenticate(View):
     def __init__(self):
         self.response = {}
     
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
+        return super(Authenticate, self).dispatch(*args, **kwargs)
     
     def post(self, request, *args, **kwargs):
         mode = request.POST.get('mode',False)
