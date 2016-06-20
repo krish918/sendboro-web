@@ -19,7 +19,7 @@ urlpatterns = [
     url(r'^file/', include('file.urls')),   
 ]
 
-#urlpatterns += patterns('',
-#        url(r'^content/(?P<path>.*)$', static.serve, 
-#            {'document_root': settings.MEDIA_ROOT}),
-#)
+urlpatterns += patterns('',
+        url(r'^content/(?P<path>.*)$', static.serve, 
+            {'document_root': settings.MEDIA_ROOT}),
+)

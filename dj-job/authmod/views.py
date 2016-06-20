@@ -56,7 +56,7 @@ class SignonView(View):
                                 'phone':self.credential,
                                 'success':True,
                                 'countrycode': self.countrycode,}
-               self.response['userobj'] = res.get___name__()
+               #self.response['userobj'] = res.get___name__()
                   
         except BoroException as e:
             self.response = {'success' : False, 'errorcode' : e.code }

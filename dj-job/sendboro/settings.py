@@ -22,17 +22,15 @@ BASE_DIR = os.path.join(os.path.dirname(__file__) , '../..')
 SECRET_KEY = '#&!l7951^bj-p^30z0_lwl&up5hem+u%a_lrhkz6ev3a&c3$nm'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'html'),
-            os.path.join(BASE_DIR, 'media'),
         ],
         'APP_DIRS': True,
-        'DEBUG': True,
         'OPTIONS': {
             'context_processors': [
                 'django.contrib.auth.context_processors.auth',
@@ -48,7 +46,8 @@ TEMPLATES = [
 ]
 
 STATICFILES_DIRS = (
-                   
+                   os.path.join(BASE_DIR, 'html'),
+                   os.path.join(BASE_DIR, 'media'),
                     )
 
 ALLOWED_HOSTS = []
@@ -120,7 +119,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 #static root is empty so that gunicorn doesn't serves static files
-STATIC_ROOT = ''
+STATIC_ROOT = os.path.join(BASE_DIR, 'html')
 
 STATIC_URL = '/static/'
 
