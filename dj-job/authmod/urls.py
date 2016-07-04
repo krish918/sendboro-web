@@ -1,8 +1,10 @@
 from django.conf.urls import url, patterns
-from authmod.views import SignupView, VerifyCodeView, SigninView
+from authmod.views import SignonView, ResendCodeView, AcceptChallenge, InitChallenge, Authenticate 
 
-urlpatterns = patterns('',
-        url(r'^signup$', SignupView.as_view(), name='signup'),
-        url(r'^verify$', VerifyCodeView.as_view(), name='verify'),
-        url(r'^signin$', SigninView.as_view(), name='signin'),
-)
+urlpatterns = [
+        url(r'^signon$', SignonView.as_view(), name='signon'),
+        url(r'^resend$', ResendCodeView.as_view()),
+        url(r'^challenge$', AcceptChallenge.as_view()),
+        url(r'^(?P<hashid>[1-9][0-9]*/)?(?P<code>[0-9]{5,5})$',InitChallenge.as_view()),
+        url(r'^authent$', Authenticate.as_view()),
+    ]

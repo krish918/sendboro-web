@@ -389,8 +389,15 @@
 		}
 		
 	}
-	
-	
+
+}
+
+@mixin translate($x,$y) {
+	-webkit-transform:translate($x,$y);
+	-ms-transform: translate($x,$y);
+	-o-transform: translate($x,$y);
+	-moz-transform: translate($x,$y);
+	transform: translate($x,$y);
 }
 
 @mixin apply-animate($opt) {
@@ -402,9 +409,9 @@
 }
 
 @mixin transform3d($deg:180deg, $dir: X) {
-	
+	-webkit-transform-style:flat;
 	@if $dir == X {
-		-webkit-transform: rotateX($deg);
+		-webkit-transform:rotateX($deg);
 		-moz-transform: rotateX($deg); 
 		-o-transform: rotateX($deg);
 		-ms-transform: rotateX($deg);
@@ -412,7 +419,7 @@
 	} 
 	
 	@else {
-			-webkit-transform: rotateY($deg);
+			-webkit-transform:rotateY($deg);
 			-moz-transform: rotateY($deg); 
 			-o-transform: rotateY($deg);
 			-ms-transform: rotateY($deg);
@@ -434,14 +441,14 @@
 		-o-transform: skewX($deg);
 		-ms-transform: skewX($deg);
 		-moz-transform: skewX($deg);
-		-webkit-transform: skewX($deg);
+		-webkit-transform:skewX($deg);
 		transform: skewX($deg);
 	}
 	@elseif $dir == Y {
 		-o-transform: skewY($deg);
 		-ms-transform: skewY($deg);
 		-moz-transform: skewY($deg);
-		-webkit-transform: skewY($deg);
+		-webkit-transform:skewY($deg);
 		transform: skewY($deg);
 	}
 }
@@ -463,7 +470,7 @@
 
 @mixin scaleTransform($factorX, $factorY) {
 	-ms-transform: scale($factorX, $factorY);
-	-webkit-transform: scale($factorX, $factorY);
+	-webkit-transform:scale($factorX, $factorY);
 	-o-transform: scale($factorX, $factorY);
 	-moz-transform: scale($factorX, $factorY);
 	transform: scale($factorX, $factorY);
@@ -476,4 +483,17 @@
 	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, $start), color-stop(1, $end));
 	background-image: -webkit-linear-gradient(top, $start 0%, $end 100%);
 	background-image: linear-gradient(to bottom, $start 0%, $end 100%);
+}
+
+@mixin flexDisplay ($flow, $justCont) {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	
+	-webkit-flex-flow: $flow;
+	flex-flow: $flow;
+	-webkit-justify-content: $justCont;
+	justify-content: $justCont;
 }

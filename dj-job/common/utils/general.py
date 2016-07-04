@@ -9,7 +9,20 @@ class Helper:
         rand_name = uuid.uuid4().hex;
         new_name = str(rand_name)+'.'+str(filename)
         path = os.path.join("file/"+month+"/"+day+"/", new_name)
-        return path 
+        return path
+    
+    @staticmethod
+    def getHostString(req):
+        protocol = req.META.get("SERVER_PORT",False)
+        if protocol == "443":
+            hoststring = "https://"
+        else:
+            hoststring = "http://"
+        host = req.META.get("HTTP_HOST", req.META.get("SERVER_NAME",False))
+        if host is False:
+            host = "sendboro.com"
+        hoststring += host
+        return hoststring 
     
     def getFormattedType(self,type, name, ext_req=False):
 
@@ -57,7 +70,6 @@ class Time:
                                                            t.tm_min,t.tm_sec)).total_seconds())
     
     def getDiff(self):
-        
         
         if self.diff/60 < 1:
             return str(self.diff)+' seconds ago'
@@ -114,18 +126,15 @@ class Time:
 
 class Random():
     # type: 1 for numeric; 2 for alphabets; 3 for alphanumeric; 4 for alphanumeric+extra
-    type = 1
-    nonce = None
-    min_num_char = None
-    max_num_char = None
-    
+    NUMERIC_CODE = 1
+
     def __init__(self,type,min,max):
         self.type = type
         self.min_num_char = min
         self.max_num_char = max
     
     def create(self):
-        if self.type==1:
+        if self.type== Random.NUMERIC_CODE:
             self.create_numeric()
         return self.nonce
         
@@ -136,9 +145,6 @@ class Random():
         self.nonce = random.randrange(range_bottom,range_top)
         
 class UserTrace():
-    ipaddress = None
-    uastring = None
-    request = None
     
     def __init__(self,req):
         self.request = req

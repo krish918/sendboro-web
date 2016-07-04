@@ -15,7 +15,6 @@ from django.template.defaultfilters import addslashes
 
 BASE_DIR = os.path.join(os.path.dirname(__file__) , '../..')
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
@@ -25,20 +24,35 @@ SECRET_KEY = '#&!l7951^bj-p^30z0_lwl&up5hem+u%a_lrhkz6ev3a&c3$nm'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-TEMPLATE_DEBUG = True
-
-
-TEMPLATE_DIRS = (
-                 os.path.join(BASE_DIR, 'html'),
-                 )
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            os.path.join(BASE_DIR, 'html'),
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
 
 STATICFILES_DIRS = (
-                    os.path.join(BASE_DIR, 'html'),
-                    os.path.join(BASE_DIR, 'media'),
+                   os.path.join(BASE_DIR, 'html'),
+                   os.path.join(BASE_DIR, 'media'),
                     )
 
 ALLOWED_HOSTS = []
 
+GEOIP_PATH = os.path.join(BASE_DIR, 'html/resource/utils')
 
 # Application definition
 
@@ -57,9 +71,11 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    #'django.middleware.cache.UpdateCacheMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.cache.FetchFromCacheMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -73,11 +89,12 @@ WSGI_APPLICATION = 'sendboro.wsgi.application'
 
 # cache settings for memcached
 
-CACHE = {
+CACHES = {
          'default' : {
-            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+            'BACKEND' : 'django.core.cache.backends.memcached.MemcachedCache',
             'LOCATION': '127.0.0.1:11211',
-         }
+         },
+         
 }
 
 # using a cached DB for session handling
@@ -101,7 +118,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
-STATIC_ROOT = ''
+#static root is empty so that gunicorn doesn't serves static files
+STATIC_ROOT = os.path.join(BASE_DIR, 'html')
 
 STATIC_URL = '/static/'
 
@@ -120,6 +138,7 @@ import dj_database_url
 DATABASES = {
         'default' : {
                   'ENGINE': 'django.db.backends.postgresql_psycopg2',
+                  'HOST': 'localhost',
                   'NAME': 'sendboro',                      
                   'USER': 'postgres',
                   'PASSWORD': 'gungun',

@@ -1,5 +1,5 @@
 from django.shortcuts import render, render_to_response
-from django.core.context_processors import csrf
+from django.template.context_processors import csrf
 from common.utils.decorator import InactiveSessionRequired
 
 @InactiveSessionRequired()
@@ -19,10 +19,13 @@ def team(request):
 def initView(request):
     return render(request, 'partial/init.html')
 
+def featurePanel(request):
+    #cookie = {}
+    #cookie.update(csrf(request))
+    return render(request, 'decorator/feature-panel.html')
+
 def authPanel(request):
-    cookie = {}
-    cookie.update(csrf(request))
-    return render_to_response('decorator/auth-panel.html',cookie)
+    return render(request, 'decorator/auth-panel.html')
 
 def authProblemPanel(request):
     return render(request, 'decorator/auth-problem-panel.html')

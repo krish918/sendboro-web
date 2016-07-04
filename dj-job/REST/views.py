@@ -10,7 +10,9 @@ from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.db import transaction
 from django.db.utils import IntegrityError
 from file.models import Delivery,File,BlindDelivery
-from common.utils.general import Helper,Time
+from common.utils.general import Helper,Time,UserTrace
+from django.contrib.gis.geoip import GeoIP
+from django.views.decorators.csrf import csrf_protect
 
 
 class MetaUserView(View):
@@ -29,7 +31,7 @@ class MetaUserView(View):
         try:
             uid = request.session['user_id']
             usr = User.objects.get(pk=uid)
-            fullphone = str(usr.countrycode)+str(usr.phone)
+            fullphone = str(usr.dialcode)+str(usr.phone)
         
             for key in User._meta.get_all_field_names():
                 if key != 'phash':
@@ -95,7 +97,7 @@ class MetaUserView(View):
                 sender_un = False
                 if sender.username is not None:
                     sender_un = sender.username
-                sender_phone = str(sender.countrycode)+str(sender.phone)
+                sender_phone = str(sender.dialcode)+str(sender.phone)
                         
                 if file.type:
                     file_type = Helper().getFormattedType(file.type,file.filename)
@@ -218,7 +220,7 @@ class VerifyView(View):
         elif re.search(rePhone, recipient):
             try:
                 user = User.objects.raw('''SELECT userid FROM (SELECT userid,
-                                 COALESCE(countrycode,'')||COALESCE(phone,0)
+                                 COALESCE(dialcode,'')||COALESCE(phone,0)
                                  AS fullphone FROM common_user) t1  WHERE
                                  fullphone = %s''', [recipient])
                 if len(list(user)) is 0:
@@ -234,4 +236,22 @@ class VerifyView(View):
                 
         data = simplejson.dumps(self.res)
         return HttpResponse(data, content_type='application/json')
+    
+class Country(View):
+    
+    @method_decorator(csrf_protect)
+    def get(self, request, *args, **kwargs):
+        header = request.META.get("HTTP_X_CSRFTOKEN");
+        ip = UserTrace(request).getIp()
+        country = {'success': False}
+        if ip:
+            try:
+                geoip = GeoIP()
+                country['data'] = geoip.country("106.78.89.100")
+                country['success'] = True
+            except TypeError:
+                pass
+        res = simplejson.dumps(country)
+        return HttpResponse(res, content_type='application/json')
+
         

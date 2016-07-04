@@ -1,304 +1,275 @@
-
 /*
 
 style for authentication-panel at homepage
 
 */
 
-%auth-box {
-	margin :auto;
-	text-align : center;
-	.head-text {
-		padding : 10px;
-		font : normal bold normal 22pt/1.5 'pigeosans', 'sinkinsans', arial, sans-serif;
-		color : black;
-				
-		.ultra {
-				font-size : 32pt;
-				color : #60d0d0;
-			}
-	   }
-			
-	   input {
-				margin	: 30px auto 20px auto;
-		 }
-}
-
-.auth-panel {
-	position : fixed;
+.auth-panel-container {
+	position:fixed;
 	top:0;
 	left:0;
-	padding : 10%;
-	width : 100%;
-	height : 100%;
-	z-index : 2;
-	font : normal 14pt/1 'pigeosans','sinkinsans', sans-serif;
-	@include translucent($degree: 0.9);
-	visibility: hidden;
-	.form-box {
+	width:100%;
+	height:100%;
+	text-align:center;
+	z-index:7;
+	background:rgba(224,240,252,0.97);
+	display:none;
+	
+	&.show-auth-add, &.show-auth {
+		display:block;
+	}
+	
+	.auth-box {
+		width:600px;
+		height: 100%;
 		margin: 0 auto;
-		width: 70%;
-		height : 350px;
-		min-width : 640px;
-		border-left : solid 20px #505050;
-		border-right : solid 20px #505050;
-		@include translucent($degree: 0.6);
-		
-		.signup-box {
- 			@extend %auth-box;
+		&.ng-hide-add, &.ng-hide-remove {
+			@include transition(all linear 0.3s);
 		}
-		
-		.signin-box {
-			@extend %auth-box;
-			input {
-				margin: 20px auto 10px auto;
-			}
-			input.pgo-phrase {
-				width :454px;
-			}
+		&.ng-hide {
+			@include scaleTransform(0.4,0.4);
 		}
-		
-		//adding animation to invalid input-boxes
-		
-		.invalid-input-1-add, .invalid-input-2-add {
-			@include shake-keyframes(10px);
-			@include apply-animate(shake 0.7s);
-			border-color:red;
-		}
-
-		.invalid-input-1, .invalid-input-2 {
-			border-color:red;
-		}
-		
 	}
 	
-}
-
-.area-code {
-	font-size : 14pt; 
-	margin-right : 8px;
-	background-color : $sweet-blue;
-	padding: 9px 8px;
-	@include radius(5px);
-	color : white;
-}
-
-.signup-hint {
-	font : normal 8pt/1 'sinkinsans','pigeosans',arial, sans-serif;
-}
-
-
-.auth-panel {
-	@include transition(all linear 0.3s);
-	
-	//just added due to false animation problem introduced by ngView  
-	&.visible {
-		visibility: visible;
+	&.ng-hide-add, &.ng-hide-remove {
+		@include transition(all linear 0.2s);
 	}
-	  
-	&.ng-hide{
+	
+	&.ng-hide {
+		@include transition(all linear 0.2s);
 		opacity:0;
-		width:0;
-		left:50%;
-	}
-}
-
-.form-box {
-	@include transition(all linear 0.6s);
-}
-
-.form-box.ng-hide {
-	opacity: 0;
-	width: 0;
-	@include transform3d(); 
-}
-
-
-.big-cross {
-	position: absolute;
-	top:20px;
-	font: normal 40pt/1 'sinkinsans', arial, sans-serif;
-	color: #505050;
-	padding:0;
-	&.left {
-		left : 30px;
 	}
 	
-	&.right {
-		right : 30px;
-	}
+/* 	&.ng-hide { */
+/* 		opacity:0; */
+/* 	} */
 	
-	.signup-form &, .signin-form &  {
-		input[type='reset'] {
-			color: transparent;
-			background:transparent;
-			padding:0;
-			margin:0;
-			border:none;
-		}
-	}
-	
-
-}
-
-.form-box .form-extra {
-	float:right;
-	font: normal 8pt/1 'sinkinsans','droidsans', sans-serif;
-	margin : -10px 20px 0 0;
-	a.auth-form-link {
-		color: darken($sweet-blue, 10);
-
-	}
-}
-
-//auth-problem-panel style
-
-.auth-problem-panel {
-	height: 450px;  
-	visibility: hidden;
-	
-	//just added due to false animation problem introduced by ngView
-	&.visible {
-			visibility: visible;
-	}
-	
-	.ap-head-panel {
-		text-align: center;
-		font-size : 14pt;
-		color: #efefef;	
+	.exit-button {
+		width:60px;
+		margin:90px auto;
+		margin-bottom:20px;
+		color: white;
+		font: normal 13pt/1 'BoroHero', arial, sans-serif;
+		@include radius(4px);
+		border: solid 1px #808080;
+		color: #808080;
+		padding:4px;
+		cursor:pointer;
 		
-		.small-cross {
-			
+		&:hover {
+			background: #808080;
+			color: white; 
 		}
 	}
 	
-	.ap-middle-panel {
-		height: 320px;
-		font: normal 11pt/1 'sinkinsans','pigeosans','droidsans', arial, sans-serif;
-		ul.auth-prob-list-container {
-			padding: 18px 25px;	
+	
+	.quote {
+		margin: 20px auto;
+		margin-bottom:10px;
+		padding:20px;
+		border-top: solid 1px #d0d0e0;
+		color: #4080d0;
+		font: normal 20pt/2.5 'BoroChunkFive', arial, sans-serif;
+		
+		.credit {
+			margin-top: 5px;
+			font-size:12pt;
+			font-style: italic;
+		}
+	}
+	
+	.description {
+		font: normal 15pt/1.4 'BoroHero', arial, sans-serif;
+		width:400px;
+		margin: auto;
+		color:#606070;
+	}
+	
+	.signon-form {
+		margin:15px auto;
+		width:400px;
+		font: normal 14pt/1.6 'BoroHero', arial, sans-serif;
+		text-align:center;
+		
+		.country-list {
+			width:100%;
+			color: #606060;
+			background: lighten($sweet-blue,20);
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			@include radius(0);
+			padding:10px;
+			text-align: left;
+			color:white;
+			cursor: pointer;
+			font-size:13pt;
 		}
 		
-		li {
-			padding: 15px;
-			list-style: none;
-			cursor:pointer;
-			border: solid 1px transparent;
-			&:hover {
-				font-weight: bold;
-				background: lighten($sweet-blue,23);
-				@include radius(3px);
-				border: solid 1px lighten($sweet-blue, 11);
+		input {
+			padding: 10px;
+			margin-top:10px;
+			font: normal 14pt/1.6 'BoroHero', arial, sans-serif;
+			color: #404060;
+			&.dialcode-list {
+				width: 55px;
+				color: #0890f0;
 			}
 			
-			&.selected {
-				font-weight: bold;
-				color: darken($sweet-blue,20);
+			&.phone-num {
+				width: 298px;
 			}
 		}
-		
-		.glyphicon-ok-sign {
-			margin-right:4px;
-			@include transition(all linear 0.1s);
-				&.ng-hide {
-					font-size:0;
-				}
+	}
+	
+	button {
+			display: block;
+			background: none;
+			padding:10px;
+			padding-bottom:0;
+			line-height:1;
+			margin:10px auto;
+			font-size: 32pt;
+			color: $sweet-blue;
+			cursor: pointer;
+			@include transition(all linear 0.3s);
+			
+			&.hide-button {
+				opacity:0;
+				@include translate(200px,0);
 			}
+		}
+	
+	.error-disp {
+		font: normal 11pt/1.5 'BoroHero', arial, sans-serif;
+		color: $my-red;
+		padding:10px;
+		border-right: solid 4px lighten($my-red, 20);
+		background: lighten($my-red, 44);
+		margin-top: -60px;
 		
-		@include transition(all linear 0.4s);
+		@include transition(all linear 0.2s);
 		
 		&.ng-hide {
-			margin-left:-100px;
+			opacity:0;
+			@include translate(-200px, 0);
+		} 
+	}
+	
+	.auth-loader {
+		margin-top: -53px;
+		
+		@include transition(all linear 0.3s);
+		
+		&.ng-hide {
+			opacity:0;
+			@include scaleTransform(0.2, 0.2);		
+		}
+	}
+}
+
+.code-verify-scene {
+	.quote {
+		font-size: 16pt;
+		
+		.credit {
+			font-size: 11pt;	
+		}
+	}
+	
+	input.code-quantum-inpt {
+		margin:15px 5px;
+		margin-bottom: 10px;
+		width:50px;
+		@include vertCenter(50px);
+		background: white;
+		font: normal 16pt/1 'BoroChunkFive', 'BoroHero', arial, sans-serif;
+		text-align:center;
+		color: $sweet-blue;
+		@include radius(40px);
+		border: solid 1px lighten($sweet-blue,30);
+	}
+	
+	button {
+		color: lighten(#8f90cf,3);
+		margin-top: 4px;
+		
+		@include transition(all linear 0.2s);
+		
+		&.ng-hide {
+			opacity:0;
+			@include scaleTransform(0.4,0.4);
+		}
+	}
+	
+	.error-disp {
+		margin-top: 15px;
+	}
+	
+	.auth-loader {
+		margin-top: 10px;
+	}
+}
+
+.scene {
+	@include transition(all linear 0.3s);
+	&.credential-scene.ng-hide {
+		opacity:0;
+		@include scaleTransform(0.4,0.4);
+	}
+	&.code-verify-scene.ng-hide {
+		opacity:0;
+		@include scaleTransform(0.4,0.4);
+	}
+}
+
+.resend-code {
+	font-size: 10pt;
+	height:15px;
+	
+	.timer {
+		min-width:17px;
+		text-align:center;
+		margin:0;
+		padding:0;
+	}
+	
+	.resend-button {
+		text-align:center;
+		background: #b0b0b0;
+		padding:3px;
+		@include radius(3px);
+		color:white;
+		
+		&.active {
+			background: lighten($sweet-blue,20);
+			cursor: pointer;
+		}
+		&.wait {
+			background: lighten($rumy-green,20);
+			cursor: pointer;
+		}
+	}
+	
+	.resendtext {
+		max-width:150px;
+		max-height:15px;
+		overflow:hidden;
+		&.ng-hide-add, &.ng-hide-remove {
+			@include transition(all linear 0.2s);
 		}
 		
-	}
-	
-	.ap-lower-panel {
-
-		.pgo-button {
-			float:right;
-			margin:13px 25px;
+		&.ng-hide {
+			max-width:0;
+			opacity:0;
 		}
 	}
-
+	
 	@include transition(all linear 0.2s);
-		
 	&.ng-hide {
-		height:0;
-		top:50%;
-		@include transform3d(180deg,Y);	
+		opacity:0;
+		@include scaleTransform(0.4,0.4);
 	}
 	
-}
-
-.success-report {
-	top: 15%;
-	z-index:4;
-	text-align:center;
-	@include transition(all linear 0.2s);
-	.phone-verify-middle {
-		font: normal 12pt/1.8 'sinkinsans','pigeosans';
-		padding: 30px 70px;
-		input.veri-code {
-			margin: 30px 0;
-		}
-		@include transition(all linear 0.2s);		
-		
-	}
-	.phone-verify-lower .pgo-button.medsize {
-			float:right;
-			margin:13px 25px;
-		}
-
-}
-
-.success-report.ng-hide {
-	width :0;
-	margin-left:0;
-}
-
-.phone-verify-middle.ng-hide {
-	height : 0;
-}
-
-div.dialog-middle.phone-verify-middle.takinghome {
-	@include transition(all linear 0.2s);
+}	
 	
-	&.ng-hide {
-		height : 0; 
-		@include transform3d(180deg,X);
-	}
-	
-	
-	img.loader {
-		margin : 35px auto;
-	}
-}
-
-div.dialog-middle.phone-verify-middle.codeprobe-panel {
-	@include transition(all linear 0.4s);
-	
-	&.ng-hide {
-		width : 0;
-		@include transform3d(180deg, Y);
-	}
-}
-
-
-.view-transit {
-	&.ng-enter  {
-			@include transition(all linear 0.5s);
-			opacity : 0;
-			
-		}
-		&.ng-enter.ng-enter-active {
-				opacity: 1;
-			}
-
-}
-
-.signin-box {
-	.head-text {
-		margin:40px auto 10px auto;	
-	}
-}

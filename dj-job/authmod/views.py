@@ -1,14 +1,15 @@
-from django.http import HttpResponse
+from django.shortcuts import render
+from django.http import HttpResponse, Http404
 from django.views.generic import View
 from django.views.decorators.http import require_POST
 from django.utils.decorators import method_decorator
-from authmod.models import RawUser
+from django.views.decorators.csrf import csrf_exempt 
+from authmod.models import RawUser, CodeHash
 from django.db import IntegrityError, transaction
-from django.db.models import F
 from common.models import User
-from common.sms import TextMessage
 from common.utils.general import Random, UserTrace
-from control.bootstrap import Borouser
+from control.bootstrap import Borouser, Rawuser
+from common.base.user import User as Usr
 from common.models import User, Session
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 try:    
@@ -16,156 +17,268 @@ try:
 except:
     import simplejson
 import re, sys, traceback
+from common.base.boroexception import BoroException
+from datetime import datetime
+from common.base.constant import Const
+from common.base.account import Account
+from ua_parser import user_agent_parser as uap
+from django.contrib.gis.geoip import GeoIP
 
-class SigninView(View):
+class SignonView(View):
     
+    def __init__(self):
+        self.uname = None
+        self.response = {}
+    
+    @method_decorator(csrf_exempt)
     @method_decorator(require_POST)
     def dispatch(self, *args, **kwargs):
-        return super(SigninView, self).dispatch(*args, **kwargs)
+        return super(SignonView, self).dispatch(*args, **kwargs)
     
     def post(self, request, *args, **kwargs):
-        self.phone = request.POST['phone']
-        self.ac = request.POST['ac']
-        self.code = request.POST['code']
-        self.data = {}
-        
+        request.session.clear()
+        self.dialcode = request.POST.get('dc',False)
+        self.credential = request.POST.get('crdntl',False)
+        self.countrycode = request.POST.get('cc',False)
         try:
-            usr = User.objects.get(phone=self.phone,countrycode=self.ac)
-            hash = usr.phash
-            salt = (hash.split('$')[1])[2:-1]
-            givenhash = Borouser().createhash(self.code,salt)
-            if hash == givenhash:
-                trace = UserTrace(request)
-                ip = trace.getIp()
-                ua = trace.getUastring()
-                
-                sess = usr.session_set.create(uastring=ua, ipaddress=ip)
-                sid = sess.sessionid
-        
-                # claro viejo session
-                request.session.clear()
-        
-                #setting session objects
-                request.session['user_id'] = usr.userid
-                request.session['session_id'] = sid
-                
-                self.data['success'] = 1
-                
-            else:
-                self.data['error'] = 2
-                 
-        except ObjectDoesNotExist:
-            self.data['error'] = 1
-        except:
-            self.data['error'] = traceback.format_exc()
+           res = self.validateInput()
+           Usr.request = request
+           if isinstance(res, User):
+               registeredUser = Borouser.CreateWithUser(res)
+               acc = Account(registeredUser)
+               self.response = acc.AttemptLogin(self.uname)
+               request.session['fullphone'] = res.dialcode + str(res.phone)
+               self.response['userid'] = res.userid
+           else:
+               unRegisteredUser = Rawuser.CreateWithPhone(self.dialcode, self.credential)
+               unRegisteredUser.Add()
+               self.response = {'dialcode':self.dialcode,
+                                'phone':self.credential,
+                                'success':True,
+                                'countrycode': self.countrycode,}
+               #self.response['userobj'] = res.get___name__()
+                  
+        except BoroException as e:
+            self.response = {'success' : False, 'errorcode' : e.code }
+        except Exception as e:
+            self.response = { 'success' : False,
+                              'errorcode' : Const.AUTH_ERROR,
+                              'tb' : traceback.format_tb(e.__traceback__),
+                              'msg':e.__str__(),
+                              }
             
-        dump = simplejson.dumps(self.data)
-        return HttpResponse(dump, content_type="application/json")
+        dump = simplejson.dumps(self.response)
+        return HttpResponse(dump, content_type='application/json')
+    
+    def validateInput(self):
         
-class SignupView(View):
-    
-    data_dump = {}
-    phone = None
-    areacode = None
-    code = None
-    
-    @method_decorator(require_POST)
-    def dispatch(self, *args, **kwargs):
-        return super(SignupView, self).dispatch(*args, **kwargs)
-    
-    def post(self, request, *args, **kwargs):
-        self.data_dump = {}
-        self.code = None
-        pattern_ph = r'^\d{10,15}$'
-        pattern_ac = r'^\+\d{1,3}$'
-        self.phone = request.POST['phone']
-        self.areacode = request.POST['ac']
-        match_ph = re.search(pattern_ph, self.phone)
-        match_ac = re.search(pattern_ac, self.areacode)
- 
-        if match_ph and match_ac:
+        patternUserName = r'^[a-zA-Z][a-zA-Z0-9\.]+$'
+        patternAltCredent = r'[a-zA-Z]'
+        patternDialCode = r'^\+[0-9]{1,8}$'
+        patternPhone = r'[^0-9]'
+        patternRepeatedNum = r'^([\d])\1+$'
+        
+        if self.credential is False or self.dialcode is False or self.countrycode is False:
+            raise BoroException("Invalid request.",Const.INVALID_REQUEST)
+        
+        self.credential = self.credential.strip().replace(' ','')
+        self.dialcode = self.dialcode.strip().replace(' ','')
+        self.countrycode = self.countrycode.strip()
+                
+        matchAltCredent = re.search(patternAltCredent, self.credential)
+        matchUserName = re.search(patternUserName, self.credential)
+        matchDialCode = re.search(patternDialCode, self.dialcode)
+        
+        if matchAltCredent and matchUserName:
             try:
-                check_exist = User.objects.get(countrycode=self.areacode, phone=self.phone)
-                
-                #user already registered
-                self.data_dump['error'] = 3
+                user = User.objects.get(username=self.credential)
+                self.uname = self.credential
+                return user
             except:
-                #add user as he/she seems fresh
-                self.addRawUser(request) 
-        else:
-            self.data_dump['error'] = 2  #validation error
-        
-        #prepare json dump for API response
-        data = simplejson.dumps(self.data_dump)
-        return HttpResponse(data, content_type='application/json')
-    
-    def addRawUser(self,request):
-        try:
-            full_phone = self.areacode + self.phone
-            self.code = Random(1, 4, 4).create()
-            trace = UserTrace(request)
-            ip = trace.getIp()
-            ua = trace.getUastring()
-            ph = RawUser(phone_no=full_phone, vericode=self.code,
-                             ipaddress=ip, uastring=ua)
-            ph.save()
-            self.data_dump['success'] = 1  #fresh user
-        except IntegrityError:
-             RawUser.objects.filter(phone_no=full_phone).update(vericode=self.code,
-                                                                 attempt=F('attempt')+1)
-             self.data_dump['success'] = 2  #overwritten request
-        except:
-             self.data_dump['error'] = 1  # unknown error
-        
-        if 'success' in self.data_dump:
-            self.sendCode(full_phone)
-            self.data_dump['phone'] = self.phone
-            self.data_dump['areacode'] = self.areacode
+                raise BoroException("",Const.USERNAME_NOTEXIST)
             
+        elif matchAltCredent and not matchUserName:
+            raise BoroException("", Const.INVALID_USERNAME)
+        
+        elif not matchDialCode or len(self.countrycode) == 0:
+            raise BoroException("",Const.INVALID_DIALCODE)
+        
+        else:
+            matchNotPhone = re.search(patternPhone, self.credential)
+            matchRepeatedNum = re.search(patternRepeatedNum, self.credential)
+            fullPhone = self.dialcode + self.credential
+            if (matchNotPhone or len(self.credential) < 4 
+                        or matchRepeatedNum or len(fullPhone) > 16):
+                raise BoroException("", Const.INVALID_PHONE)
+            try:
+                user = User.objects.get(phone=self.credential,dialcode=self.dialcode)
+                return user
+            except:
+                pass
+            
+        return True
     
-    def sendCode(self, full_phone):
-        text = "Your sendboro phone verification code is " + str(self.code) + "."
-        sms = TextMessage(text, full_phone)
-        sms.send()
-        
-        
-class VerifyCodeView(View):
-    code = None
-    areacode = None
-    phone = None
-
+class ResendCodeView(View):
+    
+    def __init__(self):
+        self.response = {}
+    
+    @method_decorator(csrf_exempt)
     @method_decorator(require_POST)
     def dispatch(self, *args, **kwargs):
-        return super(VerifyCodeView, self).dispatch(*args, **kwargs)
+        return super(ResendCodeView, self).dispatch(*args, **kwargs)
     
     def post(self, request, *args, **kwargs):
-        datadump = {}
-        self.code = request.POST['code']
-        self.areacode = request.POST['ac']
-        self.phone = request.POST['ph']
-        full_phone = self.areacode + self.phone
+        self.phone = request.POST.get('ph',False)
+        self.dialcode = request.POST.get('dc',False)
+        self.uid = request.POST.get('id',False)
         
         try:
-            get_rawuser = RawUser.objects.get(phone_no=full_phone, vericode=self.code)
+            if self.phone is not False and self.dialcode is not False:
+                if len(self.phone) == 0 or len(self.dialcode) == 0:
+                    raise Exception("Invalid data")
+            Usr.request = request
+            if self.uid is not False:
+                if 'fullphone' in request.session:
+                    bu = Borouser(request.session['fullphone'])
+                    bu.SendVeriCode()
+            else:
+                ru = Rawuser.CreateWithPhone(self.dialcode, self.phone)
+                ru.SendVeriCode()
+            self.response['success'] = True
+        except Exception as e:
+                self.response = {
+                                 'success': False,
+                                 'errorcode': Const.AUTH_ERROR,
+                                 'message': traceback.format_tb(e.__traceback__),
+                                 }
+                
+        dump = simplejson.dumps(self.response)
+        return HttpResponse(dump, content_type='application/json')
             
-            #sending request as parameter to initialize session handling
-            self.createacc(request)
-            
-            datadump['success'] = 1
-        except ObjectDoesNotExist:
-            datadump['error'] = 1
-        except MultipleObjectsReturned:
-            datadump['error'] = 2
-        except:
-            datadump['error'] = 3
+class AcceptChallenge(View):
+    def __init__(self):
+        self.response = {}
         
-        data = simplejson.dumps(datadump)
-        return HttpResponse(data, content_type='application/json')
-        
-    def createacc(self,request):
+    def get(self, request, *args, **kwargs):
         try:
-            bu = Borouser(cc=self.areacode, phone=self.phone, req=request)
-            bu.create()
-        except:
-            raise
+            chall_resolved = Const.EMPTY_POLL
+            curr_time = datetime.now().timestamp()
+            while chall_resolved == Const.EMPTY_POLL and (datetime.now().timestamp() - curr_time) < 30:
+                chall_resolved = Account.PollChallenge(request.session['hashid'])
+            self.response = {'status': chall_resolved,}
+        except Exception as e:
+            self.response = {'status': Const.POLL_ERROR, 'error': traceback.format_tb(e.__traceback__),}
+        dump = simplejson.dumps(self.response)
+        return HttpResponse(dump, content_type='application/json')
+                 
         
+class InitChallenge(View):
+    def __init__(self):
+        self.response = {}
+    
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
+        return super(InitChallenge, self).dispatch(*args, **kwargs)
+    
+    def post(self, request, *args, **kwargs):
+        try:
+            if kwargs['code'] is None or 'hashid' not in request.session:
+                raise BoroException('No hashid or challenge found.', Const.AUTH_ERROR)
+            self.challenge = kwargs['code']
+            self.updateChallenge(request.session['hashid'], False)
+            self.response['success'] = True
+        except Exception as e:
+            self.response = {'success': False, 'message':e.__str__(), 'errorcode':Const.AUTH_ERROR,}
+        
+        dump = simplejson.dumps(self.response)
+        return HttpResponse(dump, content_type="application/json")
+    
+    def get(self, request, *args, **kwargs):
+        if kwargs['hashid'] is None or kwargs['code'] is None:
+            raise Http404()
+        self.challenge = kwargs['code']
+        hashid = kwargs['hashid'][:-1]
+        try:
+            self.updateChallenge(hashid, request)
+            self.response['success'] = True
+        except CodeHash.DoesNotExist:
+            raise Http404()
+        except BoroException as e:
+            if e.code == Const.INVALID_CODE:
+                raise Http404()
+            else:
+                self.response['expired'] = True
+        except Exception as e:
+            #self.response['message'] = e.__str__()
+            #self.response['success'] = False
+            raise e
+            
+        return render(request, 'decorator/codeacknowledge.html', self.response)
+        
+        
+    def updateChallenge(self,hashid, getrequest):
+        if getrequest is not False:
+            trace = UserTrace(getrequest)
+            ch = CodeHash.objects.get(id=hashid)
+            challengehash = Borouser.createhash(self.challenge, (ch.hash.split('$')[1])[2:-1])
+        
+            if challengehash != ch.hash:
+                raise BoroException("INVALID CODE", Const.INVALID_CODE)
+            
+            if ch.resolve_status is True:
+                raise BoroException("CODE RESOLVED", Const.RESOLVED_CODE)
+            
+            ch.challenge = self.challenge
+            ch.responseagent = trace.getUastring() 
+            ch.save()
+        else:
+            CodeHash.objects.filter(id=hashid,resolve_status=False).update(challenge=self.challenge)
+            
+class Authenticate(View):
+    
+    def __init__(self):
+        self.response = {}
+    
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
+        return super(Authenticate, self).dispatch(*args, **kwargs)
+    
+    def post(self, request, *args, **kwargs):
+        mode = request.POST.get('mode',False)
+        try:
+            if mode is False:
+                raise BoroException("INVALID REQUEST", Const.AUTH_ERROR)
+            if mode == 'i':
+                self.userid = request.POST.get('uid', False)
+                self.authoriseReturn(request)
+            elif mode == 'u':
+                self.dialcode = request.POST.get('dc', False)
+                self.phone = request.POST.get('ph', False)
+                self.countrycode = request.POST.get('cc', False)
+                self.authoriseRawUser(request)
+            self.response['success'] = True
+        except Exception as e:
+            self.response = {'success':False, 'message':e.__str__(), 'errorcode':Const.AUTH_ERROR}
+            
+        dump = simplejson.dumps(self.response)
+        return HttpResponse(dump, content_type="application/json")
+    
+    def authoriseReturn(self, req):
+        if self.userid is False:
+            raise BoroException("INVALID REQUEST", CONST.AUTH_ERROR)
+        user = User.objects.get(userid=self.userid)
+        Usr.request = req
+        bu = Borouser.CreateWithUser(user)
+        acc = Account(bu)
+        acc.Signin()
+        
+    def authoriseRawUser(self, req):
+        if self.phone is False or self.dialcode is False or self.countrycode is False:
+            raise BoroException("INVALID REQUEST", CONST.AUTH_ERROR)
+        Usr.request = req
+        bu = Borouser.CreateWithFullCredential(self.dialcode, self.phone, self.countrycode)
+        acc = Account(bu)
+        acc.Create()
+        
+    

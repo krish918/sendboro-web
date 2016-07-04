@@ -11,7 +11,7 @@ from django.utils.encoding import smart_text, smart_bytes
 import simplejson, traceback
 from common.utils.general import Helper
 from common.sms import TextMessage
-from django.core.servers.basehttp import FileWrapper
+from wsgiref.util import FileWrapper
 from django.db import connection
 from django.core.urlresolvers import resolve, Resolver404
 from urllib.parse import urlparse
@@ -59,7 +59,7 @@ class PushView(View):
                 if self.blind is False:
                     receiver = User.objects.get(pk=self.recipient)
                     d = Delivery.objects.create(file=f, user=receiver)
-                    target_phone = str(str(receiver.countrycode)+str(receiver.phone))
+                    target_phone = str(str(receiver.dialcode)+str(receiver.phone))
                 else:
                     d = BlindDelivery.objects.create(file=f,phone=self.recipient)
                     target_phone = self.recipient
@@ -67,7 +67,7 @@ class PushView(View):
                 if u.username:
                     self.sender = str(u.username)
                 else:
-                    self.sender = str(u.countrycode)+str(u.phone)
+                    self.sender = str(u.dialcode)+str(u.phone)
                     
                 self.sendsms(target_phone,f.fileid,f.path.url);
                 
