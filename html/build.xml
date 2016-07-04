@@ -4,7 +4,7 @@
 		<os family="unix" />
 	</condition>
 	
-	<condition property="exec_file" value="C:\Ruby200-x64\bin\sass.bat">
+	<condition property="exec_file" value="D:\Tools\Ruby200-x64\bin\sass.bat">
 			<os family="windows" />
 	</condition>
 	
