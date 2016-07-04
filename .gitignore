@@ -1,3 +1,4 @@
+/html/.sass-cache
 /.sass-cache
 .project
 .pydevproject
@@ -5,6 +6,4 @@
 /.externalToolBuilders
 *.pyc
 /media/*
-/html/.sass-cache
-/html/style/css/*.map
-*/migrations
+*.map
