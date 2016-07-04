@@ -589,7 +589,7 @@ input[type=number] {
 
 body {
   background: #FFFFEF;
-  background: url("http://localhost:8080/static/resource/pattern/ignasi_pattern_s.png"); }
+  background: url("http://boro.ngrok.io/static/resource/pattern/ignasi_pattern_s.png"); }
 
 .outer-container {
   margin: 0 10%;

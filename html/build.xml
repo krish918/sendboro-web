@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project basedir="." default="">
 	
-	<property name="exec_file" value="sass" />
-	<property name="sass.dir" value="style/sass" />
-	<property name="fa-sass.dir" value="style/sass/fa-scss" />
-	<property name="css.dir" value="style/css" />
+	<property name="exec_file" value="/usr/local/bin/sass" />
+	<property name="sass.dir" value="./style/sass" />
+	<property name="fa-sass.dir" value="./style/sass/fa-scss" />
+	<property name="css.dir" value="./style/css" />
 
-    <target name="sass.compile">
+    <target name="sass.interpreter">
         <apply executable="${exec_file}" dest="${css.dir}" verbose="true" force="true" failonerror="true">
         	<arg value="--unix-newlines" />
         	
