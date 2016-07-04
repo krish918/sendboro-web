@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project basedir="." default="">
+	<condition property="exec_file" value="/usr/local/bin/sass">
+		<os family="unix" />
+	</condition>
 	
-	<property name="exec_file" value="sass" />
+	<condition property="exec_file" value="C:\Ruby200-x64\bin\sass.bat">
+			<os family="windows" />
+	</condition>
+	
 	<property name="sass.dir" value="style/sass" />
 	<property name="css.dir" value="style/css" />
 
-    <target name="sass.compile">
+    <target name="sass.interpreter">
         <apply executable="${exec_file}" dest="${css.dir}" verbose="true" force="true" failonerror="true">
         	<arg value="--unix-newlines" />
         	
