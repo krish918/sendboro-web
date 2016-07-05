@@ -22,7 +22,6 @@ from datetime import datetime
 from common.base.constant import Const
 from common.base.account import Account
 from ua_parser import user_agent_parser as uap
-from django.contrib.gis.geoip import GeoIP
 
 class SignonView(View):
     

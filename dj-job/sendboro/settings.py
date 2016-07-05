@@ -13,7 +13,7 @@ import os, socket
 from django.conf.global_settings import STATIC_ROOT, SESSION_ENGINE
 from django.template.defaultfilters import addslashes
 
-BASE_DIR = os.path.join(os.path.dirname(__file__) , '../..')
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__) , '../..'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
@@ -52,7 +52,7 @@ STATICFILES_DIRS = (
 
 ALLOWED_HOSTS = []
 
-GEOIP_PATH = os.path.join(BASE_DIR, 'html/resource/utils')
+GEOIP_PATH = os.path.abspath(os.path.join(BASE_DIR, 'html/resource/utils'))
 
 # Application definition
 

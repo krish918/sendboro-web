@@ -11,8 +11,14 @@ from django.db import transaction
 from django.db.utils import IntegrityError
 from file.models import Delivery,File,BlindDelivery
 from common.utils.general import Helper,Time,UserTrace
-from django.contrib.gis.geoip import GeoIP
 from django.views.decorators.csrf import csrf_protect
+import traceback, platform, os
+from sendboro.settings import GEOIP_PATH
+
+if platform.system() == 'Windows':
+    from pygeoip import GeoIP
+else:
+    from django.contrib.gis.geoip import GeoIP
 
 
 class MetaUserView(View):
@@ -246,11 +252,16 @@ class Country(View):
         country = {'success': False}
         if ip:
             try:
-                geoip = GeoIP()
-                country['data'] = geoip.country("106.78.89.100")
+                if platform.system() == "Windows":
+                    geoip = GeoIP(os.path.abspath(os.path.join(GEOIP_PATH,'GeoLiteCity.dat')))
+                    country['data'] = geoip.record_by_addr("23.35.41.211")
+                else:
+                    geoip = GeoIP()
+                    country['data'] = geoip.country("23.35.41.211")
+                    
                 country['success'] = True
-            except TypeError:
-                pass
+            except Exception as e:
+                country['success'] = str(e).encode()
         res = simplejson.dumps(country)
         return HttpResponse(res, content_type='application/json')
 
