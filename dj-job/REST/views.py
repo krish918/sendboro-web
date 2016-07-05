@@ -254,10 +254,10 @@ class Country(View):
             try:
                 if platform.system() == "Windows":
                     geoip = GeoIP(os.path.abspath(os.path.join(GEOIP_PATH,'GeoLiteCity.dat')))
-                    country['data'] = geoip.record_by_addr("23.35.41.211")
+                    country['data'] = geoip.record_by_addr("106.78.89.100")
                 else:
                     geoip = GeoIP()
-                    country['data'] = geoip.country("23.35.41.211")
+                    country['data'] = geoip.country("106.78.89.100")
                     
                 country['success'] = True
             except Exception as e:
