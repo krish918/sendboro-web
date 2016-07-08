@@ -1,6 +1,6 @@
 {% load staticfiles %}
 	 <div class="splash-container">
-            <img src="{% static 'resource/splash/splash-5.jpg' %}" alt="">
+            <img src="{% static 'resource/splash/splash-n4.jpg' %}" alt="">
      </div>
         
      <div class="splash-container-cover">
@@ -20,7 +20,7 @@
         	<div class="main-text" ng-class="mainTextClass">
         		Send Good.<br />
         		Receive Good.
-        		<div class="credit">- a paraphrase in Bible/Gita/Quran</div>
+        		<div class="credit">- a paraphrase from Bible/Gita/Quran</div>
         	</div>
         	<!-- The single sign-on button -->
         	<div class="enter-site-button" ng-class="enterButtonClass" ng-click="panels.toggleAuthPanel()">
@@ -30,7 +30,8 @@
         	<div class="main-text-desc" ng-class="mainTextClass">
         		<strike>The best</strike> A good enough way <br /> to share files on Internet.	
         	</div>
-        	<div class="learn-more-button">
+        	<div class="know-how-button">
+        		<i class="fa fa-info-circle"></i> Know How
         	</div>
         </div>
         
@@ -80,7 +81,7 @@
         	<div class="inline-middle draw-icon">
         		<i class="fa fa-caret-up"></i>
         	</div>
-        </div> -->
+        </div> 
         
         <div class="scroll-more-text pull-down" ng-hide="panels.isPageShown(1) || panels.isAuthShown()">
         		<div class="inline-middle" ng-click="panels.toggleComeOverPage()">
@@ -90,14 +91,16 @@
         			<i class="fa fa-caret-down"></i>
         		</div>
         </div>
+        -->
         
         <!--  the second page -->
         <div class="come-over-page" id="co-page" ng-scroll="panels.wrapUpContent($event)" ng-class="coPageClass">
         	
+        	<!-- 
         	<div class="main-text">
         		I bet you think that's pretty clever don't you boy?
         		<div class="credit">High &amp; Dry(Radiohead)</div>
-        	</div>
+        	</div> -->
         	
 			<feature-panel></feature-panel>
 			
