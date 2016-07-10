@@ -1,21 +1,25 @@
 {% load staticfiles %} 
-<div class="auth-panel-container" ng-hide="panels.hideAuthFlag" id="auth-panel" ng-class="hideClass"
+<div class="auth-panel-container" ng-hide="panels.hideAuthFlag" id="auth-panel" ng-class="shifterClass"
 	ng-click="incrementFocus($event)">
-	<div class="auth-box" ng-hide="panels.hideAuthFlag">
+	<div class="auth-box">
 		<div class="exit-button" ng-click="panels.toggleAuthPanel() || authCtrl.changeScene(0)">
 			esc
 		</div>
 		<div ng-show="authCtrl.isScenePresented(1)" class="scene credential-scene">
-			<div class="quote">
+			<!-- <div class="quote">
 		  		<div class="text">
-		  			I am pleased to see you.
+		  			
 		  		</div>
 			  	<div class="credit">
-		  			The Great Gatsby(2013)
+		  			
 		  		</div>
+			</div> -->
+			<div class="auth-desc">
+				Start Here
 			</div>
 			<div class="description">
-				Enter your phone number to create account or access existing one.
+				Enter your phone number to use Sendboro. If you don't have an account,
+				we will create one for you.
 			</div>
 			<form class="signon-form" ng-submit="authCtrl.validateForm() && authCtrl.sendCredential()">
 				{% csrf_token %}

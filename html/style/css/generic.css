@@ -41,7 +41,6 @@ strong {
   font-weight: bold; }
 
 body {
-  overflow-y: auto;
   margin: 0;
   line-height: 1; }
   body.fix {
@@ -586,6 +585,9 @@ input[type=number] {
 
 .italic {
   font-style: italic; }
+
+.right-float-container {
+  float: right; }
 
 body {
   background: #FFFFEF;

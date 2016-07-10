@@ -8,12 +8,14 @@
 			this.toggleAuthPanel = function () {
 				this.hideAuthFlag = !this.hideAuthFlag;
 				if(!this.hideAuthFlag) {
+					$scope.shifterClass = "shifted-page";
 					document.body.className = 'pigeo-home fix';
 					$scope.hideClass = 'show-auth';
 					$scope.init();  //to clear the auth-panel form
 				}
 				else {
 					document.body.className = 'pigeo-home';
+					$scope.shifterClass = "";
 				}
 			};
 			
@@ -51,37 +53,37 @@
 			};
 			
 			this.wrapUpContent = function(data) {
-				$scope.dictWordsClass = 'hide-meaning';
 				
-				if (data.y == 0) {
-					$scope.dictWordsClass = '';
-					this.page = 1;
-				}
-				else 
+				var nextPageHeight = data.scrollHeight;
+				
+				if (data.y > nextPageHeight/3)
 					this.page = 2;
+				else 
+					this.page = 1;
 				
+				console.log(this.page);
 				
-				if(data.y == data.scrollHeight) {
-					//showing the dictionary word on next page
-					$scope.dictWordsClass = 'bring-on-next';
+				if(data.y == nextPageHeight) {
 					
 					//showing feature items one by one
 					$scope.itemOneClass = 'show-items';
+					
 					$timeout(function(){
 						$scope.itemTwoClass = 'show-items';
 					},200);
+					
 					$timeout(function(){
 						$scope.itemThreeClass = 'show-items';
 					},400);
 				}
 				
-				if(data.y > 300) {
-					$scope.mainTextClass = 'skew-text';
-					$scope.enterButtonClass = 'translate-to-bottom';
+				if(data.y > nextPageHeight/4) {
+					$scope.coverTextAnimateClass = 'departed';
+					$scope.alternateEnterClass = 'inception';
 				}
-				else if(data.y < 300) {
-					$scope.mainTextClass = '';
-					$scope.enterButtonClass = '';
+				else if(data.y < nextPageHeight/4) {
+					$scope.coverTextAnimateClass = '';
+					$scope.alternateEnterClass = '';
 					$scope.itemOneClass = '';
 					$scope.itemTwoClass = '';
 					$scope.itemThreeClass = '';

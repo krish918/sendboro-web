@@ -25,6 +25,37 @@ html{
 	background: white;
 }
 
+.shifted-page {
+	@include transition(linear all 0.3s);
+	@include translate(-50%,0);	
+	
+	&.auth-panel-container {
+		@include translate(-100%,0);
+	}
+	&.header {
+		@include translate(-42%, 0);
+	}
+}
+
+.shifted-page-remove {
+	@include transition(linear all 0.3s);
+}
+
+.insulating-cover {
+	position:fixed;
+	top:0; left:0;
+	width: 100%;
+	height: 100%;
+	z-index:8;
+	background: rgba(40,40,40,0.6);
+	@include transition(linear all 0.3s);
+	opacity:1;
+	
+	&.ng-hide {
+		opacity:0;
+	}
+}
+
 .splash-container {
     position : fixed;
     height : 100%;
@@ -61,37 +92,45 @@ html{
     top : 0;
     left:0;
     width : 100%;
-    z-index:8;
+    z-index:6;
     background-color : rgba(255,255,255,0.7);
    /* background-color :rgba(100,0,0,1);*/
     /*@include linear-gradient-top(#404040,transparent);*/
     border-bottom: solid 1px rgba(220,220,220,0.3);
 	@include shadow(#909090, 3px, 0px);
     min-width : 700px;
-}
-
-
-.logo {
-        margin: 20px auto;
+    text-align:right;
+    height: 90px;
+    line-height:90px;
+    
+    .logo {
+	    position:absolute;
+	    top:0;	left:0; right:0; bottom:0;
         width: 200px;
+        margin:20px auto;
         text-align: center;
+	}
 }
 
+.main-content-container {
+	position: fixed;
+	z-index:4;
+	width:100%;
+	top:25%;
+}
 .main-content {
-	position:absolute;
-	top:170px;
+	position:fixed;
 	left:50%;
 	margin-left: -400px;
 	width: 800px;
 	text-align:right;
 	font: normal 13pt/1.8 'BoroHero',arial, sans-serif;
 	background:transparent;
-	z-index:4;
 	
 	%animate-main-content {
 		@include transition(linear all 0.3s);
 	
-		&.skew-text {
+		&.departed {
 			@include scaleTransform(0.5,0.5);
 			opacity:0;	
 		}
@@ -112,36 +151,6 @@ html{
 		
 		/*padding-bottom: 20px;
 		/*border-bottom: solid 1px #c0c0c0;*/
-	}
-	
-	.enter-site-button {	
-		width: 240px;
-		float:right;
-		padding:10px 15px;
-		text-align:right;
-		background: lighten(#16af63,3);
-		color:white;
-		font: normal 13pt/1.8 'BoroHero',arial, sans-serif;
-		z-index:7;
-		@include radius(6px);
-		cursor:pointer;
-		margin: 25px 0;
-	
-		.signin-text {
-			font-size:18pt;
-			margin-top:20px;
-		}
-		
-		&:hover {
-			@include scaleTransform(1.08,1.08);
-			background: lighten(#16af63,6);
-		}
-		
-		@include transition(all linear 0.1s);
-		
-		&.translate-to-bottom {
-			@include translate(0,190%);
-		}
 	}
 
 	.main-text-desc {
@@ -171,106 +180,76 @@ html{
 		}
 		
 		cursor: pointer;
-		@include transition(all linear 0.1s);
+		@include transition(all linear 0.2s);
 		
 		&:hover {
 			@include scaleTransform(1.05,1.05);
-			background: lighten($sweet-blue, 5);
+			background: lighten($sweet-blue, 7);
+		}
+		
+		&.departed {
+			@include translate(-200px,0);
+			opacity:0;
 		}
 	}
 	
 }
 
-.dictionary-words {
-	position:fixed;
-	top:540px;
-	width:100%;
-	left:0;
-	font: normal 9pt/1.3 'BoroHero',arial,sans-serif;
-	color: rgba(250,250,250,0.2);
-	z-index:6;
-	
-	.word-meaning {
-		width:270px;
-		margin-left:45px;
-		
-		&.file {
-			float: right;
-			margin-right:45px;
-		}
-		
-		.heading {
-			font-size:11pt;
-		}
-		
-		.part-of-speech {
-			font-size:10pt;
-		}
-	}
-	
-	@include transition(all linear 0.2s);
-	
-	&.hide-meaning {
-		@include scaleTransform(0.5,0.5);
-		opacity:0;
-	}
-	
-	&.bring-on-next {
-		@include scaleTransform(1,1);
-		color: rgba(100,100,100,0.7);
-		opacity:1;
-	}
-	
-}
-
-.scroll-more-text {
-	position:fixed;
-	bottom:0px;
-	z-index:9;
-	text-align:center;
-	font: normal 13pt/1.6 'BoroHero', arial, sans-serif;
-	color:white;
-	
-	&.pull-down {
-		top:0;
-		bottom: auto;
-		font-size:9pt;
-		
-		.inline-middle {
-			@include radius(0 0 0 5px);
-			height: 12px;
-			background: rgba(80,80,80,0.5);
-		}
-		
-		.draw-icon {
-			@include radius(0 0 5px 0);
-			background: rgba(60,60,60,0.7);
-			margin-left:-4px;
-		}
-	}
-	
-	.inline-middle {
-		padding:7px;
-		background: rgba(80,80,80,0.7);
+.enter-site-button {	
+		width: 240px;
+		padding:10px 15px;
+		text-align:right;
+		background: lighten(#16af63,3);
+		color:white;
+		font: normal 13pt/1.8 'BoroHero',arial, sans-serif;
+		z-index:7;
+		@include radius(6px);
 		cursor:pointer;
-		height:20px;
-		@include radius(5px 0 0 0);
-	}
+		margin: 25px 0;
 	
-	.draw-icon {
-		@include radius(0 5px 0 0);
-		margin-left:-5px;
-		padding:7px 14px;
-		background: rgba(60,60,60,0.9);
+		.signin-text {
+			font-size:18pt;
+			margin-top:20px;
+		}
+		
+		&:hover {
+			@include transition(all linear 0.1s);
+			@include scaleTransform(1.08,1.08);
+			background: lighten(#16af63,7);
+		}
+		
+		@include transition(all linear 0.3s);
+		
+		&.departed {
+			@include translate(400px,0);
+			opacity:0
+		}
+		
+		&.alternate {
+			display:inline-block;
+			vertical-align: middle;
+			width: 140px;
+			padding: 5px 10px;
+			background: $sweet-blue;
+			font-size: 10pt;
+			margin:10px;
+			margin-right: -40px;
+			visibility:hidden;
+			opacity: 0;
+			
+			.signin-text {
+				margin-top:10px;
+				font-size:13pt;
+			}
+			
+			&.inception {
+				visibility:visible;	
+				opacity: 1;
+				margin-right:40px;	
+			}
+		}
+
 	}
-	
-	@include transition(all linear 0.2s);
-	
-	&.ng-hide {
-		@include translate(0,50px);
-		opacity:0;
-	}
-}
 
 .come-over-page {
 	position:absolute;
@@ -308,6 +287,7 @@ html{
 	.feature-display {
 		margin-top:180px;
 		width:400%;
+		overflow:hidden;
 		@include flexDisplay(row nowrap, space-around);
 		
 		%show-item-effect {
@@ -321,9 +301,9 @@ html{
 			width:210px;
 			padding: 20px 15px;
 			color: #606050;
-			background: rgba(250,250,250,0.5);
+			background: rgba(250,250,250,0.7);
 			@include radius(5px);
-			border: solid 1px #eaeaea;
+			border: solid 1px #ececec;
 			opacity:0;
 			@include scaleTransform(0.5,0.5);
 			
@@ -343,13 +323,11 @@ html{
 			}
 			
 			@include transition(all linear 0.2s);
-			
-			
+
 			&.show-items {
 				@extend %show-item-effect;
 			}
 		}
-		
 		
 		@include transition(all linear 0.4s);
 		
@@ -398,53 +376,4 @@ html{
 			color: lighten(#2e87bb,20); 
 		}
 	}
-}
-
-.header-links-container {
-    float : right;
-    margin-right : 90px;
-    display:none;
-}
-
-.header-links {
-    height : 70px;
-    text-align : center;
-    vertical-align : middle;
-    padding : 0 40px 0 40px;
-    font: normal normal normal 12pt/70px 'pigeosans', 'sinkinsans', arial,helvetica, sans-serif;
-}
-
-.cover-text {
-    position : absolute;
-    bottom : 23%;
-    width : 100%;
-   
-    text-align : right;
-    min-width : 1024px;
-    display:none;
-}
-
-.cover-title {
-    padding-right : 150px;
-    font : normal bold normal 40pt/1 'pigeosans', 'sinkinsans', arial,helvetica, sans-serif;
-    color : white;
-     .cover-desc {
-    	padding-top : 15px;
-    	font : normal normal normal 18pt/1.2 'pigeosans', 'sinkinsans', arial,helvetica, sans-serif;
-	}
-}
-
-.copy-notice {
-    margin-top : 20px;
-    color : #c0c0c0;
-    font-size : 10pt;
-}
-
-.logout-msg {
-	position:fixed;
-	top:90px;
-	width: 400px;
-	left:50%;
-	margin-left: -200px;
-	@extend %small-msg-box;
 }

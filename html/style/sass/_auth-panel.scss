@@ -7,38 +7,39 @@ style for authentication-panel at homepage
 .auth-panel-container {
 	position:fixed;
 	top:0;
-	left:0;
-	width:100%;
+	right:-50%;
+	width:50%;
 	height:100%;
 	text-align:center;
 	z-index:7;
-	background:rgba(224,240,252,0.97);
-	display:none;
-	
+	background:rgba(224,240,252,1);
+	@include shadow(#606070, 5px, 0);
+	/*
 	&.show-auth-add, &.show-auth {
 		display:block;
-	}
+	}*/
 	
 	.auth-box {
 		width:600px;
 		height: 100%;
 		margin: 0 auto;
+		/*
 		&.ng-hide-add, &.ng-hide-remove {
 			@include transition(all linear 0.3s);
 		}
 		&.ng-hide {
 			@include scaleTransform(0.4,0.4);
 		}
+		*/
 	}
-	
+	/*
 	&.ng-hide-add, &.ng-hide-remove {
 		@include transition(all linear 0.2s);
 	}
 	
 	&.ng-hide {
 		@include transition(all linear 0.2s);
-		opacity:0;
-	}
+	}*/
 	
 /* 	&.ng-hide { */
 /* 		opacity:0; */
@@ -46,8 +47,7 @@ style for authentication-panel at homepage
 	
 	.exit-button {
 		width:60px;
-		margin:90px auto;
-		margin-bottom:20px;
+		margin:30px 0px;
 		color: white;
 		font: normal 13pt/1 'BoroHero', arial, sans-serif;
 		@include radius(4px);
@@ -57,17 +57,24 @@ style for authentication-panel at homepage
 		cursor:pointer;
 		
 		&:hover {
-			background: #808080;
+			background: #f08080;
+			border: solid 1px #f08080;
 			color: white; 
 		}
 	}
 	
+	.auth-desc {
+		margin:40px auto;
+		font: normal 23pt/1 'BoroHero', sinkinsans, arial, sans-serif;
+		color: darken($sweet-blue, 5);
+		padding-bottom: 20px;
+		border-bottom: solid 1px #d0d0ff;
+	}
 	
 	.quote {
 		margin: 20px auto;
 		margin-bottom:10px;
 		padding:20px;
-		border-top: solid 1px #d0d0e0;
 		color: #4080d0;
 		font: normal 20pt/2.5 'BoroChunkFive', arial, sans-serif;
 		
@@ -79,8 +86,8 @@ style for authentication-panel at homepage
 	}
 	
 	.description {
-		font: normal 15pt/1.4 'BoroHero', arial, sans-serif;
-		width:400px;
+		font: normal 12pt/1.4 'BoroHero', arial, sans-serif;
+		width:340px;
 		margin: auto;
 		color:#606070;
 	}
