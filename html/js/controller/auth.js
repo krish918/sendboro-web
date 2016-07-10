@@ -31,7 +31,7 @@
 				$scope.phone = '';
 				$scope.disableClass = '';
 				self.error = 0;
-				self.changeScene(2);
+				self.changeScene(1);
 				self.processingFlag = false;
 				self.formSubmittable = true;
 				self.authdata = {};
