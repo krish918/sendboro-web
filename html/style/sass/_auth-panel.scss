@@ -20,7 +20,7 @@ style for authentication-panel at homepage
 	}*/
 	
 	.auth-box {
-		width:600px;
+		width:88%;
 		height: 100%;
 		margin: 0 auto;
 		/*
@@ -47,7 +47,7 @@ style for authentication-panel at homepage
 	
 	.exit-button {
 		width:60px;
-		margin:30px 0px;
+		margin:20px 0px;
 		color: white;
 		font: normal 13pt/1 'BoroHero', arial, sans-serif;
 		@include radius(4px);
@@ -73,10 +73,12 @@ style for authentication-panel at homepage
 	
 	.quote {
 		margin: 20px auto;
-		margin-bottom:10px;
+		margin-bottom:30px;
 		padding:20px;
 		color: #4080d0;
 		font: normal 20pt/2.5 'BoroChunkFive', arial, sans-serif;
+		
+		border-bottom: solid 1px #d0d0ff;
 		
 		.credit {
 			margin-top: 5px;
@@ -86,10 +88,28 @@ style for authentication-panel at homepage
 	}
 	
 	.description {
-		font: normal 12pt/1.4 'BoroHero', arial, sans-serif;
-		width:340px;
+		font: normal 13pt/1.4 'BoroHero', arial, sans-serif;
+		width:380px;
 		margin: auto;
 		color:#606070;
+	}
+	
+	.extra-description {
+		position: absolute;
+		bottom: 0;
+		text-align: center;
+		margin: 0 12%;
+		padding: 10px 30px;
+		padding-bottom: 25px;
+		border-top: solid 1px #d0d0d0;
+		font: normal 8pt/1.6 sinkinsans, arial, sans-serif;
+		color: #555;
+		opacity:1;
+		@include transition(all linear 0.5s);
+		
+		&.ng-hide {
+			opacity:0;
+		}
 	}
 	
 	.signon-form {

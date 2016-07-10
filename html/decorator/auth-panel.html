@@ -18,8 +18,7 @@
 				Start Here
 			</div>
 			<div class="description">
-				Enter your phone number to use Sendboro. If you don't have an account,
-				we will create one for you.
+				Enter your <strong>phone number</strong> to use Sendboro. 
 			</div>
 			<form class="signon-form" ng-submit="authCtrl.validateForm() && authCtrl.sendCredential()">
 				{% csrf_token %}
@@ -59,6 +58,7 @@
 				</div>
 			</form>
 		</div>
+			
 		<div ng-show="authCtrl.isScenePresented(2)" class="scene code-verify-scene" tabindex="1" 
 			boro-focus="focus" ng-keydown="fillCodeInput($event)">
 			<div class="quote">
@@ -106,5 +106,9 @@
 				</div>	
 			</div>
 		</div>
+	</div>
+	<div class="extra-description" ng-show="authCtrl.isScenePresented(1)">
+			A new account will be created if you don't have one, else 
+			you will be logged in to your existing account.
 	</div>
 </div>	

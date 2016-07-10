@@ -31,7 +31,7 @@
 				$scope.phone = '';
 				$scope.disableClass = '';
 				self.error = 0;
-				self.changeScene(1);
+				self.changeScene(2);
 				self.processingFlag = false;
 				self.formSubmittable = true;
 				self.authdata = {};
@@ -342,7 +342,7 @@
 			$scope.fillCodeInput = function(event) {
 				var key = event.keyCode,
 					keyValue;
-				
+				console.log(key);
 				//for stopping backspace from going back in history in some browsers
 				if(key === 8)
 					event.preventDefault();
@@ -350,9 +350,9 @@
 				if (self.codePressCount > 4)
 					return;
 				
-				if(key >= 48 && key <=57) {
+				if((key >= 48 && key <=57) || (key >= 96 && key <= 105)) {
 					self.error = 0;
-					keyValue = key - 48;
+					keyValue = key % 48;
 					$scope.code[self.codePressCount] = keyValue;
 					self.codePressCount += 1
 					if(self.codePressCount > 4) {
