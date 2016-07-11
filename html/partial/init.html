@@ -58,7 +58,8 @@
 			<feature-panel></feature-panel>
 			
 			<!-- Feature Panel Navigator -->
-			<div class="feature-browse right" ng-click="panels.slideFeature(1)" ng-hide="panels.isSlideShown(4)">
+			<div class="feature-browse right" ng-click="panels.slideFeature(1)" 
+				ng-hide="panels.isPageShown(1) || panels.isSlideShown(4)">
         		&gt;
 			</div>
 			<div class="feature-browse left" ng-click="panels.slideFeature(0)" ng-hide="panels.isSlideShown(1)">

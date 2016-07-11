@@ -469,3 +469,18 @@ input[type=number] {
 .right-float-container {
 	float:right;
 }
+
+.std-button {
+	background: $sweet-blue;
+	@include radius(5px);
+	padding: 10px 20px;
+	color: white;
+	font: normal 13pt/1 'BoroHero', arial, sans-serif;
+	cursor:pointer;
+	
+	&.disabled-add, &.disabled {
+		background: $disabled;
+		cursor: not-allowed;
+	}
+	
+}

@@ -10,7 +10,7 @@ from django.utils.decorators import method_decorator
 from django.utils.encoding import smart_text, smart_bytes
 import simplejson, traceback
 from common.utils.general import Helper
-from common.sms import TextMessage
+from com.sms import TextMessage
 from wsgiref.util import FileWrapper
 from django.db import connection
 from django.core.urlresolvers import resolve, Resolver404

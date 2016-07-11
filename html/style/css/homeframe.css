@@ -602,6 +602,21 @@ input[type=number] {
 .right-float-container {
   float: right; }
 
+.std-button {
+  background: #0080f0;
+  -moz-border-radius: 5px;
+  -o-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  padding: 10px 20px;
+  color: white;
+  font: normal 13pt/1 'BoroHero', arial, sans-serif;
+  cursor: pointer; }
+  .std-button.disabled-add, .std-button.disabled {
+    background: #b0b0b0;
+    cursor: not-allowed; }
+
 .widget-container {
   width: 500px;
   height: 500px;

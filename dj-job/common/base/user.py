@@ -1,7 +1,7 @@
 from abc import ABCMeta, abstractmethod
 from authmod.models import CodeHash
 from common.utils.general import Helper, Random, UserTrace
-from common.sms import TextMessage
+from com.sms import TextMessage
 from common.base.boroexception import BoroException
 from common.base.constant import Const
 import hashlib, uuid
@@ -110,5 +110,5 @@ class User(metaclass = ABCMeta):
     def SendText(self, msg):
         #phrase decoded back to string
         sms = TextMessage(msg, self.fullphone)
-        sms.send()
+        #sms.send()
     

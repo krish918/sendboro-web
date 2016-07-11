@@ -22,7 +22,7 @@ BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__) , '../..'))
 SECRET_KEY = '#&!l7951^bj-p^30z0_lwl&up5hem+u%a_lrhkz6ev3a&c3$nm'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 TEMPLATES = [
     {
@@ -68,6 +68,7 @@ INSTALLED_APPS = (
     'control',
     'home',
     'file',
+    'com',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -119,7 +120,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 #static root is empty so that gunicorn doesn't serves static files
-STATIC_ROOT = os.path.join(BASE_DIR, 'html')
+#STATIC_ROOT = os.path.join(BASE_DIR, 'html')
 
 STATIC_URL = '/static/'
 

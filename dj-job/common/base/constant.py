@@ -22,3 +22,7 @@ class Const:
     
     #error for User class Hierarchy
     INSTANCE_ERROR = -1
+    
+    GEN_ERROR = 99
+    #error for voicecall API
+    CALL_ERROR = 4;

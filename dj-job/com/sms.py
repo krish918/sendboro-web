@@ -1,9 +1,7 @@
 import plivo
+from com.credential import auth_id, auth_token
 
 class TextMessage():
-    
-    auth_id = "MAYTM5YZM0MMVMNGNHZD"
-    auth_token = "NjEzZTFmNDUxMzlkZGRhNGEzNjM0NGQzYTM2NDE0"
     
     def __init__(self,text,dest,src='SNDBOR'):
         self.destination = dest
@@ -11,7 +9,7 @@ class TextMessage():
         self.source = src
         
     def send(self):
-        p = plivo.RestAPI(self.auth_id, self.auth_token)
+        p = plivo.RestAPI(auth_id, auth_token)
         params = {
                   'src' : self.source,
                   'dst' : self.destination,

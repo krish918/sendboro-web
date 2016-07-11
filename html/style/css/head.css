@@ -593,6 +593,21 @@ input[type=number] {
 .right-float-container {
   float: right; }
 
+.std-button {
+  background: #0080f0;
+  -moz-border-radius: 5px;
+  -o-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  padding: 10px 20px;
+  color: white;
+  font: normal 13pt/1 'BoroHero', arial, sans-serif;
+  cursor: pointer; }
+  .std-button.disabled-add, .std-button.disabled {
+    background: #b0b0b0;
+    cursor: not-allowed; }
+
 /*
 
 style for authentication-panel at homepage
@@ -663,17 +678,6 @@ style for authentication-panel at homepage
     color: #0072d6;
     padding-bottom: 20px;
     border-bottom: solid 1px #d0d0ff; }
-  .auth-panel-container .quote {
-    margin: 20px auto;
-    margin-bottom: 30px;
-    padding: 20px;
-    color: #4080d0;
-    font: normal 20pt/2.5 'BoroChunkFive', arial, sans-serif;
-    border-bottom: solid 1px #d0d0ff; }
-    .auth-panel-container .quote .credit {
-      margin-top: 5px;
-      font-size: 12pt;
-      font-style: italic; }
   .auth-panel-container .description {
     font: normal 13pt/1.4 'BoroHero', arial, sans-serif;
     width: 380px;
@@ -770,6 +774,9 @@ style for authentication-panel at homepage
       -o-transform: translate(-200px, 0);
       -moz-transform: translate(-200px, 0);
       transform: translate(-200px, 0); }
+    .auth-panel-container .error-disp.little {
+      font-size: 9pt;
+      padding: 3px; }
   .auth-panel-container .auth-loader {
     margin-top: -53px;
     -webkit-transition: all linear 0.3s;
@@ -786,9 +793,16 @@ style for authentication-panel at homepage
       transform: scale(0.2, 0.2); }
 
 .code-verify-scene .quote {
-  font-size: 16pt; }
+  margin: 15px auto;
+  margin-bottom: 30px;
+  padding: 20px;
+  color: #4080d0;
+  font: normal 16pt/2.5 'BoroChunkFive', arial, sans-serif;
+  border-bottom: solid 1px #d0d0ff; }
   .code-verify-scene .quote .credit {
-    font-size: 11pt; }
+    margin-top: 5px;
+    font-size: 11pt;
+    font-style: italic; }
 .code-verify-scene input.code-quantum-inpt {
   margin: 15px 5px;
   margin-bottom: 10px;
@@ -896,6 +910,48 @@ style for authentication-panel at homepage
     -o-transform: scale(0.4, 0.4);
     -moz-transform: scale(0.4, 0.4);
     transform: scale(0.4, 0.4); }
+
+.voice-call-request {
+  margin: 20px auto;
+  margin-bottom: 10px;
+  font: normal 13pt/1 'BoroHero', arial, sans-serif;
+  color: #555;
+  text-align: center;
+  opacity: 1;
+  -webkit-transition: all linear 0.2s;
+  -moz-transition: all linear 0.2s;
+  -ms-transition: all linear 0.2s;
+  -o-transition: all linear 0.2s;
+  transition: all linear 0.2s; }
+  .voice-call-request .std-button {
+    width: 160px;
+    margin: 10px auto;
+    font-size: 11pt;
+    padding: 5px;
+    -webkit-transition: all linear 0.1s;
+    -moz-transition: all linear 0.1s;
+    -ms-transition: all linear 0.1s;
+    -o-transition: all linear 0.1s;
+    transition: all linear 0.1s; }
+    .voice-call-request .std-button i {
+      margin-right: 5px; }
+    .voice-call-request .std-button.no-processing:hover {
+      -ms-transform: scale(1.03, 1.03);
+      -webkit-transform: scale(1.03, 1.03);
+      -o-transform: scale(1.03, 1.03);
+      -moz-transform: scale(1.03, 1.03);
+      transform: scale(1.03, 1.03);
+      background: #1592ff; }
+  .voice-call-request .error-disp {
+    width: 230px;
+    margin: 0 auto; }
+  .voice-call-request.ng-hide {
+    -webkit-transform: translate(-80px, 0);
+    -ms-transform: translate(-80px, 0);
+    -o-transform: translate(-80px, 0);
+    -moz-transform: translate(-80px, 0);
+    transform: translate(-80px, 0);
+    opacity: 0; }
 
 a.gen {
   color: white; }

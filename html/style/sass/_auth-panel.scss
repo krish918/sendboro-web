@@ -71,21 +71,6 @@ style for authentication-panel at homepage
 		border-bottom: solid 1px #d0d0ff;
 	}
 	
-	.quote {
-		margin: 20px auto;
-		margin-bottom:30px;
-		padding:20px;
-		color: #4080d0;
-		font: normal 20pt/2.5 'BoroChunkFive', arial, sans-serif;
-		
-		border-bottom: solid 1px #d0d0ff;
-		
-		.credit {
-			margin-top: 5px;
-			font-size:12pt;
-			font-style: italic;
-		}
-	}
 	
 	.description {
 		font: normal 13pt/1.4 'BoroHero', arial, sans-serif;
@@ -181,6 +166,11 @@ style for authentication-panel at homepage
 			opacity:0;
 			@include translate(-200px, 0);
 		} 
+		
+		&.little {
+			font-size: 9pt;
+			padding: 3px;
+		} 
 	}
 	
 	.auth-loader {
@@ -196,11 +186,20 @@ style for authentication-panel at homepage
 }
 
 .code-verify-scene {
+	
 	.quote {
-		font-size: 16pt;
+		margin: 15px auto;
+		margin-bottom:30px;
+		padding:20px;
+		color: #4080d0;
+		font: normal 16pt/2.5 'BoroChunkFive', arial, sans-serif;
+		
+		border-bottom: solid 1px #d0d0ff;
 		
 		.credit {
-			font-size: 11pt;	
+			margin-top: 5px;
+			font-size:11pt;
+			font-style: italic;
 		}
 	}
 	
@@ -299,4 +298,45 @@ style for authentication-panel at homepage
 	}
 	
 }	
+
+.voice-call-request {
+	margin: 20px auto;
+	margin-bottom: 10px;
+	font: normal 13pt/1 'BoroHero', arial, sans-serif;
+	color: #555;
+	text-align:center;
+	opacity: 1;
 	
+	.std-button {
+		width: 160px;
+		margin: 10px auto;
+		font-size: 11pt;
+		padding: 5px;
+		
+		i {
+			margin-right: 5px;
+		}
+		
+		@include transition(all linear 0.1s);
+		
+		&.no-processing:hover {	
+			@include scaleTransform(1.03, 1.03);
+			background: lighten($sweet-blue,7);
+		}
+		
+	}
+
+	
+	.error-disp {
+		width: 230px;
+		margin: 0 auto;
+	}
+	
+	@include transition(all linear 0.2s);
+		
+	&.ng-hide {
+		@include translate(-80px, 0);
+		opacity:0;
+	}
+		
+}	

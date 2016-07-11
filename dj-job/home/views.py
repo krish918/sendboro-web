@@ -4,7 +4,6 @@ from django.views.decorators.http import require_GET, require_POST
 from django.http import HttpResponseRedirect, HttpResponse
 from common.utils.decorator import LoginRequired
 from common.utils.general import Random
-from common.sms import TextMessage
 from django.utils.decorators import method_decorator
 from common.models import *
 from django.db import transaction

@@ -95,6 +95,24 @@
 				 	</div>
 				 	<div class="inline-middle resend-button" ng-class="resendClass" ng-click="authCtrl.resendCode()">resend</div>
 				</div>
+				
+				<!-- UI for requesting voice calls to get verification code -->
+				<div class="voice-call-request" ng-hide="authCtrl.isProcessing()">
+				OR
+				<div class="std-button" ng-click="authCtrl.requestCall()"
+					ng-class="callProcessingClass" ng-init="callProcessingClass='no-processing'">
+					<i class="fa fa-phone-square fa-2x inline-middle" aria-hidden="true"></i> 
+					<span ng-show="authCtrl.isProcessingCall(0)">Get code on call</span>
+					<span ng-show="authCtrl.isProcessingCall(1)">Requesting call</span>
+					<span ng-show="authCtrl.isProcessingCall(2)">
+						Redial after <strong>{% verbatim %} {{redialTimerVal}}s {% endverbatim %}</strong>
+					</span>
+				</div>
+					<div class="error-disp little" ng-show="authCtrl.isErrorCode(4)">
+				 		Error ocurred while requesting call. 
+					</div>
+				</div>
+			
 				<div class="error-disp" ng-show="authCtrl.isErrorCode(-1)">
 					Oops! Something was broken. Please try later.
 				</div>
@@ -103,8 +121,9 @@
 				</div>
 				<div class="auth-loader" ng-show="authCtrl.isProcessing()">
 					<img src="{% static 'resource/loader/loader.GIF' %}">
-				</div>	
+				</div>
 			</div>
+			
 		</div>
 	</div>
 	<div class="extra-description" ng-show="authCtrl.isScenePresented(1)">

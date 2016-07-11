@@ -4,18 +4,22 @@
 		                                  function($scope,$timeout,$window,countries,$parse,$poll) {
 			
 			var TIMER_CONST = 30,
+				CALL_TIMER = 60,
 				POLL_ERROR = -1,
 				INVALID_CODE = -2,
 				VALID_CODE = 1,
 				EMPTY_POLL = 3,
+				CALL_ERROR = 4,
 				RESOLVED_CODE = -3;
 			
 			this.countryList = countries.fetch();
 			watchTimer();
+			watchRedialTimer();
 			$scope.focus = 0;
 			
 			var self = this,
 				timer,
+				redialTimer,
 				pollTimer,
 				authAttempt = 0,
 				usrDialCode = '', 
@@ -35,6 +39,7 @@
 				self.processingFlag = false;
 				self.formSubmittable = true;
 				self.authdata = {};
+				self.processingCallFlag = 0;
 			};
 			
 			$scope.incrementFocus = function(e) {
@@ -60,6 +65,25 @@
 					}
 					else {
 						$scope.resendClass = '';
+					}
+				});
+			};
+			
+			function watchRedialTimer () {
+				var model = $parse('redialTimerVal');
+				$scope.$watch(model, function(value) {
+					if(value <= CALL_TIMER && value > 0) {
+						$scope.callProcessingClass= "disabled";
+						self.processingCallFlag = 2;
+						console.log(value);
+						redialTimer = $timeout(function() {
+							$scope.$apply(model.assign($scope, value-1));
+						}, 1000);
+					}
+					else if(value === 0){
+						$timeout.cancel(redialTimer);
+						self.processingCallFlag = 0;
+						$scope.callProcessingClass= "no-processing";
 					}
 				});
 			};
@@ -125,6 +149,11 @@
 				return scn === this.scene;
 			};
 			
+			//checking status of call request
+			this.isProcessingCall = function(status) {
+				return status === this.processingCallFlag;
+			}
+			
 			//changing scene of auth-panel 
 			this.changeScene = function(scn) {
 				/* scn = 0 is called on closing the authpanel. So no more action , just
@@ -143,15 +172,22 @@
 				$timeout.cancel(pollTimer);
 				
 				self.codePressCount = 0;
-				if(scn == 1)
+				if(scn == 1) {
 					$timeout.cancel(timer);
+					$timeout.cancel(redialTimer);
+				}
 
 				$timeout(function(){
 					self.scene = scn;
 					$scope.incrementFocus();
 					// for showing submit-button
 					$scope.disableClass = '';
+					
 					if(scn == 2) {
+						//for resetting call request button
+						$scope.callProcessingClass = "no-processing";
+						self.processingCallFlag = 0;
+						
 						//for truncating all codes
 						$scope.code = [];
 						//resetting timer to 30 so that it can be watched
@@ -342,7 +378,6 @@
 			$scope.fillCodeInput = function(event) {
 				var key = event.keyCode,
 					keyValue;
-				console.log(key);
 				//for stopping backspace from going back in history in some browsers
 				if(key === 8)
 					event.preventDefault();
@@ -368,6 +403,7 @@
 				}
 			};
 			
+			//sending code for verification
 			function sendCode() {
 				var endpoint = '/';
 				$scope.code.forEach(function(value){
@@ -384,6 +420,40 @@
 					$scope.code = [];
 					self.codePressCount = 0;
 					self.error = -1;
+				});
+			};
+			
+			//for sending a request for getting code via voicecall
+			this.requestCall = function() {
+				
+				//for removing any previously shown error
+				self.error = 0;
+				
+				if(self.processingCallFlag != 0)
+					return;
+				
+				//for showing wait prompt
+				self.processingCallFlag = 1;
+				
+				var endpoint = '/com/api/voicecall';
+				
+				$scope.callProcessingClass="disabled";
+				
+				$poll.post(endpoint, null)
+				.then(function(res){
+					// for showing resend request timer
+					if(res.success === true && res.status[0] < 310) {
+						self.processingCallFlag = 2;
+						$scope.redialTimerVal = CALL_TIMER;
+					}
+					else 
+						throw {error : res.error};
+					
+				}).catch(function(res){
+					$scope.callProcessingClass="no-processing";
+					self.error = res.error;
+					self.processingCallFl$scope.callProcessingClass = "no-processing";
+					self.processingCallFlag = 0;
 				});
 			};
 			
