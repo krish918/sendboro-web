@@ -452,7 +452,6 @@
 				}).catch(function(res){
 					$scope.callProcessingClass="no-processing";
 					self.error = res.error;
-					self.processingCallFl$scope.callProcessingClass = "no-processing";
 					self.processingCallFlag = 0;
 				});
 			};
