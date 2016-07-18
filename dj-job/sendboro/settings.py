@@ -100,7 +100,7 @@ CACHES = {
 
 # using a cached DB for session handling
 
-SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/

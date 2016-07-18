@@ -28,7 +28,7 @@ class AutoReplyInXml(View):
         params = {
                   'language': "en-US",
                   'voice': "WOMAN",
-                  'loop': "0",
+                  'loop': "1",
                   }
         
         r.addSpeak(body, **params)
@@ -63,7 +63,7 @@ class CodeSpeechInXml(View):
                       }
             
             r.addSpeak(body, **params)
-            
+            print(r.to_xml())
         except:
             pass
         
@@ -106,7 +106,6 @@ class VoiceCallCode(View):
                              'error': Const.CALL_ERROR,
                              'message': str(e),
                              }
-            raise e
         
         dump = simplejson.dumps(self.response)
         return HttpResponse(dump, content_type="application/json")

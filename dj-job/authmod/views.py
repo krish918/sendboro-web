@@ -51,6 +51,7 @@ class SignonView(View):
            else:
                unRegisteredUser = Rawuser.CreateWithPhone(self.dialcode, self.credential)
                unRegisteredUser.Add()
+               request.session['fullphone'] = str(self.dialcode) + str(self.credential)
                self.response = {'dialcode':self.dialcode,
                                 'phone':self.credential,
                                 'success':True,
