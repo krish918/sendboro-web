@@ -1,0 +1,74 @@
+{% load staticfiles %}
+<div class="gen-dialog success-report"
+				ng-hide="authCtrl.checkFlag(0)" ng-class="inv_code_class">
+				<div class="dialog-head ap-head-panel" ng-hide="authCtrl.checkFlag(4)">
+				
+					<span ng-hide="authCtrl.checkFlag(5)">Verify your phone.</span>
+					<span ng-show="authCtrl.checkFlag(5)">Hawwww!</span>
+					
+					<div class="small-cross" ng-click="authCtrl.changeFlag(0)"
+						ng-show="authCtrl.checkProcess(0)">X</div>
+				</div>
+				<div class="dialog-head ap-head-panel" ng-show="authCtrl.checkFlag(4)">
+					Sit back and relax.
+				</div>
+				<form name="verifyForm" ng-submit="frmCtrl.validateForm(verifyForm) && authCtrl.verifyCode(frmCtrl,panels)" novalidate>
+					<div class="dialog-middle phone-verify-middle codeprobe-panel"
+						ng-show="authCtrl.checkFlag(1)">
+						Great! You will recieve a verification code on <strong>
+							{% verbatim %} {{authCtrl.areacode + authCtrl.phone}} {% endverbatim %} </strong> shortly. <br />
+						<br />
+						<strong>Please enter the code.</strong> 
+						<input type="number" min="1000" max="9999"
+							name="vericode" ng-class="inputClass" class="pgo-input veri-code" placeholder="Code"
+							autocomplete="off" ng-model="authCtrl.data.vericode"
+							ng-model-options="{updateOn : 'submit'}" required>
+						
+						{% csrf_token %}
+						
+					</div>
+					<div class="dialog-middle phone-verify-middle"
+						ng-show="authCtrl.checkFlag(2)">There was some error.
+						Please try later.
+					</div>
+					<div class="dialog-middle phone-verify-middle"
+						ng-show="authCtrl.checkFlag(3)">Your phone number doesn't
+						seem valid. Please verify it.
+					</div>
+					<div class="dialog-middle phone-verify-middle takinghome"
+						ng-show="authCtrl.checkFlag(4)">
+						<div class="bold pale-blue">Taking you to the app...</div>
+						 <img class="loader" src="{% static 'resource/loader/tiny-green-square.gif' %}">
+						 <div class="inline-middle loader-cover-small"></div>
+						<div class="mid-more-text">
+							By the way, did you know sum of digits in your phone no. is
+							<span class="bigfont bold">
+								{% verbatim %} {{authCtrl.sum+'!'}} {% endverbatim %}
+							</span> We just 
+							calculated. You see, jobless people! :p
+						</div>
+					</div>
+					<div class="dialog-middle phone-verify-middle alert-text"
+						ng-show="authCtrl.checkFlag(5)">
+						Sorry! We already have an account associated with 
+						<strong>
+								{% verbatim %} 
+									{{authCtrl.areacode + authCtrl.phone +'.'}} 
+								{% endverbatim %} 
+						</strong> 
+						<br /><br /><br /><br />
+						<div class="mid-size-text pale-blue">
+							Trying to sign in?
+							<a class="auth-form-link" 
+								ng-click="panels.showPanel(2) || authCtrl.changeFlag(0)">Click here</a>
+						</div>	
+					</div>
+					<div class="dialog-lower phone-verify-lower" 
+						ng-show="authCtrl.checkFlag(1) || authCtrl.checkFlag(4)">
+						<input type="submit" class="pgo-button medsize" value="Verify" 
+							ng-show="authCtrl.checkProcess(0)">
+						<input type="button" class="pgo-button medsize disabled" value="Verify"
+							ng-show="authCtrl.checkProcess(1)">
+					</div>
+				</form>
+			</div>

@@ -1,0 +1,34 @@
+	
+		<div class="contact-contain" ng-class="animateContacts" ng-init="init()">
+			<div class="contact-block inline-middle" ng-class="animateBlocks">
+				<div class="text" 
+					ng-show="qctCtrl.isHover(0)" ng-mouseover="qctCtrl.setHover(1)">?</div>
+				<div class="text-over" 
+					ng-show="qctCtrl.isHover(1)" ng-mouseout="qctCtrl.setHover(0)">*</div>
+			</div>
+			<div class="contact-block inline-middle" ng-class="animateBlocks">
+			?
+			</div>
+			<div class="contact-block inline-middle" ng-class="animateBlocks">
+			?
+			</div>
+			<div class="contact-block inline-middle" ng-class="animateBlocks">
+			?
+			</div>
+			<div class="contact-block inline-middle" ng-class="animateBlocks">
+			?
+			</div>
+			<div class="contact-block inline-middle" ng-class="animateBlocks">
+			?
+			</div>
+			<div class="contact-block inline-middle" ng-class="animateBlocks">
+			?
+			</div>
+			<div class="contact-block inline-middle" ng-class="animateBlocks">
+			?
+			</div>
+			<div class="contact-block inline-middle" ng-class="animateBlocks">
+			?
+			</div>
+			<div ui-view="test"></div>
+		</div>

@@ -110,5 +110,5 @@ class User(metaclass = ABCMeta):
     def SendText(self, msg):
         #phrase decoded back to string
         sms = TextMessage(msg, self.fullphone)
-        #sms.send()
+        sms.send()
     

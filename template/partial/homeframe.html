@@ -1,0 +1,53 @@
+{% load staticfiles %}
+<div class="home-frame-container" ng-init="init()">
+		<div class="side-pane">
+			<div class="top-portion">
+			  <div class="identity-container">
+			  	<div class="user-dp inline-middle" ng-class="dpClass">
+					<img ng-src="{% verbatim %}{{hfCtrl.data.photo.small}}{% endverbatim %}">	
+				</div>
+				<div class="user-identity inline-middle">
+					{% verbatim %}
+						{{hfCtrl.data.identity}}
+					{% endverbatim %}
+				</div>
+			  </div>
+				
+			</div>
+			<div class="sp-links home-link">
+				<a href="/"><span class="glyphicon glyphicon-home"></span> Home</a>
+			</div>
+			<div class="sp-links">
+				<a href="/"><span class="glyphicon glyphicon-user"></span> Contacts</a>
+			</div>
+			<div class="sp-links">
+				<a ui-sref="homeframe.send"><span class="glyphicon glyphicon-send"></span> Send</a>
+			</div>
+		</div>
+		<div class="app-logo">
+			<img src="{% static 'resource/picture/logo-home-2.png' %}">
+		</div>
+		<div class="user-panel" ng-controller="userPanelController as upCtrl">
+			<div class="notification" 
+				ng-show="hfCtrl.data.file.newcount!=0">
+				{% verbatim %}
+					{{hfCtrl.data.file.newcount}}
+				{% endverbatim %}
+			</div>
+			{% csrf_token %}
+			<div ng-repeat="icon in userPanelIcons" 
+				ng-class="userPanelClass[$index]" ng-mouseover="upCtrl.userPanelAnimate(1,$index)"
+				ng-mouseout="upCtrl.userPanelAnimate(0,$index)" 
+				ng-mousedown="upCtrl.userPanelAnimate(0,$index)"
+				ng-mouseup="upCtrl.userPanelAnimate(1,$index)"
+				ng-click="upCtrl.upDispatch($index)"
+				class="glyphicon {% verbatim %}{{icon}}{% endverbatim %}">
+			</div>
+			
+			<div class="logout-msg" ng-show="logoutMsgToggle">
+				{% verbatim %}{{upCtrl.logoutMsg}}{% endverbatim %}
+			</div>
+		</div>
+    	<!--<route-loader></route-loader>-->
+    <div ui-view="widget" class="view-transit" ng-class="uiTransit"></div>	
+</div>

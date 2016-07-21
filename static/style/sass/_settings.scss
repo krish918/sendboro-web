@@ -1,0 +1,116 @@
+@import 'widget';
+
+.widget-header{	
+	.stab {
+		padding: 0 25px;
+		@include vertCenter(50px);
+		margin-left: -4px;
+		cursor: pointer;
+		@include radius(6px 6px 0 0);
+		@include shadow($width:0,$fade:2px);
+		
+		&.active {
+			background: lighten($dblack, 40);
+		}
+		
+		&.active:hover {
+			background: lighten($dblack, 40);
+		}
+		&:hover {
+			background: lighten($dblack, 25);
+		}
+	}
+}
+
+.widget-body {
+	padding: 20px 0;
+	.subsettings {
+		padding: 20px;
+		border-bottom: solid 1px #e0e0e0;
+		
+		.subsettings-header {
+				@include vertCenter(40px);
+		}
+		
+	}
+	
+	.dp-preview {
+		margin-left: 22px;
+		width: 150px;
+		height: 150px;
+		border: solid 1px #e0f0f0;
+		margin-bottom:10px;
+		overflow: hidden;
+		
+		.dp-progress-bar {
+			position: relative;
+			margin-top:-148px;
+			height:100%;
+			width:0;
+			background: #23a0f0;
+			background: rgba(60,130,200,0.8);
+		}
+		
+		img {
+			width: 100%;
+			height: auto;
+		}
+	}
+	
+	.subsettings-content {
+		height: 40px;
+		margin-left: 30px;
+		.pgo-input {
+			width: 300px;
+		}
+		
+		.old-value {
+			@include vertCenter(40px);
+			width: 300px;
+			color: #c040a0;
+			font-size:9pt;
+		}
+		
+		.glyphicon {
+			margin-left: 20px;
+			font-size: 13pt;
+			color: #50a090;
+			cursor: pointer;
+			
+			&:hover {
+				color: lighten(#50a090,10);
+			}
+		}
+	}
+	
+	@include transform3d(180deg);
+	
+	&.panel-active {
+		@include transition(all linear 0.2s);
+		@include transform3d(0deg);
+	}
+}
+
+.widget-body.advanced {
+	.subsettings {
+		padding-left: 30px;
+	}
+	.subsettings-content {
+		margin-left:0px;
+		margin-top:10px;
+	}
+	
+	.old-value.safe-del {
+		width: 100px;
+	}
+	.sd-detail {
+		color: #a0a0a0;
+		font-style: italic;
+		font-size:7pt;
+	}
+}
+
+img.loader {
+	margin-left:14px;
+} 
+

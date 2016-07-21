@@ -13,12 +13,7 @@ from file.models import Delivery,File,BlindDelivery
 from common.utils.general import Helper,Time,UserTrace
 from django.views.decorators.csrf import csrf_protect
 import traceback, platform, os
-from sendboro.settings import GEOIP_PATH
-
-if platform.system() == 'Windows':
-    from pygeoip import GeoIP
-else:
-    from django.contrib.gis.geoip import GeoIP
+from django.contrib.gis.geoip2 import GeoIP2
 
 
 class MetaUserView(View):
@@ -252,12 +247,8 @@ class Country(View):
         country = {'success': False}
         if ip:
             try:
-                if platform.system() == "Windows":
-                    geoip = GeoIP(os.path.abspath(os.path.join(GEOIP_PATH,'GeoLiteCity.dat')))
-                    country['data'] = geoip.record_by_addr("106.78.89.100")
-                else:
-                    geoip = GeoIP()
-                    country['data'] = geoip.country("106.78.89.100")
+                geoip = GeoIP2()
+                country['data'] = geoip.country("106.78.89.100")
                     
                 country['success'] = True
             except Exception as e:

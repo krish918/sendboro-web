@@ -28,7 +28,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'html'),
+            os.path.join(BASE_DIR, 'template'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -45,14 +45,11 @@ TEMPLATES = [
     },
 ]
 
-STATICFILES_DIRS = (
-                   os.path.join(BASE_DIR, 'html'),
-                   os.path.join(BASE_DIR, 'media'),
-                    )
+#STATICFILES_DIRS = ()
 
 ALLOWED_HOSTS = []
 
-GEOIP_PATH = os.path.abspath(os.path.join(BASE_DIR, 'html/resource/utils'))
+GEOIP_PATH = os.path.abspath(os.path.join(BASE_DIR, 'static/resource/utils'))
 
 # Application definition
 
@@ -120,7 +117,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 #static root is empty so that gunicorn doesn't serves static files
-#STATIC_ROOT = os.path.join(BASE_DIR, 'html')
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATIC_URL = '/static/'
 
