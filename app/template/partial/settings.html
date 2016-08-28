@@ -1,0 +1,119 @@
+{% load staticfiles %}
+<div class="widget-container" ng-class="settingClass" ng-init="init()">
+	<div class="widget-header">
+		<div class="settings-tab-container inline-middle">
+			<div class="stab inline-middle" ng-class="{'active':setCtrl.checkPanel(1)}"
+				ng-click="setCtrl.setPanel(1)">
+				General
+			</div>
+			<div class="stab inline-middle" ng-class="{'active':setCtrl.checkPanel(2)}"
+				ng-click="setCtrl.setPanel(2)">
+				Advanced
+			</div>
+		</div>
+		<div class="widget-icon inline-middle">
+			<span class="glyphicon glyphicon-wrench"></span>
+		</div>
+	</div>
+	<div class="widget-body" ng-show="setCtrl.checkPanel(1)"
+		ng-class="{'panel-active': setCtrl.checkPanel(1)}">
+		<div class="subsettings">
+			<div class="subsettings-header-dp inline-top">
+				Your photo
+			</div>
+			<div class="dp-preview inline-top">
+				<img ng-src="{% verbatim %}{{setCtrl.user.photo.med}}{% endverbatim %}">
+				<div class="dp-progress-bar" ng-style="{'width': progress+'%'}"></div>
+			</div>
+			<div class="widget-error" ng-show="settings_error">
+				Sorry! We couldn't do that. 
+				{% verbatim %}
+					{{errorContent}}
+				{% endverbatim %}
+			</div> 
+			<div class="upload-button-container inline-bottom">
+				<span class="up-butt-label inline-middle" ng-show="setCtrl.user.photo.silh">
+					Upload photo
+				</span>
+				<span class="up-butt-label inline-middle" ng-show="!setCtrl.user.photo.silh">
+					Change photo
+				</span>
+				<div class="glyphicon glyphicon-upload inline-middle"></div>
+			</div>
+			
+			<input class="inpt-upload photo" type="file" nv-file-select uploader="uploader"
+					onchange="angular.element(this).scope().upHandler()">
+		</div>
+		<div class="subsettings">
+			<div class="subsettings-header inline-middle">
+				Username
+			</div>
+			<div class="subsettings-content inline-middle">
+				<div class="old-value inline-middle" ng-hide="!unEdit">
+					{% verbatim %}
+						{{setCtrl.user.username}}
+					{% endverbatim %}
+				</div>
+				<input type="text" ng-model="username" 
+					class="pgo-input inline-middle" autocomplete="off" ng-hide="unEdit"
+					ng-class="unEditClass">
+				<span class="glyphicon glyphicon-edit inline-middle"
+					ng-click="setCtrl.edit.toggle('unEdit')" ng-hide="!unEdit || loaderUn"></span>
+				<span class="glyphicon glyphicon-ok-circle inline-middle" ng-hide="unEdit || loaderUn"
+				    ng-click="setCtrl.edit.send('username','unEdit')"></span>
+				 <div class="inline-middle" ng-show="loaderUn">
+				 	<img class="loader" src="{% static 'resource/loader/trivial.gif' %}">
+						 <div class="inline-middle loader-cover-small"></div>
+				 </div>
+			</div>
+		</div>
+		<div class="subsettings">
+			<div class="subsettings-header inline-middle">
+				Full Name
+			</div>
+			<div class="subsettings-content inline-middle">
+				<div class="old-value inline-middle" ng-hide="!fnEdit">
+					{% verbatim %}
+						{{setCtrl.user.fullname}}
+					{% endverbatim %}
+				</div>
+				<input type="text" ng-model="fullname" 
+					class="pgo-input inline-middle" autocomplete="off" ng-hide="fnEdit"
+					ng-class="fnEditClass">
+				<span class="glyphicon glyphicon-edit inline-middle" 
+					ng-click="setCtrl.edit.toggle('fnEdit')" ng-hide="!fnEdit || loaderFn"></span>
+				<span class="glyphicon glyphicon-ok-circle inline-middle" ng-hide="fnEdit || loaderFn"
+					ng-click="setCtrl.edit.send('fullname','fnEdit')"></span>
+				 <div class="inline-middle" ng-show="loaderFn">
+				 	<img class="loader" src="{% static 'resource/loader/trivial.gif' %}">
+						 <div class="inline-middle loader-cover-small"></div>
+				 </div>
+			</div>
+		</div>
+	</div>
+	<div class="widget-body advanced" ng-show="setCtrl.checkPanel(2)"
+		ng-class="{'panel-active': setCtrl.checkPanel(2)}">
+		<div class="subsettings">
+			<div class="subsettings-header">
+				Alternate Phone
+			</div>
+			<div class="subsettings-content">
+				<div class="old-value inline-middle">Not Set</div>
+				<input type="text" class="pgo-input inline-middle" autocomplete="off" ng-hide="true">
+				<span class="glyphicon glyphicon-edit inline-middle"></span>
+				<span class="glyphicon glyphicon-ok-circle inline-middle" ng-hide="true"></span>
+			</div>
+		</div>
+		<div class="subsettings">
+			<div class="subsettings-header">
+				Safe Delivery
+			</div>
+			<div class="subsettings-content">
+				<div class="old-value safe-del inline-middle">Off</div>
+				<div class="sd-detail inline-middle">
+					Turn it on to recieve files only from people in your contacts.
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
