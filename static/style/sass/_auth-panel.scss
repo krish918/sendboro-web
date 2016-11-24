@@ -91,7 +91,6 @@ style for authentication-panel at homepage
 		color: #555;
 		opacity:1;
 		@include transition(all linear 0.5s);
-		
 		&.ng-hide {
 			opacity:0;
 		}

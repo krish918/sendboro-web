@@ -57,7 +57,7 @@ TEMPLATES = [
 
 ALLOWED_HOSTS = []
 
-GEOIP_PATH = os.path.abspath(os.path.join(BASE_DIR, '../media/extras/db'))
+GEOIP_PATH = os.path.abspath(os.path.join(BASE_DIR, './extras/db'))
 
 # Application definition
 

@@ -8,6 +8,7 @@ import plivo, plivoxml, simplejson, traceback
 from django.http.response import HttpResponse
 from com.call import VoiceCall
 from django.views.decorators.csrf import csrf_exempt
+from lxml import etree
 
 ''' view to generate an xml file to be requested by plivo
     for an automated reply to users if they call sendboro's number'''
@@ -44,7 +45,7 @@ class CodeSpeechInXml(View):
         return super(CodeSpeechInXml, self).dispatch(*args, **kwargs)
     
     def post(self, request, *args, **kwargs):
-        r = plivoxml.Response()
+        #r = plivoxml.Response()
         try:
             if kwargs['code'] is None:
                 raise BoroException("Endpoint not valid", Const.GEN_ERROR)          
@@ -54,20 +55,30 @@ class CodeSpeechInXml(View):
             for digit in kwargs['code']:
                 code = code + digit + ", "
                 
-            body = u"Your Send Borrow verification code is; " + str(code)+"."
+            body = "Your Send Borrow verification code is; " + str(code)+"."
             
-            params = {
-                      'language': "en-GB",
-                      'voice': "MAN",
-                      'loop': "0",
-                      }
+            res_root = etree.Element('Response')
+            '''
+            res_speak = etree.Element('Speak', language="en-GB", voice="MAN", loop="0")
+            res_speak.text = body
+            res_root.append(res_speak)
+            '''
+            url = "https://boro.ngrok.io/content/res/rec.mp3"
+            res_play = etree.Element('Play');
+            res_play.text = url
+            res_root.append(res_play)
+            #params = {
+             #         'language': "en-GB",
+              #        'voice': "MAN",
+               #       'loop': "0",
+                #      }
             
-            r.addSpeak(body, **params)
-            print(r.to_xml())
+            #r.addSpeak(body, **params)
+            #print(r.to_xml())
         except:
             pass
         
-        return HttpResponse(str(r), content_type='text/xml')
+        return HttpResponse(etree.tostring(res_root), content_type='text/xml')
 
 ''' View to probed by ajax poll for requesting
      a voice call to get the verification code'''    

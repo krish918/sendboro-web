@@ -221,7 +221,7 @@ p {
   width: 200px;
   height: auto;
   padding: 15px;
-  border: groove 2px #0a8dff;
+  border: groove 2px #0b8dff;
   background: #0065bd;
   -moz-border-radius: 5px;
   -o-border-radius: 5px;
@@ -359,7 +359,7 @@ input[type=number] {
   opacity: 0; }
 
 .logout-msg {
-  color: #5d4d12;
+  color: #5d4d13;
   text-align: center;
   font: normal 10pt/1.6 'sinkinsans','pigeosans',arial, sans-serif;
   padding: 10px;
@@ -369,7 +369,7 @@ input[type=number] {
   -ms-border-radius: 4px;
   -webkit-border-radius: 4px;
   border-radius: 4px;
-  border: solid 2px #efe2b2; }
+  border: solid 2px #f0e2b2; }
 
 .loader-template .progress-bar-container, .loader-template .loading-failed {
   width: 360px;
@@ -1049,11 +1049,11 @@ img.loader {
   -webkit-border-radius: 8px;
   border-radius: 8px;
   background-color: #e67300;
-  -moz-box-shadow: 0 0 20px 5px #ff7f00;
-  -webkit-box-shadow: 0 0 20px 5px #ff7f00;
-  -o-box-shadow: 0 0 20px 5px #ff7f00;
-  -ms-box-shadow: 0 0 20px 5px #ff7f00;
-  box-shadow: 0 0 20px 5px #ff7f00;
+  -moz-box-shadow: 0 0 20px 5px #ff8000;
+  -webkit-box-shadow: 0 0 20px 5px #ff8000;
+  -o-box-shadow: 0 0 20px 5px #ff8000;
+  -ms-box-shadow: 0 0 20px 5px #ff8000;
+  box-shadow: 0 0 20px 5px #ff8000;
   background-image: -ms-linear-gradient(top, #FF9933 0%, #f07800 100%);
   background-image: -moz-linear-gradient(top, #FF9933 0%, #f07800 100%);
   background-image: -o-linear-gradient(top, #FF9933 0%, #f07800 100%);

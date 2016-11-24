@@ -225,7 +225,7 @@ p {
   width: 200px;
   height: auto;
   padding: 15px;
-  border: groove 2px #0a8dff;
+  border: groove 2px #0b8dff;
   background: #0065bd;
   -moz-border-radius: 5px;
   -o-border-radius: 5px;
@@ -675,7 +675,7 @@ style for authentication-panel at homepage
   .auth-panel-container .auth-desc {
     margin: 40px auto;
     font: normal 23pt/1 'BoroHero', sinkinsans, arial, sans-serif;
-    color: #0072d6;
+    color: #0072d7;
     padding-bottom: 20px;
     border-bottom: solid 1px #d0d0ff; }
   .auth-panel-container .description {

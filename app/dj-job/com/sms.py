@@ -16,7 +16,8 @@ class TextMessage():
                   'text': self.text,
                   } 
         try:
-            response = p.send_message(params)
+          #response = p.send_message(params)
+          pass
         except TypeError:
             pass
         except:

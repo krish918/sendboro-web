@@ -248,7 +248,7 @@ class Country(View):
         if ip:
             try:
                 geoip = GeoIP2()
-                country['data'] = geoip.country("106.78.89.100")
+                country['data'] = geoip.country("164.100.78.177")
                     
                 country['success'] = True
             except Exception as e:
