@@ -55,5 +55,5 @@ class Borouser(User):
     def SendVeriCode(self):
         super(Borouser,self).SendVeriCode()
         msg = "Your Sendboro login code is: "+self.phrase+". "+self.linktext
-        self.SendText(msg)
+        return self.SendText(msg)
         

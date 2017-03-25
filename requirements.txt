@@ -7,6 +7,6 @@ dj_database_url
 simplejson
 plivo
 pillow
-django_reszied
+django_resized
 ua_parser
 requests

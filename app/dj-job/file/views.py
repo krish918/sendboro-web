@@ -75,6 +75,7 @@ class PushView(View):
                 self.res['success'] = 1
         except:
             self.res['error'] = traceback.format_exc()
+            raise
             
     def sendsms(self, phone,fid, url):
         type = Helper().getFormattedType(self.type,self.name,True)
@@ -167,10 +168,10 @@ class DirectLinkView(View):
             
         response = HttpResponseRedirect(url_to_visit)
         
-        try:
-            resolve(urlparse(url_to_visit)[2])
-        except Resolver404:
-            pass
+        #try:
+        #    resolve(urlparse(url_to_visit)[2])
+        #except Resolver404:
+        #    pass
             #return HttpResponseNotFound()
            
         return response

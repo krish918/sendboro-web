@@ -55,18 +55,18 @@ class CodeSpeechInXml(View):
             for digit in kwargs['code']:
                 code = code + digit + ", "
                 
-            body = "Your Send Borrow verification code is; " + str(code)+"."
+            body = "Your send borrow verfication code is; " + str(code) + ". "
             
             res_root = etree.Element('Response')
-            '''
+            
             res_speak = etree.Element('Speak', language="en-GB", voice="MAN", loop="0")
             res_speak.text = body
             res_root.append(res_speak)
-            '''
-            url = "https://boro.ngrok.io/content/res/rec.mp3"
-            res_play = etree.Element('Play');
-            res_play.text = url
-            res_root.append(res_play)
+            
+            #url = "https://boro.ngrok.io/content/res/rec.mp3"
+            #res_play = etree.Element('Play');
+            #res_play.text = url
+            #res_root.append(res_play)
             #params = {
              #         'language': "en-GB",
               #        'voice': "MAN",
