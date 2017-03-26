@@ -18,6 +18,7 @@ urlpatterns = [
     url(r'^', include('com.urls')),
     url(r'^api/', include('REST.urls')),
     url(r'^file/', include('file.urls')),
+    url(r'^l/', include('file.urls')),
     url(r'^content/(?P<path>.*)$', static.serve, 
             {'document_root': settings.MEDIA_ROOT}),
 ]

@@ -16,7 +16,8 @@ from django.db import connection
 from django.core.urlresolvers import resolve, Resolver404
 from urllib.parse import urlparse
 import os, mimetypes
-from sendboro.settings import MEDIA_ROOT
+from django.db.models import Q
+from sendboro.settings import MEDIA_ROOT, SHORT_URL_BASEHOST
 
 
 class PushView(View):
@@ -53,9 +54,27 @@ class PushView(View):
     
     def saveFile(self):
         try:
-            with transaction.atomic():
+            with transaction.atomic():                
                 u = User.objects.get(pk=self.user)
-                f = u.file_set.create(filename=self.name,path=self.file,size=self.size,type=self.type)
+                '''
+                trying to get a unique shorturl for the file
+                '''
+                tryagain = True
+                count = 0
+                while tryagain and count < 20:
+                    try:
+                        count = count + 1
+                        surl = Helper().getUniqueSurl()
+                        f = u.file_set.create(filename=self.name,path=self.file,size=self.size,type=self.type,shorturl=surl)
+                        tryagain = False
+                    except IntegrityError as e:
+                        if e.code == 23505:
+                            tryagain = True
+                        else:
+                            raise e
+                        
+                        
+                    
                 
                 if self.blind is False:
                     receiver = User.objects.get(pk=self.recipient)
@@ -70,23 +89,23 @@ class PushView(View):
                 else:
                     self.sender = str(u.dialcode)+str(u.phone)
                     
-                self.sendsms(target_phone,f.fileid,f.path.url);
+                self.sendsms(target_phone,f.fileid,f.shorturl);
                 
                 self.res['success'] = 1
         except:
             self.res['error'] = traceback.format_exc()
             raise
             
-    def sendsms(self, phone,fid, url):
+    def sendsms(self, phone,fid, surl):
         type = Helper().getFormattedType(self.type,self.name,True)
-        texturl = 'http://'+str(self.host)+'/file/direct?id='+str(fid)+'&url='+str(url)
+        texturl = SHORT_URL_BASEHOST + '/' + str(surl)
         
-        msg = ("Hi! %s has sent you a %s file via sendboro."\
-               +" Please sign up for sendboro to receive the file."\
-               +" Or simply visit this URL to see the file: %s") % (self.sender,type,texturl)
+        msg = ("%s: (%s file via sendboro) "\
+               
+               +" Tap here to receive: %s") % (self.sender,type,texturl)
                  
         sms = TextMessage(msg, phone)
-        #sms.send()
+        sms.send()
         
 class DownloadView(View):
     
@@ -134,13 +153,24 @@ class ChangeStateView(View):
 class DirectLinkView(View):
     
     def get(self,request,*args,**kwargs):
+        surl = False
+        if len(args) != 0:
+            surl = args[0]
         fid = request.GET.get('id',False)
         uid = request.session.get('user_id', False)
         url_to_visit = request.GET.get('url', False)
         
-        if not fid or not url_to_visit:
+        if not fid and not url_to_visit and surl is False:
             return HttpResponseNotFound('Invalid Request')
         
+        if url_to_visit is False:
+            try:
+                fileobj = File.objects.get(Q(pk=fid) | Q(shorturl = surl))
+                url_to_visit = fileobj.path.url
+                fid = fileobj.fileid
+            except:
+                raise
+            
         if uid:
             try:
                 cursor = connection.cursor()
@@ -160,11 +190,9 @@ class DirectLinkView(View):
             ua = trace.getUastring()
             
             try:
-                fileobj = File.objects.get(pk=fid)
                 DirectUnsignedView.objects.create(file=fileobj,viewer_ip=ip,viewer_ua=ua)
             except:
-                pass
-        
+                raise
             
         response = HttpResponseRedirect(url_to_visit)
         

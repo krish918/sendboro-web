@@ -6,4 +6,5 @@ urlpatterns = [
         url(r'^download$', DownloadView.as_view()),
         url(r'changestate$',ChangeStateView.as_view()),
         url(r'direct$',DirectLinkView.as_view()),
+        url(r'^([a-z]{4,4})$', DirectLinkView.as_view()),
 ]

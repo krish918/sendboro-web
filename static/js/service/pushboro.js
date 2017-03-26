@@ -107,8 +107,10 @@
 						current_count++;
 					}
 					
-					uploader.onSuccessItem = function() {
+					uploader.onSuccessItem = function(item, response) {
 						success_count++;
+						if(success_count == items.length)
+							plist.onSuccess(item, response);
 					};
 					uploader.onErrorItem = plist.onError;
 					
@@ -116,9 +118,6 @@
 					
 					plist.scope.filename = item.name;
 				}
-				
-				if(success_count == items.length)
-					plist.onSuccess();
 				
 			};
 			

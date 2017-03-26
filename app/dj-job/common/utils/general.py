@@ -1,4 +1,5 @@
 import random, uuid, os, datetime, re, time
+from sendboro.settings import SHORT_URL_LENGTH
 
 class Helper:
     
@@ -59,6 +60,13 @@ class Helper:
                     return extgroup[0]
                 
         return None
+    
+    def getUniqueSurl(self):
+        seq = ['a','b','c','d','e','f','g','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+        surl = ''
+        for x in range(SHORT_URL_LENGTH):
+            surl = surl + random.choice(seq)
+        return surl
     
 class Time:
     

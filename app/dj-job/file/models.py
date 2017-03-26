@@ -10,6 +10,7 @@ class File(models.Model):
     type = models.CharField(max_length=255, null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     recievers = models.ManyToManyField(User, related_name='Receiver', through='Delivery')
+    shorturl = models.CharField(max_length=8, null=True, unique=True)
     sent_ts = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
@@ -48,3 +49,4 @@ class DirectUnsignedView(models.Model):
     viewer_ip = models.CharField(max_length=16)
     viewer_ua = models.CharField(max_length=512)
     ts = models.DateTimeField(auto_now_add=True)
+    
