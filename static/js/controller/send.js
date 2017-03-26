@@ -84,7 +84,8 @@
 						houseKeeping: verifyRecipient,
 						onSuccess: showSuccess,
 						onError: showFailure,
-						onCancel: showCancelled
+						onCancel: showCancelled,
+						uploadAllowed: !$scope.blockSelect,
 					});
 				};
 				
@@ -191,7 +192,7 @@
 				 else if(1 === arg)
 					 $scope.errorMessage = "Recipient's username is invalid.";
 				 else if(2 === arg)
-						 $scope.errorMessage = "File size shouldn't exceed 500MB.";
+						 $scope.errorMessage = "File size shouldn't exceed 6GB.";
 				 else if(3 === arg)
 					 	 $scope.errorMessage = "File sending was interrupted.";
 							 

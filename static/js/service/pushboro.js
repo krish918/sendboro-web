@@ -3,7 +3,7 @@
 	
 	.service('PushBoro', function (FileUploader, $cookies) {
 			
-			var uploader, item , plist;
+			var uploader, items , plist, current_item;
 		
 			//return the FileUploader object to the service consumer
 			this.returnObject = function () {
@@ -20,11 +20,11 @@
 					}
 				});
 				
-				//filter for 500MB file-size limit
+				//filter for 6GB file-size limit
 				uploader.filters.push({
 					name: 'sizesieve',
 					fn: function (item) {
-						if(item.size > 429916160)
+						if(item.size > 6442450944)
 							return false;
 						return true;
 					}
@@ -42,10 +42,16 @@
 				//exec the callback for showing filter error
 				uploader.onWhenAddingFileFailed = params.onFilterChoke;
 				
-				uploader.onAfterAddingFile = function (itm) {
+				uploader.onAfterAddingAll = function (itms) {
+					//if upload is not allowed(i.e. no recepient chosen) 
+					//	then show inability to upload file;
+					if(!params.uploadAllowed) {
+						params.scope.showInability();
+						return;
+					}
 					
 					//setting native item var to the item coming via callback 
-					item = itm;
+					items = itms;
 					
 					//if there is some fucking housekeeping operation to do
 					// after successfully adding file, please go for it. 
@@ -57,49 +63,68 @@
 			
 			this.pushFile = function (){
 				args = arguments[0];
-				item.formData = [];
-				if(args) {
-					//push the receiver_id to be sent to server 
-					item.formData.push({
-						receiver: args.recipient,
-					});
-					
-					//if delivery is blind add a flag to be sent to server
-					if('blind' in args) {
+				plist.scope.total_count = items.length;
+				
+				var current_count = 1;
+				var success_count = 0;
+				
+				for(item of items) {
+					item.formData = [];
+					if(args) {
+						//push the receiver_id to be sent to server 
 						item.formData.push({
-							blind: 1,
+							receiver: args.recipient,
 						});
+						
+						//if delivery is blind add a flag to be sent to server
+						if('blind' in args) {
+							item.formData.push({
+								blind: 1,
+							});
+						}
 					}
+					else
+						item.formData.push({
+							receiver: plist.recipient
+						});
+					
+					//starting upload
+					item.upload();
+					
+					
+					
+					uploader.onProgressItem = function(item, progress) {
+						plist.scope.showProgress = true;
+						plist.scope.progress = progress;
+						plist.scope.filename = getStrippedFilename(item.file);
+						plist.scope.current_count = current_count;
+						current_item = item;
+					};
+					
+					uploader.onCompleteItem = function (item, response) {
+						plist.scope.progress = 0;
+						plist.scope.showProgress = false;
+						current_count++;
+					}
+					
+					uploader.onSuccessItem = function() {
+						success_count++;
+					};
+					uploader.onErrorItem = plist.onError;
+					
+					uploader.onCancelItem = plist.onCancel;
+					
+					plist.scope.filename = item.name;
 				}
-				else
-					item.formData.push({
-						receiver: plist.recipient
-					});
 				
-				//starting upload
-				item.upload();
+				if(success_count == items.length)
+					plist.onSuccess();
 				
-				uploader.onProgressItem = function(item, progress) {
-					plist.scope.showProgress = true;
-					plist.scope.progress = progress;
-					plist.scope.filename = getStrippedFilename(item.file);
-				};
-				
-				uploader.onCompleteItem = function (item, response) {
-					plist.scope.progress = 0;
-					plist.scope.showProgress = false;
-				}
-				
-				uploader.onSuccessItem = plist.onSuccess;
-				uploader.onErrorItem = plist.onError;
-				
-				uploader.onCancelItem = plist.onCancel;
-				
-				plist.scope.filename = item.name;
 			};
 			
 			this.cancelPush = function () {
-				item.cancel();
+				console.log(current_item);
+				uploader.cancelItem(current_item);
 			}
 			
 			var getStrippedFilename = function (item) {

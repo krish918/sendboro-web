@@ -43,7 +43,7 @@ class PushView(View):
         self.size = self.file.size
         self.type = self.file.content_type
         
-        if self.size > 429916160:
+        if self.size > 6442450944:
             self.res['error'] = 1
         else:
             self.saveFile()
@@ -86,7 +86,7 @@ class PushView(View):
                +" Or simply visit this URL to see the file: %s") % (self.sender,type,texturl)
                  
         sms = TextMessage(msg, phone)
-        sms.send()
+        #sms.send()
         
 class DownloadView(View):
     

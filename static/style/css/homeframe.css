@@ -619,7 +619,7 @@ input[type=number] {
 
 .widget-container {
   width: 500px;
-  height: 500px;
+  min-height: 500px;
   background: white;
   border: solid 1px #e0e0e0;
   margin: 5% auto;
@@ -832,7 +832,7 @@ img.loader {
 
 .widget-container {
   width: 500px;
-  height: 500px;
+  min-height: 500px;
   background: white;
   border: solid 1px #e0e0e0;
   margin: 5% auto;
@@ -977,7 +977,7 @@ img.loader {
     margin-top: 20px;
     padding: 20px 5px;
     border-top: solid 1px #f6f6f6;
-    height: 100px; }
+    min-height: 100px; }
     .widget-body.send-page .upload-progress .widget-error {
       position: static;
       margin: 0 auto; }
@@ -1113,6 +1113,16 @@ img.loader {
     -o-transform: scale(1, 0.3);
     -moz-transform: scale(1, 0.3);
     transform: scale(1, 0.3); }
+
+.send-count-desc {
+  padding: 3px;
+  -moz-border-radius: 3px;
+  -o-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  display: inline-block;
+  border: solid 1px #0080f0; }
 
 .inbox-widget {
   height: auto; }

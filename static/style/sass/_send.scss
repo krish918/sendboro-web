@@ -18,7 +18,6 @@
 	
 	.inpt-container {
 		padding: 20px 0px;
-		
 	}
 	
 	.upload-button-container {
@@ -45,7 +44,7 @@
 		margin-top:20px;
 		padding:20px 5px;
 		border-top: solid 1px #f6f6f6;
-		height: 100px;
+		min-height: 100px;
 		
 		.widget-error {
 			position:static;
@@ -168,3 +167,9 @@
 		@include scaleTransform(1,0.3);
 	} 
 } 
+.send-count-desc {
+	padding:3px;
+	@include radius(3px);
+	display:inline-block;
+	border: solid 1px $sweet-blue;
+}

@@ -1,5 +1,6 @@
 {% load staticfiles %}
-<div class="widget-container" ng-class="shareAnimClass" ng-init="init()">
+<div class="widget-container" ng-class="shareAnimClass" ng-init="init()"  
+		nv-file-drop uploader="uploader" ondrop="angular.element(this).scope().initPushEngine()">
 	<div class="widget-header">
 		<div class="widget-title inline-middle">Send files</div>
 		<div class="widget-icon inline-middle">
@@ -22,7 +23,7 @@
 			{% csrf_token %}
 			<input class="inpt-upload file" type="file" nv-file-select
 				uploader="uploader"
-				onchange="angular.element(this).scope().initPushEngine()">
+				onchange="angular.element(this).scope().initPushEngine()" multiple>
 			<div class="upload-button-container dummy" ng-show="blockSelect"
 				ng-click="showInability()">
 				Can't select
@@ -47,9 +48,13 @@
 								{{progress + '%'}} 
 							{% endverbatim %}
 					</div>
+					
 					<div class="cancel-upload inline-middle" title="Cancel sending" ng-click="shCtrl.cancel()">
 				  		X
 					</div>
+				</div>
+				<div class="send-count-desc">
+					{% verbatim %} {{current_count}} / {{total_count}} {% endverbatim %}
 				</div>	 
 			</div>
 			<div class="success-msg" ng-show="showSuccess">

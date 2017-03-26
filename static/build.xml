@@ -11,7 +11,7 @@
 	<property name="sass.dir" value="static/style/sass" />
 	<property name="css.dir" value="static/style/css" />
 
-    <target name="sass.compiler">
+    <target name="sass.interpreter">
         <apply executable="${exec_file}" dest="${css.dir}" verbose="true" force="true" failonerror="true">
         	<arg value="--unix-newlines" />
         	
