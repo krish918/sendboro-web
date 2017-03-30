@@ -2,9 +2,12 @@
 @import "vars";
 @import "mixins";
 @import "common";
+@import "widget";
 @import "settings";
 @import "send";
 @import "inbox";
+@import "send";
+@import "contact";
 @import "welcome";
 
 
@@ -17,136 +20,148 @@ a{
 	}
 }
 
-.side-pane {
+.top-pane {
 	background: darken($my-red,7);
 	position:fixed;
 	top:0;
 	left:0;
-	height:100%;
-	width:200px;
+	display:flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+	align-items:stretch;
+	z-index:1;
+	
+	width:100%;
+	height:65px;
 	//@include shadow($color:lighten($my-red,30),$width:0,$fade:40px);
 	
-	.top-portion {
+	.user-desc-portion {
 		margin:0;
-		padding: 20px 10px;
-		padding-right:0;
+		padding: 0 20px;
 		background: #404040;
 		color: white;
-	}
-}
-
-.app-logo {
-	position: fixed;
-	top:10px;
-	right:10px;
-}
-
-.contact-contain {
-	width: 390px;
-	border: solid 1px #e9e9e9;
-	height: 380px;
-	margin: 10% auto;
-	margin-bottom: 20px;
-	text-align: center;
-	padding:10px;
-	@include shadow($color:#e0e0e0,$fade:50px,$width:0);
-	@include radius(3px);
-	
-	.contact-block {
-		height:100px;
-		width: 100px;
-		margin:10px;
-		border: solid 1px #e2e2e2;
-		text-align: center;
-		font: normal bold normal 50pt/100px 'pigeosans','sinkinsans', arial, helvetica,sans-serif;
-		color: #a0a0a0;
-		vertical-align: middle;
-		opacity:0;
-		cursor: pointer;
-		overflow:hidden;
-		
-		@include transform3d(360deg, Y);
-		@include transition(all linear 0.5s);
-		
-		&:hover {
-			background: $my-red;
-			border-color:transparent;
-			color:white;
-		}
-		
-		&.animate-blocks {
-			opacity:1;
-			@include transform3d(0deg, Y);
-		}
-		
-		.text {
-			margin-top:inherit;
-			@include transition(all linear 0.2s);
-			
-			&.ng-hide {
-				margin-top:-60px;
-			}
-		}
-		.text-over {
-			color:#fff;
-			margin-bottom: 0;
-			@include transition(all linear 0.2s);
-			&.ng-hide {
-				margin-bottom: -60px;
-			}
-		}
+		flex: 0 0.2 auto;
+		display:flex;
+		flex-flow:row nowrap;
+		align-items:center;
+		min-width:120px;
 	}
 	
-	@include transform3d(180deg, X);
-	@include transition(all linear 0.3s);
+	.user-panel {
+		flex: 0 0.5 auto;
+		display:flex;
+		flex-flow:row nowrap;
+		align-items:center;
+		min-width:70px;
+		background: #404040;
+		color: white;
+		font-size:18pt;
+		text-align:center;
+		padding:0;
+		@include no-user-select;
 	
-	&.animate-contacts {
-		@include transform3d(0deg, X);
-	}
-}
-
-.user-panel {
-	position: fixed;
-	top: 21%;
-	right:0;
-	width: 60px;
-	height: 210px;
-	background: #454545;
-	@include shadow($color:#101010,$width:0, $fade:3px);
-	@include radius(5px 0 0 5px);
-	color: white;
-	font-size:18pt;
-	text-align:center;
-	padding:0;
-	@include no-user-select;
-	
-	div.glyphicon {
-		display: block;
-		height: 70px;
-		width:60px;
-		line-height: 70px;
-		vertical-align: center;
-		cursor: pointer;
-		@include radius(5px);
-		&:hover {
-			background: darken($my-red,5);
-			@include shadow($color:#373737,$width:0, $fade:5px);
+		div.glyphicon {
+			flex: 0 1 auto;
+			width:60px;
+			cursor: pointer;
 		}
-	}
 	
-	& .enlarge-icon {
+		& .enlarge-icon {
 		font-size: 22pt; 
 		@include transition(all linear 0.1s);
+		}
+	
+		& .enlarge-icon-remove {
+			@include transition(all linear 0.1s);
+		}
 	}
 	
-	& .enlarge-icon-remove {
-		@include transition(all linear 0.1s);
+	
+	.progress-bar-main-container {
+		flex: 0 2 auto;
+		width:100%;
+		height:100%;
+		text-align:center;
+		.progress-bar-inner {
+			position:relative;
+			width:100%;
+			height:100%;
+		}
+		
+		.progress-bar {
+			position:absolute;
+			width:10%;
+			background: darken($my-red, 20);
+		}
+		
+		.send-desc-container {
+			position:absolute;
+			top:5px;
+			left:10px;
+			font: normal 9pt/1 'sinkinsans','droidsans',arial,sans-serif;
+		}
+		
+		.send-count-desc {
+			padding:1px 4px;
+			@include radius(3px);
+			display:inline-block;
+			border: solid 1px white;
+			background: white;
+			color:#202020;
+		}
+		
+		.send-desc {
+			color: white;
+		}
+		
+		.success-box {
+			
+			display:inline-block;
+			height:50px;
+			padding:15px;
+			font: normal 12pt/1 'pigeosans', 'sinkinsans', 'droidsans', arial, sans-serif;
+			background: $light-blue;
+			border: solid 1px darken($light-blue, 6);
+			@include radius(0 0 6px 6px);
+			text-align:center;
+			color:#404040;
+			@include transition(all linear 0.2s);
+	
+			&.ng-hide {
+				@include translate(0, -50px);
+				opacity:0;
+			} 
+		}
+		
+		.cancel-upload {
+		 	position:absolute;
+		 	text-align:center;
+		 	bottom: -10px;
+		 	width: 25px;
+		 	height:25px;
+		 	line-height:25px;
+		 	vertical-align:middle;
+		 	left:50%;
+		 	margin-left:-12px;
+		 	@include radius(25px);
+		 	background: red;
+		 	color: white;
+		 	cursor:pointer;
+		 	
+		 	@include transition(all linear 0.1s);
+		 	
+		 	&:hover {
+		 		background: darken(red, 30);
+		 		@include scaleTransform(1.1,1.1);
+		 	}
+		}
 	}
 }
+
 
 .home-frame-container {
 	position:absolute;
-	min-width: 900px;
+	min-width: 700px;
 	min-height:50px;
 	height:100%;
 	width:100%;
@@ -163,11 +178,12 @@ a{
 }
 
 .identity-container {
+	flex: 0 1 auto;
 	font: normal 9pt/1 'sinkinsans', 'droidsans', arial, sans-serif;
 	.user-dp {
-		width: 70px;
-		height:70px;
-		@include radius(70px);
+		width: 45px;
+		height:45px;
+		@include radius(45px);
 		overflow: hidden;
 		img {
 			width: 100%;
@@ -180,7 +196,7 @@ a{
 		}	
 	}
 	.user-identity {
-		width:110px;
+		margin-left:6px;
 		overflow-wrap: break-word;
 	}
 }
@@ -221,4 +237,37 @@ a{
 	color:white;
 	@include radius(30px);
 	text-align:center;
+}
+
+.app-modules-container {
+	position:relative;
+	width:100%;
+	height:100%;
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+	align-items: stretch;
+	overflow:hidden;
+	
+	
+	
+	.leftmod, .middlemod, .rightmod {
+		margin-top:65px;
+		width:100%;
+		
+		border-left: solid 1px #d0d0d0;
+		overflow-y:auto;
+		overflow-x:hidden;
+	}
+	
+	.leftmod {
+		flex: 0 1.2 auto;
+		min-width:200px;
+	}
+	.middlemod {
+		flex: 0 0.9 auto;
+	}
+	.rightmod {
+		flex: 0 1 auto;
+	}
 }

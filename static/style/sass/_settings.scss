@@ -22,7 +22,7 @@
 	}
 }
 
-.widget-body {
+.widget-body.settings-body {
 	padding: 20px 0;
 	.subsettings {
 		padding: 20px;
@@ -82,8 +82,7 @@
 			}
 		}
 	}
-	
-	@include transform3d(180deg);
+
 	
 	&.panel-active {
 		@include transition(all linear 0.2s);

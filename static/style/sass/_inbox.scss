@@ -3,11 +3,6 @@
 }
 .widget-body {
 	
-	&.inbox-page {
-		
-		@include transform3d(0deg);
-	}
-	
 	.inbox-empty {
 		padding:20px 35px;
 		text-align: right;

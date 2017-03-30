@@ -70,6 +70,10 @@ def sendPartialView(request):
     return render(request, 'partial/send.html')
 
 @LoginRequired()
+def sentPartialView(request):
+    return render(request, 'partial/sent.html')
+
+@LoginRequired()
 def inboxPartialView(request):
     return render(request, 'partial/inbox.html')
 

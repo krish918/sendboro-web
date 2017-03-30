@@ -1,4 +1,3 @@
-@import "widget";
 
 .widget-header {
 	.widget-title {
@@ -10,7 +9,6 @@
 
 .widget-body.send-page {
 	padding: 30px;
-	@include transform3d(0deg);
 	
 	.send-desc {
 		line-height: 2;

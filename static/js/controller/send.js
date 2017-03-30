@@ -2,7 +2,7 @@
 	angular.module('borocasa')
 	
 	.controller('shareController', ['$scope','$metaboro','PushBoro','$timeout','$cookies',
-	       '$http',function($scope, $metaboro, PushBoro, $timeout,$cookies,$http){
+	       '$http','$rootScope',function($scope, $metaboro, PushBoro, $timeout,$cookies,$http, rootScope){
 			
 			 //variable to store timeout promise; used
 			 //  to cancel timeout when another error occurs
@@ -12,7 +12,7 @@
 			 
 			 $scope.init = function () {
 				document.title = 'Send File';
-				$scope.shareAnimClass = 'animateWidget';
+				$scope.animateWidget = 'animateWidget';
 				$scope.blockSelect = true;
 				$scope.errorHide = true;
 				$scope.dialogHide = true;
@@ -79,7 +79,7 @@
 				
 				var nativeHandler = function () {
 					PushBoro.handler({
-						scope: $scope,
+						scope: rootScope,
 						onFilterChoke: addingError,
 						houseKeeping: verifyRecipient,
 						onSuccess: showSuccess,
@@ -107,9 +107,9 @@
 					}
 					
 					else if('success' in response)
-						$scope.showSuccess = true;
+						$scope.showSuccess = rootScope.showSuccess = true;
 						$timeout(function () {
-							$scope.showSuccess = false;
+							$scope.showSuccess = rootScope.showSuccess = false;
 						},9000);
 				};
 				
@@ -215,7 +215,7 @@
 		
 				$scope.init =  function () {
 					document.title = 'Inbox';
-					$scope.inboxAnimClass="animateWidget";
+					$scope.animateWidget="animateWidget";
 					metaboro.listenUpdate($scope, function() {
 						self.user = metaboro.data
 					});

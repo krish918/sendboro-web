@@ -1,35 +1,27 @@
 .widget-container {
-	width: 500px;
-	min-height: 500px;
-	background: white;
-	border: solid 1px #e0e0e0;
-	margin: 5% auto;
-	margin-bottom: 10px;
-	@include radius(5px);
-	@include shadow($color: #dcdcdc, $width:0, $fade:50px);
 	
-	font: normal 10pt/1 'sinkinsans', 'pigeosans', arial, helvetica, sans-serif;
-	
-	@include scaleTransform(0.4,0.4);
+	@include transform3d(180deg, X);
+	@include transition(all linear 0.3s);
 	
 	&.animateWidget {
-		@include transition(all linear 0.2s);	
-		@include scaleTransform(1,1);
+		@include transform3d(0deg, X);
 	}
 	
+	
 	.widget-header {
-		@include radius(5px 5px 0 0);
-		padding: 0 20px;
-		background: lighten(#101010,35);
-		color: white;
-		height: 50px;
-		overflow:hidden;
-		
+		position:relative;
+		z-index:1;
+		font: normal 15pt/1 'sinkinsans', arial, helvetica;
+		color: #606060;
+		padding:8px 20px;
+		background: #f4f4f4;
+		border-bottom: solid 1px #e4e4e4;
+		@include shadow(#a0a0a0, 5px, 0);
 		.widget-icon {
 			width: 50px;
 			float:right;
 			font-size: 15pt;
-			color: white;
+			color: #707070;
 			text-align: right;
 			
 			@include vertCenter(50px);

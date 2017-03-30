@@ -3,8 +3,8 @@
 	
 	angular.module("borocasa")
 		
-		.controller('homeFrameController', ['user','$scope','mbStatus',
-		    function(user,$scope,mbStatus) {
+		.controller('homeFrameController', ['user','$scope','mbStatus','PushBoro',
+		    function(user,$scope,mbStatus,PushBoro) {
 				this.data = user.data
 				var self = this;
 				mbStatus.appRunning = true;
@@ -25,6 +25,10 @@
 						self.data.identity = user.data.username;
 					else
 						self.data.identity = user.data.countrycode+user.data.phone;
+				};
+				
+				this.cancelSending = function() {
+					PushBoro.cancelPush();
 				};
 				
 		}])

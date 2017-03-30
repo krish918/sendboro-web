@@ -61,14 +61,24 @@
 					url: '/',
 					views: {
 						'frame@': frameObj,
-						'widget@homeframe': widgetObj
+						'widgetLeft@homeframe': widgetObj,
+						'widgetMiddle@homeframe' : {
+							templateUrl: '/partial/inbox',
+							controller: 'inboxController',
+							controllerAs: 'inbxCtrl'
+						},
+						'widgetRight@homeframe' : {
+							templateUrl: '/partial/sent',
+							controller: 'sentController',
+							controllerAs: 'sntCtrl'
+						},
 					}
 				})
 				
 				.state('homeframe.settings', {
 					url: 'settings',
 					views: {
-						'widget@homeframe': {
+						'widgetLeft@homeframe': {
 							templateUrl: '/partial/settings',
 							controller: 'settingsController',
 							controllerAs: 'setCtrl'
@@ -79,7 +89,7 @@
 				.state('homeframe.send', {
 					url: 'send',
 					views: {
-						'widget@homeframe' : {
+						'widgetLeft@homeframe' : {
 							templateUrl: '/partial/send',
 							controller: 'shareController',
 							controllerAs: 'shCtrl'
@@ -90,7 +100,7 @@
 				.state('homeframe.inbox', {
 					url: 'inbox',
 					views: {
-						'widget@homeframe' : {
+						'widgetLeft@homeframe' : {
 							templateUrl: '/partial/inbox',
 							controller: 'inboxController',
 							controllerAs: 'inbxCtrl'

@@ -1,0 +1,18 @@
+.widget-body.contact-body {
+	.contact-utility-bar {
+		color: #808080;
+		padding:15px 10px;
+		font: normal 10pt/1 'sinkinsans', arial, helvetica;
+		background: #fbfbfb;
+		border-bottom: solid 1px #f3f3f3;
+		
+		input {
+			background: #fbfbfb;
+			padding:5px;
+			border-bottom: solid 1px lighten($sweet-blue,35);
+		}
+		span {
+		 margin: 0 3px;
+		}
+	}
+}

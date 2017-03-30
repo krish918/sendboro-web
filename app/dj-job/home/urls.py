@@ -8,6 +8,7 @@ urlpatterns = [
                 url(r'^logout$', LogoutView.as_view()),
                 url(r'^partial/settings$', settingsPartialView),
                 url(r'^partial/send$', sendPartialView),
+                url(r'^partial/sent$', sentPartialView),
                 url(r'^partial/inbox$', inboxPartialView),
                 url(r'^settings$', settingsView),
                 url(r'^send$', sendView),
