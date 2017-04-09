@@ -105,7 +105,7 @@ class PushView(View):
                +" Tap here to receive: %s") % (self.sender,type,texturl)
                  
         sms = TextMessage(msg, phone)
-        #sms.send()
+        sms.send()
         
 class DownloadView(View):
     
