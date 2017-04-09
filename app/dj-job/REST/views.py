@@ -188,7 +188,9 @@ class AlterView(View):
         try:
             if uname is not False:
                 if re.search(pattern_un, uname):
-                    User.objects.filter(pk=self.uid).update(username=uname)
+                    user = User.objects.get(pk=self.uid)
+                    user.username = uname
+                    user.save()
                     response['uname'] = uname
                     response['success'] = 1
                 else:
