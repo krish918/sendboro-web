@@ -7,10 +7,44 @@
 		</div>
 	</div>
 	<div class="widget-body contact-body">
-		<div class="contact-utility-bar">
-			<input class="search-contact-input" type="text" ng-model="searchContact" />
-			<span class="glyphicon glyphicon-search"></span>
-			<span class="glyphicon glyphicon-plus"></span>
+		<div class="contact-upper-widget" ng-class="addContactClass">
+			<div class="add-contact-container" ng-class="addContactClass">
+				<div class="contact-name-container">
+					<input class="contact-input" type="text" ng-model="contactName" placeholder="Contact Name"
+						ng-change="qctCtrl.pristineError()"/>
+				</div>
+				
+				<div class="contact-detail-container">
+					<input class="contact-input" type="text" ng-model="userName" placeholder="Username"
+						ng-change="qctCtrl.pristineError()"/>
+					<div class="divider-text">Or</div>
+					<input class="contact-input" type="text" ng-model="phoneNum" placeholder="Phone Number"
+						ng-change="qctCtrl.pristineError()"/>
+				</div>
+				
+				<div class="add-contact-button-container">
+					<div class="add-contact-button" ng-hide="!qctCtrl.checkError(0)" 
+						ng-click="qctCtrl.initAddContact()">
+						<span class="glyphicon glyphicon-ok"></span>
+						Add Contact
+					</div>
+					<div class="add-contact-error" ng-hide="!qctCtrl.checkError(1)">
+						<span class="glyphicon glyphicon-exclamation-sign"></span>
+						{% verbatim %} {{ addContactErrorText }} {% endverbatim %}
+					</div>
+				</div>
+				
+			</div>
+			<div class="contact-utility-bar">
+				<input class="search-contact-input" type="text" ng-model="searchContact" 
+			 			placeholder="Search Contacts"/>
+			
+				<span class="glyphicon glyphicon-plus" ng-show="qctCtrl.checkAddContactFlag(0)"
+					 	ng-click="qctCtrl.showAddContact(1)"></span>
+				<span class="glyphicon glyphicon-circle-arrow-up" ng-show="qctCtrl.checkAddContactFlag(1)" 
+						ng-click="qctCtrl.showAddContact(0)"></span>
+			
+			</div>
 		</div>
 	</div>
 </div>

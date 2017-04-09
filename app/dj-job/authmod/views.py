@@ -23,6 +23,23 @@ from common.base.constant import Const
 from common.base.account import Account
 from ua_parser import user_agent_parser as uap
 
+class SetUserForAndroid(View):
+    
+    def get(self, request, *args, **kwargs):
+        uid = request.GET.get("uid", False)
+        res = {}
+        try:
+            if uid is False:
+                raise exception()
+            request.session['user_id'] = uid
+            res['status'] = 'ok'
+        except:
+            res['status'] = 'failed'
+            
+        dump = simplejson.dumps(res)
+        return HttpResponse(dump, content_type='application/json')
+        
+
 class SignonView(View):
     
     def __init__(self):

@@ -1,18 +1,133 @@
 .widget-body.contact-body {
+	
+	.contact-upper-widget {
+		@include transition(all linear 0.2s);
+		@include translate(0, -290px);
+		
+		&.show-add-contact {
+			@include translate(0, 0);
+		}
+	}
+	
 	.contact-utility-bar {
 		color: #808080;
 		padding:15px 10px;
-		font: normal 10pt/1 'sinkinsans', arial, helvetica;
+		font: normal 14pt/1 'sinkinsans', arial, helvetica;
 		background: #fbfbfb;
-		border-bottom: solid 1px #f3f3f3;
+		border-bottom: solid 1px #f0f0f0;
+		width:100%;
+		display:flex;
+		flex-flow: row nowrap;
+		justify-content: space-between;
+		align-items:center;
 		
 		input {
+			flex: 0 1 auto;
+			width:100%;
 			background: #fbfbfb;
+			font-size:9pt;
 			padding:5px;
 			border-bottom: solid 1px lighten($sweet-blue,35);
 		}
 		span {
-		 margin: 0 3px;
+		 flex: 0 2 auto;
+		 margin: 0 15px;
+		 margin-right:5px;
+		 cursor:pointer;
+		 @include transition(all linear 0.1s);
+		 color: $sweet-blue;
+		 
+		 &:hover {
+		 	color: darken($sweet-blue,10);
+		 	@include scaleTransform(1.2,1.2);
+		 }
+		 
+		 &.ng-hide {
+		 	@include scaleTransform(0.1,0.1);
+		 }
 		}
 	}
+}
+
+.add-contact-container {
+	
+	background: $my-red;
+	height:290px;
+	opacity:0;
+	
+	.contact-name-container, .contact-detail-container,
+	 {
+		padding: 16px;
+	}
+	.add-contact-button-container {
+		padding: 10px 16px;
+	}
+	
+	.contact-name-container {
+		padding-bottom: 20px;
+		border-bottom: solid 2px darken($my-red, 10);
+	}
+	
+	.divider-text {	
+		padding-top: 16px;
+		padding-left:7px;
+		padding-bottom:6px;
+		color:lighten($my-red, 43);
+	}
+	
+	@include transition(all linear 0.2s);
+	&.show-add-contact {
+		opacity:1;
+	}
+	
+	
+}
+
+.add-contact-button {
+		text-align:right;
+		
+		font: normal 11pt/1 'sinkinsans', arial, sans-serif;
+		padding: 15px 20px;
+		background: lighten($rumy-green,20);
+		border: solid 1px lighten($rumy-green, 15);
+		color:white;
+		cursor: pointer;
+		
+		@include transition(all linear 0.2s);
+		
+		&.ng-hide {
+			@include translate(0, 20px);
+			opacity:0;
+		}
+		
+		&:hover {
+			background: lighten($rumy-green,25);
+			
+		}
+		
+	}
+	
+.add-contact-error {
+	background: #a0a0a0;
+	color:white;
+	font: normal 9pt/1 'sinkinsans', arial, sans-serif;
+	text-align:center;
+	padding: 15px 6px;
+	@include transition(all linear 0.2s);
+	
+	&.ng-hide {
+			@include translate(0, -20px);
+			opacity:0;
+		}
+}
+
+input.contact-input {
+	padding: 6px;
+	background: $my-red;
+	color:white;
+	width:93%;
+	font: normal 10pt/1 'sinkinsans', arial, helvetica, sans-serif;
+	border-bottom: solid 1px lighten($my-red, 30);
+	display:block;
+	@include placeholder(lighten($my-red, 30));
 }

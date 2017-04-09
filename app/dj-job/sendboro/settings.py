@@ -158,5 +158,5 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 ALLOWED_HOSTS = ['*']
 
 SHORT_URL_LENGTH = 4
-SHORT_URL_BASEHOST = 'http://sendboro.com'
+SHORT_URL_BASEHOST = 'http://sndbr.me'
     

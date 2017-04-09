@@ -12,6 +12,7 @@ from django.db.utils import IntegrityError
 from file.models import Delivery,File,BlindDelivery
 from common.utils.general import Helper,Time,UserTrace
 from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_exempt 
 import traceback, os
 from django.contrib.gis.geoip2 import GeoIP2
 
@@ -164,11 +165,18 @@ class PhotoView(View):
         
 class AlterView(View):
     
-    @method_decorator(LoginRequired()) 
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
+        return super(AlterView, self).dispatch(*args, **kwargs)
+    
+    @method_decorator(LoginRequired())
     def post(self, request, *args, **kwargs):
         pattern_un = r'^([a-zA-Z]{1,}[\._\-]?[a-zA-Z0-9]{1,}){1,}$'
         pattern_fn = r'^[a-zA-Z]{1,}[ ][a-zA-Z]{1,}([ ][a-zA-Z]{2,}){0,}$'
-        self.uid = request.session['user_id']
+        self.uid = request.session.get('user_id', False)
+            
+        if self.uid is False:
+            raise Exception()
         
         # using get method to avoid multivaluedict-keyerror and
         # give a default value when a key is not available
@@ -196,7 +204,7 @@ class AlterView(View):
             response['error'] = 3
         except:
             response['error'] = traceback.format_exc()
-        response['error'] = uname 
+        #response['error'] = uname 
         res = simplejson.dumps(response)
         return HttpResponse(res, content_type='application/json')
     
