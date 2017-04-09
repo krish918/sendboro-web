@@ -220,7 +220,7 @@ class VerifyView(View):
         rePhone = r'^\+[1-9][0-9]{6,14}$'
         if re.search(reUn, recipient):
             try:
-                user = User.objects.get(username=recipient)
+                user = User.objects.get(username__iexact=recipient)
                 self.res['uid'] = user.userid
                 self.res['success'] = 1
             except ObjectDoesNotExist:
