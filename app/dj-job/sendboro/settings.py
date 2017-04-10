@@ -17,9 +17,11 @@ from django.template.defaultfilters import addslashes
 if platform.system() == 'Linux':
     DB_HOST = 'borobase'
     CACHE_LOC = 'borocache:11211'
+    DEBUG = False
 else:
     DB_HOST = 'localhost'
     CACHE_LOC = '127.0.0.1:11211'
+    debug = True
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__) , '../..'))
 
@@ -30,7 +32,7 @@ BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__) , '../..'))
 SECRET_KEY = '#&!l7951^bj-p^30z0_lwl&up5hem+u%a_lrhkz6ev3a&c3$nm'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+
 
 TEMPLATES = [
     {
