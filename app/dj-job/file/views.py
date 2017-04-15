@@ -97,12 +97,13 @@ class PushView(View):
             raise
             
     def sendsms(self, phone,fid, surl):
-        type = Helper().getFormattedType(self.type,self.name,True)
+        #type = Helper().getFormattedType(self.type,self.name,True)
+        trimmed_name = Helper().getTrimmedFileName(self.name)
         texturl = SHORT_URL_BASEHOST + '/' + str(surl)
         
-        msg = ("%s: (%s file via sendboro) "\
+        msg = ("%s: (%s via sendboro) "\
                
-               +" Tap here to receive: %s") % (self.sender,type,texturl)
+               +" Tap here to receive: %s") % (self.sender,trimmed_name,texturl)
                  
         sms = TextMessage(msg, phone)
         sms.send()

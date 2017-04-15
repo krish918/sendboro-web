@@ -21,7 +21,7 @@ if platform.system() == 'Linux':
 else:
     DB_HOST = 'localhost'
     CACHE_LOC = '127.0.0.1:11211'
-    debug = True
+    DEBUG = True
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__) , '../..'))
 

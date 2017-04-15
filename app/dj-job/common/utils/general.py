@@ -43,6 +43,20 @@ class Helper:
         res = pattern.search(type)
         return res.group(1)
     
+    def getTrimmedFileName(self, name):
+        pattern = re.compile("(.*?)(\.[^\.]{2,6})$")
+        res = pattern.match(name)
+        prim_name = None
+        try:
+            prim_name = res.group(1)
+            if len(prim_name) > 16:
+                last = prim_name[len(prim_name)-4:len(prim_name)].strip()
+                prim_name = prim_name[0:9].strip() + "..." + last
+            name = prim_name + res.group(2)
+        except:
+            pass
+        return name
+    
     def processExt(self,extension):
         ext_array = [('document',
                         ['ppt','csv','doc','docx','ppt','pptx','pdf','odp','odt','pps','xls','xlsx']
