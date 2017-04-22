@@ -247,17 +247,16 @@ a{
 	flex-flow: row nowrap;
 	justify-content: space-between;
 	align-items: stretch;
-	overflow:hidden;
 	
 	
 	
 	.leftmod, .middlemod, .rightmod {
 		margin-top:65px;
 		width:100%;
-		
 		border-left: solid 1px #d0d0d0;
 		overflow-y:auto;
 		overflow-x:hidden;
+		
 	}
 	
 	.leftmod {

@@ -3,7 +3,7 @@
 	
 	.service('PushBoro', function (FileUploader, $cookies) {
 			
-			var uploader, items , plist, current_item;
+			var uploader, items , plist, current_item, self = this;
 		
 			//return the FileUploader object to the service consumer
 			this.returnObject = function () {
@@ -36,6 +36,7 @@
 			
 			this.handler = function (params) {
 				
+				console.log(params);
 				//storing all the params in plist
 				plist = params;
 				
@@ -57,12 +58,12 @@
 					// after successfully adding file, please go for it. 
 					if(params.houseKeeping)
 						params.houseKeeping();
-					else pushFile();
+					else self.pushFile();
 				};
 			};
 			
 			this.pushFile = function (){
-				args = arguments[0];
+				var args = arguments[0];
 				plist.scope.total_count = items.length;
 				
 				var current_count = 1;
@@ -83,10 +84,18 @@
 							});
 						}
 					}
-					else
+					else {
 						item.formData.push({
-							receiver: plist.recipient
+							receiver: plist.recipient,
 						});
+
+						if(plist.blind) {
+							item.formData.push({
+								blind: 1,
+							});
+						}
+					}
+						
 					
 					//starting upload
 					item.upload();

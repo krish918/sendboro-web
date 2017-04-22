@@ -18,6 +18,7 @@ from urllib.parse import urlparse
 import os, mimetypes
 from django.db.models import Q
 from sendboro.settings import MEDIA_ROOT, SHORT_URL_BASEHOST
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 
 
 class PushView(View):
@@ -77,7 +78,11 @@ class PushView(View):
                     
                 
                 if self.blind is False:
-                    receiver = User.objects.get(pk=self.recipient)
+                    try:
+                        receiver = User.objects.get(username=self.recipient)
+                    except ObjectDoesNotExist:
+                        receiver = User.objects.get(pk=self.recipient)
+
                     d = Delivery.objects.create(file=f, user=receiver)
                     target_phone = str(str(receiver.dialcode)+str(receiver.phone))
                 else:

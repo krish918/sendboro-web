@@ -1332,65 +1332,67 @@ img.loader {
   display: inline-block;
   border: solid 1px #0080f0; }
 
-.widget-body.contact-body .contact-upper-widget {
-  -webkit-transition: all linear 0.2s;
-  -moz-transition: all linear 0.2s;
-  -ms-transition: all linear 0.2s;
-  -o-transition: all linear 0.2s;
-  transition: all linear 0.2s;
-  -webkit-transform: translate(0, -290px);
-  -ms-transform: translate(0, -290px);
-  -o-transform: translate(0, -290px);
-  -moz-transform: translate(0, -290px);
-  transform: translate(0, -290px); }
-  .widget-body.contact-body .contact-upper-widget.show-add-contact {
-    -webkit-transform: translate(0, 0);
-    -ms-transform: translate(0, 0);
-    -o-transform: translate(0, 0);
-    -moz-transform: translate(0, 0);
-    transform: translate(0, 0); }
-.widget-body.contact-body .contact-utility-bar {
-  color: #808080;
-  padding: 15px 10px;
-  font: normal 14pt/1 'sinkinsans', arial, helvetica;
-  background: #fbfbfb;
-  border-bottom: solid 1px #f0f0f0;
-  width: 100%;
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  align-items: center; }
-  .widget-body.contact-body .contact-utility-bar input {
-    flex: 0 1 auto;
-    width: 100%;
+.widget-body.contact-body {
+  font: normal 10pt/1 'sinkinsans', arial, helvetica, sans-serif; }
+  .widget-body.contact-body .contact-upper-widget {
+    -webkit-transition: all linear 0.2s;
+    -moz-transition: all linear 0.2s;
+    -ms-transition: all linear 0.2s;
+    -o-transition: all linear 0.2s;
+    transition: all linear 0.2s;
+    -webkit-transform: translate(0, -290px);
+    -ms-transform: translate(0, -290px);
+    -o-transform: translate(0, -290px);
+    -moz-transform: translate(0, -290px);
+    transform: translate(0, -290px); }
+    .widget-body.contact-body .contact-upper-widget.show-add-contact {
+      -webkit-transform: translate(0, 0);
+      -ms-transform: translate(0, 0);
+      -o-transform: translate(0, 0);
+      -moz-transform: translate(0, 0);
+      transform: translate(0, 0); }
+  .widget-body.contact-body .contact-utility-bar {
+    color: #808080;
+    padding: 15px 10px;
+    font: normal 14pt/1 'sinkinsans', arial, helvetica;
     background: #fbfbfb;
-    font-size: 9pt;
-    padding: 5px;
-    border-bottom: solid 1px #a4d4ff; }
-  .widget-body.contact-body .contact-utility-bar span {
-    flex: 0 2 auto;
-    margin: 0 15px;
-    margin-right: 5px;
-    cursor: pointer;
-    -webkit-transition: all linear 0.1s;
-    -moz-transition: all linear 0.1s;
-    -ms-transition: all linear 0.1s;
-    -o-transition: all linear 0.1s;
-    transition: all linear 0.1s;
-    color: #0080f0; }
-    .widget-body.contact-body .contact-utility-bar span:hover {
-      color: #0065bd;
-      -ms-transform: scale(1.2, 1.2);
-      -webkit-transform: scale(1.2, 1.2);
-      -o-transform: scale(1.2, 1.2);
-      -moz-transform: scale(1.2, 1.2);
-      transform: scale(1.2, 1.2); }
-    .widget-body.contact-body .contact-utility-bar span.ng-hide {
-      -ms-transform: scale(0.1, 0.1);
-      -webkit-transform: scale(0.1, 0.1);
-      -o-transform: scale(0.1, 0.1);
-      -moz-transform: scale(0.1, 0.1);
-      transform: scale(0.1, 0.1); }
+    border-bottom: solid 1px #f0f0f0;
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center; }
+    .widget-body.contact-body .contact-utility-bar input {
+      flex: 0 1 auto;
+      width: 100%;
+      background: #fbfbfb;
+      font-size: 9pt;
+      padding: 5px;
+      border-bottom: solid 1px #a4d4ff; }
+    .widget-body.contact-body .contact-utility-bar span {
+      flex: 0 2 auto;
+      margin: 0 15px;
+      margin-right: 5px;
+      cursor: pointer;
+      -webkit-transition: all linear 0.1s;
+      -moz-transition: all linear 0.1s;
+      -ms-transition: all linear 0.1s;
+      -o-transition: all linear 0.1s;
+      transition: all linear 0.1s;
+      color: #0080f0; }
+      .widget-body.contact-body .contact-utility-bar span:hover {
+        color: #0065bd;
+        -ms-transform: scale(1.2, 1.2);
+        -webkit-transform: scale(1.2, 1.2);
+        -o-transform: scale(1.2, 1.2);
+        -moz-transform: scale(1.2, 1.2);
+        transform: scale(1.2, 1.2); }
+      .widget-body.contact-body .contact-utility-bar span.ng-hide {
+        -ms-transform: scale(0.1, 0.1);
+        -webkit-transform: scale(0.1, 0.1);
+        -o-transform: scale(0.1, 0.1);
+        -moz-transform: scale(0.1, 0.1);
+        transform: scale(0.1, 0.1); }
 
 .add-contact-container {
   background: #E02D4E;
@@ -1415,6 +1417,12 @@ img.loader {
     color: #fcecef; }
   .add-contact-container.show-add-contact {
     opacity: 1; }
+  .add-contact-container table {
+    width: 100%; }
+  .add-contact-container td.dialcode {
+    width: 25%; }
+  .add-contact-container td.phone {
+    width: 75%; }
 
 .add-contact-button {
   text-align: right;
@@ -1438,6 +1446,9 @@ img.loader {
     opacity: 0; }
   .add-contact-button:hover {
     background: #5bd093; }
+  .add-contact-button.adding-contact {
+    cursor: not-allowed;
+    background: #d0d0d0; }
 
 .add-contact-error {
   background: #a0a0a0;
@@ -1474,6 +1485,106 @@ input.contact-input {
     color: #f4b2be; }
   input.contact-input:-moz-placeholder {
     color: #f4b2be; }
+
+.contact-added {
+  position: absolute;
+  bottom: 0;
+  padding: 24px 5px;
+  width: 100%;
+  text-align: center;
+  background: #0080f0;
+  color: white;
+  -webkit-transition: all linear 0.2s;
+  -moz-transition: all linear 0.2s;
+  -ms-transition: all linear 0.2s;
+  -o-transition: all linear 0.2s;
+  transition: all linear 0.2s; }
+  .contact-added.ng-hide {
+    opacity: 0;
+    -webkit-transform: translate(0, 30px);
+    -ms-transform: translate(0, 30px);
+    -o-transform: translate(0, 30px);
+    -moz-transform: translate(0, 30px);
+    transform: translate(0, 30px); }
+
+.loader {
+  text-align: center; }
+
+.no-contact-message {
+  text-align: center;
+  padding: 15px;
+  margin: 20px auto;
+  font-size: 14pt;
+  line-height: 2.5;
+  color: #a0a0a0; }
+  .no-contact-message .sad-emoji {
+    font-size: 30pt;
+    line-height: 2; }
+  .no-contact-message .no-contact-desc {
+    font-size: 9pt;
+    line-height: 1.8; }
+
+.contactlist-error {
+  text-align: center;
+  padding: 15px;
+  margin: 20px auto;
+  color: #E02D4E;
+  font-size: 10pt; }
+  .contactlist-error span {
+    font-size: 15pt; }
+
+.contact-upload {
+  visibility: hidden;
+  margin-top: -10px; }
+
+.contactlist-container {
+  -webkit-transition: all linear 0.2s;
+  -moz-transition: all linear 0.2s;
+  -ms-transition: all linear 0.2s;
+  -o-transition: all linear 0.2s;
+  transition: all linear 0.2s;
+  -webkit-transform: translate(0, -290px);
+  -ms-transform: translate(0, -290px);
+  -o-transform: translate(0, -290px);
+  -moz-transform: translate(0, -290px);
+  transform: translate(0, -290px);
+  margin: 0px auto; }
+  .contactlist-container.show-add-contact {
+    -webkit-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    -o-transform: translate(0, 0);
+    -moz-transform: translate(0, 0);
+    transform: translate(0, 0); }
+  .contactlist-container td {
+    vertical-align: middle;
+    padding-left: 10px; }
+  .contactlist-container .contactlet {
+    padding: 10px 5px;
+    border-bottom: solid 1px #e0e0e0;
+    cursor: pointer; }
+    .contactlist-container .contactlet:hover {
+      border-bottom: solid 1px #0080f0;
+      background: aliceblue; }
+  .contactlist-container .contact-picture {
+    width: 70px;
+    height: 70px;
+    -moz-border-radius: 70px;
+    -o-border-radius: 70px;
+    -ms-border-radius: 70px;
+    -webkit-border-radius: 70px;
+    border-radius: 70px;
+    overflow: hidden; }
+    .contactlist-container .contact-picture img {
+      margin-top: -5px;
+      margin-left: -5px; }
+  .contactlist-container .contact-name {
+    font-size: 13pt;
+    line-height: 1.6; }
+  .contactlist-container .recipient-candidate {
+    font-size: 8pt;
+    color: #707070;
+    font-style: italic;
+    line-height: 1.6; }
 
 .logo {
   margin: 90px auto;
@@ -1763,8 +1874,7 @@ a {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
-  align-items: stretch;
-  overflow: hidden; }
+  align-items: stretch; }
   .app-modules-container .leftmod, .app-modules-container .middlemod, .app-modules-container .rightmod {
     margin-top: 65px;
     width: 100%;

@@ -24,7 +24,7 @@
 					if(user.data.username)
 						self.data.identity = user.data.username;
 					else
-						self.data.identity = user.data.countrycode+user.data.phone;
+						self.data.identity = user.data.dialcode+user.data.phone;
 				};
 				
 				this.cancelSending = function() {

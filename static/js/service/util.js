@@ -34,7 +34,10 @@
 				});
 				
 				return deferred.promise;
-			}
+			},
+			STATUS_OK: 'ok',
+			STATUS_FAILED: 'failed',
+			SERVER_ERRPR: 'Fatal Server Error',
 		};
 	});
 	

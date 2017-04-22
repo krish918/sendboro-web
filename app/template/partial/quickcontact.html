@@ -11,20 +11,30 @@
 			<div class="add-contact-container" ng-class="addContactClass">
 				<div class="contact-name-container">
 					<input class="contact-input" type="text" ng-model="contactName" placeholder="Contact Name"
-						ng-change="qctCtrl.pristineError()"/>
+						ng-change="qctCtrl.makePristine()"/>
 				</div>
 				
 				<div class="contact-detail-container">
 					<input class="contact-input" type="text" ng-model="userName" placeholder="Username"
-						ng-change="qctCtrl.pristineError()"/>
+						ng-change="qctCtrl.makePristine()"/>
 					<div class="divider-text">Or</div>
-					<input class="contact-input" type="text" ng-model="phoneNum" placeholder="Phone Number"
-						ng-change="qctCtrl.pristineError()"/>
+					<table>
+						<tr>
+						<td class="dialcode">
+						<input class="contact-input" type="text" ng-model="dialCode" placeholder="Country Code"
+						ng-change="qctCtrl.makePristine()"/>
+						</td>
+						<td class="phone">
+						<input class="contact-input" type="text" ng-model="phoneNum" placeholder="Phone Number"
+						ng-change="qctCtrl.makePristine()"/>
+						</td>
+						</tr>
+					</table>
 				</div>
 				
 				<div class="add-contact-button-container">
 					<div class="add-contact-button" ng-hide="!qctCtrl.checkError(0)" 
-						ng-click="qctCtrl.initAddContact()">
+						ng-click="qctCtrl.initAddContact()" ng-class="addingContactClass">
 						<span class="glyphicon glyphicon-ok"></span>
 						Add Contact
 					</div>
@@ -33,10 +43,13 @@
 						{% verbatim %} {{ addContactErrorText }} {% endverbatim %}
 					</div>
 				</div>
-				
+				<div class="contact-added" ng-show="qctCtrl.isContactAdded()">
+					Contact added succesfully.
+				</div>
 			</div>
 			<div class="contact-utility-bar">
-				<input class="search-contact-input" type="text" ng-model="searchContact" 
+				<input class="search-contact-input" type="text" ng-model="searchContactQuery" 
+					ng-change="qctCtrl.searchContacts()"
 			 			placeholder="Search Contacts"/>
 			
 				<span class="glyphicon glyphicon-plus" ng-show="qctCtrl.checkAddContactFlag(0)"
@@ -44,6 +57,66 @@
 				<span class="glyphicon glyphicon-circle-arrow-up" ng-show="qctCtrl.checkAddContactFlag(1)" 
 						ng-click="qctCtrl.showAddContact(0)"></span>
 			
+			</div>
+		</div>
+		<div class="contactlist-container" ng-class="addContactClass">
+			<div class="loader" ng-show="qctCtrl.isProcessing()">
+				<img src="/static/resource/loader/welcome-bar.gif"/>
+			</div>
+
+			<div class="contactlist-error" ng-show="qctCtrl.hasErrorInFetchingContact()">
+				<span class="glyphicon glyphicon-exclamation-sign"></span><br /><br />
+				Error loading contacts.
+			</div>
+
+			<div class="no-contact-message" ng-show="qctCtrl.isContactsEmpty()">
+				<div class="sad-emoji">:(</div>
+				No contacts found.
+				<div class="no-contact-desc">
+					Please add contacts by clicking on plus button to start sending files.
+				</div>
+			</div>
+			<div class="contactlist" ng-hide="qctCtrl.isProcessing()" ng-controller="shareController as qsCtrl" 
+					ng-init="init()">
+				<input class="contact-upload" id="upload-file" type="file" nv-file-select
+					uploader="uploader"
+					onchange="angular.element(this).scope().initPushEngine(false, true)" multiple>
+				<input type="hidden" ng-model="recipient" />
+				<div class="contactlet" ng-repeat="contact in qctCtrl.contactlist" 
+						ng-click="qctCtrl.setRecipient(contact.username,contact.phone,contact.native)" upload-capable
+						nv-file-drop 
+						uploader="uploader"
+						ondrop="angular.element(this).scope().getRecipient(event) && 
+						angular.element(this).scope().initPushEngine(false, true)">
+					<table>
+						<tr>
+							<td>
+					<div class="contact-picture">
+						<img ng-src="{% verbatim %}{{contact.picture}}{% endverbatim %}"/>
+					</div>
+							</td>
+							<td>
+					<div class="contact-name">
+						{% verbatim %}
+						{{contact.contact_name}}
+						{% endverbatim %}
+					</div>
+					<div class="recipient-candidate username">
+						{% verbatim %}
+						{{contact.username}}
+						{% endverbatim %}
+					</div>
+					<div class="recipient-candidate phone">
+						{% verbatim %}
+						{{contact.phone}}
+						{% endverbatim %}
+					</div>
+					<input type="hidden" class="native-info" 
+						value="{% verbatim %}{{contact.native}}{% endverbatim %}"/>
+							</td>
+						</tr>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>

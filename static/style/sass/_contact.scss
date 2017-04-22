@@ -1,5 +1,7 @@
 .widget-body.contact-body {
 	
+	font: normal 10pt/1 'sinkinsans', arial, helvetica, sans-serif;
+	
 	.contact-upper-widget {
 		@include transition(all linear 0.2s);
 		@include translate(0, -290px);
@@ -50,7 +52,6 @@
 }
 
 .add-contact-container {
-	
 	background: $my-red;
 	height:290px;
 	opacity:0;
@@ -81,6 +82,18 @@
 	}
 	
 	
+	table {
+		width:100%;		
+	}
+	
+	td.dialcode {
+		width:25%;
+	}
+	td.phone {
+		width:75%;
+	}
+	
+	
 }
 
 .add-contact-button {
@@ -102,9 +115,12 @@
 		
 		&:hover {
 			background: lighten($rumy-green,25);
-			
 		}
 		
+		&.adding-contact {
+			cursor: not-allowed;
+			background: #d0d0d0;
+		}
 	}
 	
 .add-contact-error {
@@ -130,4 +146,103 @@ input.contact-input {
 	border-bottom: solid 1px lighten($my-red, 30);
 	display:block;
 	@include placeholder(lighten($my-red, 30));
+	 
+}
+
+.contact-added {
+	position:absolute;
+	bottom:0;
+	padding: 24px 5px;
+	width:100%;
+	text-align:center;
+	background: $sweet-blue;
+	color:white;
+	@include transition(all linear 0.2s);
+	
+	&.ng-hide {
+		opacity:0;
+		@include translate(0, 30px);
+	}
+}
+.loader {
+	text-align:center;
+}
+
+.no-contact-message {
+	text-align:center;
+	padding: 15px;
+	margin:20px auto;
+	font-size: 14pt;
+	line-height:2.5;
+	color: #a0a0a0;
+	
+	.sad-emoji {
+		font-size: 30pt;
+		line-height:2;
+	}
+	.no-contact-desc {
+		font-size: 9pt;
+		line-height: 1.8;
+	}
+	
+}
+
+.contactlist-error {
+	text-align:center;
+	padding: 15px;
+	margin:20px auto;
+	color: $my-red;
+	font-size: 10pt;
+	span {
+		font-size: 15pt;
+	}
+}
+
+.contact-upload {
+	visibility: hidden;
+	margin-top:-10px;
+}
+
+.contactlist-container {
+	@include transition(all linear 0.2s);
+	@include translate(0, -290px);
+	margin: 0px auto;
+	
+	&.show-add-contact {
+			@include translate(0, 0);
+		}
+	
+	td {
+		vertical-align: middle;
+		padding-left:10px;
+	}
+	.contactlet {
+		padding: 10px 5px;
+		border-bottom: solid 1px #e0e0e0;
+		cursor: pointer;
+		&:hover {
+			border-bottom: solid 1px $sweet-blue;
+			background: lighten($sweet-blue,50);
+		}
+	}
+	.contact-picture {
+		width:70px;
+		height:70px;
+		@include radius(70px);
+		overflow:hidden;
+		img {
+			margin-top:-5px;
+			margin-left:-5px;
+		}
+	}
+	.contact-name {
+		font-size: 13pt;
+		line-height:1.6;
+	}
+	.recipient-candidate {
+		font-size: 8pt;
+		color: #707070;
+		font-style: italic;
+		line-height:1.6;
+	}
 }

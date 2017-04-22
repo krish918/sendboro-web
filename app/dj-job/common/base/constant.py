@@ -26,3 +26,9 @@ class Const:
     GEN_ERROR = 99
     #error for voicecall API
     CALL_ERROR = 4;
+
+    STATUS_OK = 'ok'
+    STATUS_FAILED = 'failed'
+    INVALID_USERNAME = 'invalid_username'
+    ALREADY_EXIST = 'already_exist'
+    STATUS = 'status'

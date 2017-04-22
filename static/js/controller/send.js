@@ -11,7 +11,7 @@
 			 	 recipient;
 			 
 			 $scope.init = function () {
-				document.title = 'Send File';
+				//document.title = 'Send File';
 				$scope.animateWidget = 'animateWidget';
 				$scope.blockSelect = true;
 				$scope.errorHide = true;
@@ -19,6 +19,13 @@
 				$scope.verifying = false;
 				upload.init();
 			 };
+
+			 /*$scope.$watch('recipient', function(newVal, oldVal){
+				if(newVal && newVal.trim().length != 0)
+					$scope.blockSelect = false;
+				else
+					$scope.blockSelect = true;
+			 });*/
 			 
 			 // for displaying inability to select file
 			 $scope.showInability = function () {
@@ -42,8 +49,8 @@
 			 this.resumeProcess = function () {
 				//start pushing file with an extra flag: blind
 				PushBoro.pushFile({
-					recipient: recipient,
-					blind: 1
+						recipient: recipient,
+						blind: 1
 					}); 
 				$scope.dialogHide = true;
 			 };
@@ -77,15 +84,18 @@
 					
 				};
 				
-				var nativeHandler = function () {
+				var nativeHandler = function (arg) {
+					
 					PushBoro.handler({
 						scope: rootScope,
 						onFilterChoke: addingError,
-						houseKeeping: verifyRecipient,
+						houseKeeping: arg ? arg[0] : verifyRecipient,
 						onSuccess: showSuccess,
 						onError: showFailure,
 						onCancel: showCancelled,
-						uploadAllowed: !$scope.blockSelect,
+						recipient: $scope.recipient,
+						blind: $scope.blind,
+						uploadAllowed: arg ? arg[1]: !$scope.blockSelect,
 					});
 				};
 				
@@ -122,7 +132,6 @@
 					 
 					//showing small loader while verifying recipient
 					$scope.verifying = true;
-					
 					//sends a http request to verify the recipient
 					// value is being url-encoded so as to transmit '+' character
 					// successfully to server
@@ -162,7 +171,6 @@
 					})
 					.error(function(response) {
 						$scope.verifying = false;
-						console.log(response);
 						showError(0);
 					});
 				 };
@@ -178,7 +186,7 @@
 			 
 			  
 			 $scope.initPushEngine = function () {
-				upload.handle(); 
+					upload.handle(arguments); 
 			 };
 			 
 			 var showError = function(arg) {
@@ -214,7 +222,7 @@
 				var self = this;
 		
 				$scope.init =  function () {
-					document.title = 'Inbox';
+					//document.title = 'Inbox';
 					$scope.animateWidget="animateWidget";
 					metaboro.listenUpdate($scope, function() {
 						self.user = metaboro.data

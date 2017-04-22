@@ -76,6 +76,7 @@ INSTALLED_APPS = (
     'home',
     'file',
     'com',
+    'contact',
 )
 
 MIDDLEWARE_CLASSES = (
