@@ -19,8 +19,34 @@
 
 		<div class="inbox-content" ng-show="!isEmpty">
 
-			<div class="file-block" ng-repeat="file in inbxCtrl.user.file.lists">
+			<div class="file-block" ng-repeat="sender in inbxCtrl.user.file.senderlist"
+				ui-sref="homeframe.inbox({sender: (sender.identity[0]=='+')?sender.identity.slice(1):sender.identity})">
 				<div class="file-container">
+					
+					<div class="sender-picture">
+						<img ng-src="{% verbatim %}{{sender.pic}}{% endverbatim %}"/>
+					</div>
+					<div class="sender-identity">
+						{% verbatim %}
+							{{sender.identity}}
+						{% endverbatim %}
+					</div>
+					<div class="total-files">
+						{% verbatim %}
+							{{sender.total}}
+						{% endverbatim %}
+					</div>
+					<div class="new-files">
+						{% verbatim %}
+							{{sender.new}}
+						{% endverbatim %}
+					</div>
+					<div class="last-sent-time">
+						{% verbatim %}
+							{{sender.time}}
+						{% endverbatim %}
+					</div>
+					<!--
 					<div class="icon inline-top">
 						<a target="_blank" 
 						  ng-href="{% verbatim %}{{file.path}} {% endverbatim %}">
@@ -65,7 +91,7 @@
 							
 						</form>
 					
-					</div>
+					</div>-->
 
 				</div>
 			</div>

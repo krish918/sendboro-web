@@ -21,7 +21,7 @@ class ContactUtil(object):
                         cntct_info['username'] = native_contact.contact_user.username
                     else:
                         cntct_info['phone'] = native_contact.contact_user.dialcode \
-                                + native_contact.contact_user.phone
+                            + str(native_contact.contact_user.phone)
                     cntct_info['native'] = 1
                 except ObjectDoesNotExist:
                     contact_phone = UnregisteredContact.objects.get(contact=cntct)

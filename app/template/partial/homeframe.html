@@ -40,8 +40,11 @@
 				  		<span class="glyphicon glyphicon-remove"></span>
 					</div>
 				</div>
-				<div class="success-box" ng-show="showSuccess">
+				<div class="file-send-notice-box success" ng-show="showSuccess">
 					File(s) sent successfully.
+				</div>
+				<div class="file-send-notice-box error" ng-show="showError">
+					{% verbatim %}{{errorMessage}} {% endverbatim %}
 				</div>
 			</div>
 			<!-- 

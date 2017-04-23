@@ -194,18 +194,24 @@
 				 if(errorPromise)
 					 $timeout.cancel(errorPromise);
 				 $scope.errorHide = false;
+				 rootScope.showError = true;
 				 
 				 if(arg===0)
-					 $scope.errorMessage = 'Sorry! We encountered some error. Please try later.';
+					 $scope.errorMessage = rootScope.errorMessage =
+					  	'Sorry! We encountered some error. Please try later.';
 				 else if(1 === arg)
-					 $scope.errorMessage = "Recipient's username is invalid.";
+					 $scope.errorMessage = rootScope.errorMessage = 
+					 	"Recipient's username is invalid.";
 				 else if(2 === arg)
-						 $scope.errorMessage = "File size shouldn't exceed 6GB.";
+						 $scope.errorMessage = rootScope.errorMessage = 
+						 		"File size shouldn't exceed 6GB.";
 				 else if(3 === arg)
-					 	 $scope.errorMessage = "File sending was interrupted.";
+					 	 $scope.errorMessage = rootScope.errorMessage = 
+						  	"File sending was interrupted.";
 							 
 				 errorPromise = $timeout(function () {
-					 $scope.errorHide = true;
+					 $scope.errorHide =  true;
+					 rootScope.showError = false;
 				 },6000);
 			 };
 			 
@@ -228,7 +234,7 @@
 						self.user = metaboro.data
 					});
 					
-					if(!self.user.file.lists.length)
+					if(!self.user.file.senderlist.length)
 						$scope.isEmpty = true;
 					
 					resetAlerts();

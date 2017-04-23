@@ -7,7 +7,7 @@ from home.models import Picture
 from common.models import User
 import simplejson, traceback, re
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
-from django.db import transaction
+from django.db import transaction, connection
 from django.db.utils import IntegrityError
 from file.models import Delivery,File,BlindDelivery
 from common.utils.general import Helper,Time,UserTrace
@@ -84,13 +84,52 @@ class MetaUserView(View):
             blindfiles.update(status='1')
             
     def fetchFiles(self,uid):
-        newfiles = Delivery.objects.filter(user=uid).order_by('-file__sent_ts')
+        #fetching senderlist
+        with connection.cursor() as cursor:
+            query = '''
+                select 
+                        count(*) as total_count,
+	                    count(case when status = '0' then 1 end) as new_count,
+	                    t3.username as sender_name,
+	                    concat(t3.dialcode,t3.phone) as sender_phone,
+	                    h.med as sender_picture,
+	                    max(sent_ts) last_sent
+                from 
+	                    (file_delivery  t1 
+	                    join 
+		                (file_file t2 join 
+				            (common_user t3 left outer join home_picture h 
+                                    on h.user_id=t3.userid and h.active=true)
+				            on t2.author_id=t3.userid) on t1.file_id=t2.fileid) 
+	                    join common_user as c 
+		                    on t1.user_id= c.userid and c.userid = %s
+                group by sender_name,sender_phone, sender_picture
+                order by last_sent desc
+            '''
+            cursor.execute(query,[uid])
+            columns = [col[0] for col in cursor.description]
+            result = [dict(zip(columns, row)) for row in cursor.fetchall()]
+        
+        
+        #newfiles = Delivery.objects.filter(user=uid).order_by('-file__sent_ts')
                 
         newcount = Delivery.objects.filter(user=uid,status='0').count()
+
         self.data['file'] = {
                            'newcount': newcount,
-                           'lists': []
+                           'senderlist': [],
                           }
+        if len(result) is not 0:
+            for res in result:
+                identity = res[('sender_name','sender_phone')[res['sender_name'] is None]]
+                self.data['file']['senderlist'].append({
+                    'identity': identity,
+                    'pic':      '/content/'+res['sender_picture'],
+                    'total':    res['total_count'],
+                    'new':      res['new_count'],
+                    'time':     Time(str(res['last_sent'])).getDiff(),
+                })
+        """
         if newfiles.exists():
             for newfile in newfiles:
                 file = newfile.file
@@ -120,6 +159,7 @@ class MetaUserView(View):
                             'tooltip': Time(str(file.sent_ts)).getTooltip(),
                             'status': newfile.status
                     })
+        """
 
 class PhotoView(View):
     

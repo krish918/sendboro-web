@@ -1721,32 +1721,37 @@ a {
       color: #202020; }
     .top-pane .progress-bar-main-container .send-desc {
       color: white; }
-    .top-pane .progress-bar-main-container .success-box {
+    .top-pane .progress-bar-main-container .file-send-notice-box {
       display: inline-block;
       height: 50px;
       padding: 15px;
       font: normal 12pt/1 'pigeosans', 'sinkinsans', 'droidsans', arial, sans-serif;
-      background: #e0f0fc;
-      border: solid 1px #c4e3f9;
       -moz-border-radius: 0 0 6px 6px;
       -o-border-radius: 0 0 6px 6px;
       -ms-border-radius: 0 0 6px 6px;
       -webkit-border-radius: 0 0 6px 6px;
       border-radius: 0 0 6px 6px;
       text-align: center;
-      color: #404040;
       -webkit-transition: all linear 0.2s;
       -moz-transition: all linear 0.2s;
       -ms-transition: all linear 0.2s;
       -o-transition: all linear 0.2s;
       transition: all linear 0.2s; }
-      .top-pane .progress-bar-main-container .success-box.ng-hide {
+      .top-pane .progress-bar-main-container .file-send-notice-box.ng-hide {
         -webkit-transform: translate(0, -50px);
         -ms-transform: translate(0, -50px);
         -o-transform: translate(0, -50px);
         -moz-transform: translate(0, -50px);
         transform: translate(0, -50px);
         opacity: 0; }
+      .top-pane .progress-bar-main-container .file-send-notice-box.success {
+        background: #e0f0fc;
+        border: solid 1px #c4e3f9;
+        color: #404040; }
+      .top-pane .progress-bar-main-container .file-send-notice-box.error {
+        background: #fadfe4;
+        border: solid 1px #f7c9d1;
+        color: #c05665; }
     .top-pane .progress-bar-main-container .cancel-upload {
       position: absolute;
       text-align: center;

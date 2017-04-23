@@ -17,6 +17,7 @@
 					$scope.dpClass = 'animate-dp';
 					pushUserIdentity ();
 					$scope.newArrival = false;
+					
 				};
 
 				

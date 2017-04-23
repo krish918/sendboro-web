@@ -74,6 +74,17 @@
 						},
 					}
 				})
+
+				.state('homeframe.inbox', {
+					url: 'inbox/:sender',
+					views: {
+						'widgetMiddle@homeframe': {
+							templateUrl: '/partial/send',
+							controller: 'inboxController',
+							controllerAs: 'inbxCtrl',
+						},
+					},
+				})
 				
 				.state('homeframe.settings', {
 					url: 'settings',
@@ -97,7 +108,7 @@
 					},
 				})
 				
-				.state('homeframe.inbox', {
+				/*.state('homeframe.inbox', {
 					url: 'inbox',
 					views: {
 						'widgetLeft@homeframe' : {
@@ -106,7 +117,7 @@
 							controllerAs: 'inbxCtrl'
 						}
 					},
-				});
+				})*/;
 				
 				$locationProvider.html5Mode({
 					enabled: true,

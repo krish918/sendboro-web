@@ -43,6 +43,7 @@
 			$poll.get(endpoint)
 
 			.then(function(response) {
+				console.log(response);
 				self.processing = false;
 				self.contacts_empty = false;
 				if(response.status != $poll.STATUS_OK)

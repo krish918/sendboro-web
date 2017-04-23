@@ -16,9 +16,10 @@ from django.db import connection
 from django.core.urlresolvers import resolve, Resolver404
 from urllib.parse import urlparse
 import os, mimetypes
-from django.db.models import Q
+from django.db.models import Q, CharField
 from sendboro.settings import MEDIA_ROOT, SHORT_URL_BASEHOST
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
+from django.db.models.functions import Concat
 
 
 class PushView(View):
@@ -81,7 +82,8 @@ class PushView(View):
                     try:
                         receiver = User.objects.get(username=self.recipient)
                     except ObjectDoesNotExist:
-                        receiver = User.objects.get(pk=self.recipient)
+                        receiver = User.objects.annotate(full_phone=Concat('dialcode','phone',
+                                output_field=CharField())).get(full_phone=self.recipient)
 
                     d = Delivery.objects.create(file=f, user=receiver)
                     target_phone = str(str(receiver.dialcode)+str(receiver.phone))
