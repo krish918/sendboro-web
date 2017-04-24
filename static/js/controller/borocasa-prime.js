@@ -11,7 +11,7 @@
 				
 				$scope.init = function () {
 					user.listenUpdate($scope, function (newdata) {
-						self.data = user.data;
+						//self.data = user.data;
 					});
 					
 					$scope.dpClass = 'animate-dp';
