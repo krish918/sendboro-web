@@ -12,7 +12,7 @@
 		  +'</div>'
 		+'</div>'
 		+'<div class="upper-pb" ng-hide="isHomeLoadingFailed">'
-			+'<img src="static/resource/loader/welcome-bar.gif">'
+			+'<img src="/static/resource/loader/welcome-bar.gif">'
 		+'</div>'
 		+'<div class="logo">'
 			+'<img ng-src="/static/resource/picture/boro-logo-s-1.png">'
@@ -26,7 +26,7 @@
 		+'</div>'
 		
 		+'<div class="lower-pb" ng-hide="isHomeLoadingFailed">'
-			+'<img src="static/resource/loader/welcome-bar.gif">'
+			+'<img src="/static/resource/loader/welcome-bar.gif">'
 		+'</div>'
 	+'</div>';
 		 return {

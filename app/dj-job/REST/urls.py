@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, url
-from REST.views import MetaUserView, PhotoView, AlterView, VerifyView, Country
+from REST.views import MetaUserView, PhotoView, AlterView, VerifyView, Country, FetchDeliveryReport
 
 urlpatterns = [
         url(r'^metauser$', MetaUserView.as_view()),
@@ -7,4 +7,5 @@ urlpatterns = [
         url(r'^alter$', AlterView.as_view()),
         url(r'^verify$', VerifyView.as_view()),
         url(r'^country$', Country.as_view()),
+        url(r'^fetch_delivered$', FetchDeliveryReport.as_view()),
 ]

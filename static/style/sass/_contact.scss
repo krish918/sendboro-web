@@ -230,10 +230,7 @@ input.contact-input {
 		height:70px;
 		@include radius(70px);
 		overflow:hidden;
-		img {
-			margin-top:-5px;
-			margin-left:-5px;
-		}
+		
 	}
 	.contact-name {
 		font-size: 13pt;

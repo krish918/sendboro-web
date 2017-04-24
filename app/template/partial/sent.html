@@ -7,5 +7,88 @@
 		</div>
 	</div>
 	<div class="widget-body">
+		<div class="outbox-empty" ng-show="isEmpty">
+			<div class="empty-quote">
+				No giving. No taking. Life without worries.
+			</div>
+			- The solitary reaper
+			<div class="empty-message">Your outbox is empty.</div>
+		</div>
+
+		<div class="outbox-content" ng-hide="isEmpty">
+			<div class="file-block" ng-repeat="file in sntCtrl.user.sent">
+				<div class="file-container">
+					<table>
+						<tr>
+							<td class="icon">
+					<div class="icon">
+						<a target="_blank" 
+						  ng-href="{% verbatim %}{{file.path}} {% endverbatim %}">
+							<img src="{% static 'resource/icons/file-small.png' %}">
+						</a>
+					</div>
+						</td>
+						<td class="td-file-desc">
+					<div class="file-desc">
+						
+						<div class="file-name">
+							{% verbatim %} <a target="_blank" ng-href="{{file.path}}">
+								{{file.name}} </a> {% endverbatim %}
+						</div>
+						<div class="file-sender italic">
+							Sent to 
+								 
+							<span class="bold pale-blue">
+							{% verbatim %} {{file.receiver}} {% endverbatim %} 
+							</span>
+						</div>
+						<div class="send-time" title="{% verbatim %}{{file.tooltip}}{% endverbatim %}">
+							{% verbatim %} {{file.time}} {% endverbatim %}
+						</div>
+						
+						<form action="file/download" method="post">
+						{% csrf_token %}
+							
+						<input type="hidden" name="fileid"
+						 ng-value="{% verbatim %}{{file.id}}{% endverbatim %}">
+						 
+						<button class="download-button" type="submit">	
+							<span class="glyphicon glyphicon-download-alt"></span>
+								Download
+						</button>
+						
+							
+						</form>
+						</td>
+						<td class="file-type">
+						<div class="file-type">
+							{% verbatim %} 
+									{{file.type}}
+								{% endverbatim %}
+						</div>
+
+						<div class="send-status" ng-show="{% verbatim %} 
+							{{file.status == 0}} 
+						{% endverbatim %}" title="Sent">
+							<span class="glyphicon glyphicon-ok delivery-status sent"></span>
+						</div>
+						<div class="send-status" ng-show="{% verbatim %} 
+							{{file.status == 1}} 
+						{% endverbatim %}" title="Delivered">
+							<span class="glyphicon glyphicon-ok-sign delivery-status delivered"></span>
+						</div>
+						<div class="send-status" ng-show="{% verbatim %} 
+							{{file.status > 1}} 
+						{% endverbatim %}" title="Seen">
+							<span class="glyphicon glyphicon-ok-sign delivery-status seen"></span>
+						</div>
+						</td>
+						</tr>
+					</table>
+					
+				</div>
+			</div>
+		</div>
+
 	</div>
 </div>

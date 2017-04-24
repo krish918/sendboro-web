@@ -3,8 +3,8 @@
 	
 	angular.module("borocasa")
 		
-		.controller('homeFrameController', ['user','$scope','mbStatus','PushBoro',
-		    function(user,$scope,mbStatus,PushBoro) {
+		.controller('homeFrameController', ['user','$scope','mbStatus','PushBoro','$timeout','$poll',
+		    function(user,$scope,mbStatus,PushBoro, $timeout,$poll) {
 				this.data = user.data
 				var self = this;
 				mbStatus.appRunning = true;
@@ -18,7 +18,32 @@
 					pushUserIdentity ();
 					$scope.newArrival = false;
 					
+
+					self.checkUpdates();
 				};
+
+				this.checkUpdates = function() {
+						var endpoint = '/api/metauser';
+
+						$poll.get(endpoint)
+						.then(function (response) {
+							if('error' in response)
+								throw response;
+							
+							user.update({'data': response, 
+								'immediate':true,
+							});
+							console.log(response);
+
+							$timeout(function() {
+								self.checkUpdates();
+							},6000);
+						})
+						.catch(function(res) {
+							console.log(res);
+						});
+					};
+		
 
 				
 				var pushUserIdentity = function () {
@@ -43,7 +68,7 @@
 			
 				$scope.userPanelClass = [];
 				$scope.userPanelIcons = [
-		                         'glyphicon-folder-close',
+		                         'glyphicon-upload',
 		                         'glyphicon-cog',
 		                         'glyphicon-off',
 		                         ];
@@ -108,7 +133,7 @@
 					else if(idx === 1)
 						$location.url('/settings');
 					else if(0 === idx)
-						$location.url('/inbox');
+						$location.url('/send');
 				};
 				
 				this.userPanelAnimate = function (state, idx) {

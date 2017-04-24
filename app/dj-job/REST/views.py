@@ -15,19 +15,24 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.csrf import csrf_exempt 
 import traceback, os
 from django.contrib.gis.geoip2 import GeoIP2
+from sendboro.settings import MEDIA_URL
+from django.db.models.functions import Concat
+from django.db.models import Q, CharField
 
 
 class MetaUserView(View):
     
     def __init__(self):
         self.data = {}
+        self.sent_data = 0
+        self.rec_data = 0
     
     
     @method_decorator(LoginRequired())
     def get(self, request, *args, **kwargs):
         
-        if 'HTTP_X_CSRF_HEADER' not in request.META:
-            return HttpResponseForbidden()
+        #if 'HTTP_X_CSRF_HEADER' not in request.META:
+         #   return HttpResponseForbidden()
         
         #getting general user data 
         try:
@@ -56,8 +61,8 @@ class MetaUserView(View):
                                        }
             except (ObjectDoesNotExist, MultipleObjectsReturned) as e:
                 self.data['photo'] = {
-                                  'small': 'static/resource/picture/silh/silh-80.jpg',
-                                  'med': 'static/resource/picture/silh/silh-150.jpg',
+                                  'small': '/static/resource/picture/silh/silh-80.jpg',
+                                  'med': '/static/resource/picture/silh/silh-150.jpg',
                                   'silh': True
                                   }
                 
@@ -65,7 +70,9 @@ class MetaUserView(View):
             try:
                 self.checkBlind(usr,fullphone)
                 self.fetchFiles(uid)
-                                                  
+                self.fetchSentFiles(uid) 
+                self.data['file']['sent_data'] = self.sent_data
+                self.data['file']['rec_data'] = self.rec_data                                                 
             except:
                 raise
         except:
@@ -88,11 +95,12 @@ class MetaUserView(View):
         with connection.cursor() as cursor:
             query = '''
                 select 
+                        t3.userid as sender_id,
                         count(*) as total_count,
 	                    count(case when status = '0' then 1 end) as new_count,
 	                    t3.username as sender_name,
 	                    concat(t3.dialcode,t3.phone) as sender_phone,
-	                    h.med as sender_picture,
+	                    h.small as sender_picture,
 	                    max(sent_ts) last_sent
                 from 
 	                    (file_delivery  t1 
@@ -103,7 +111,7 @@ class MetaUserView(View):
 				            on t2.author_id=t3.userid) on t1.file_id=t2.fileid) 
 	                    join common_user as c 
 		                    on t1.user_id= c.userid and c.userid = %s
-                group by sender_name,sender_phone, sender_picture
+                group by sender_name,sender_phone,sender_id, sender_picture
                 order by last_sent desc
             '''
             cursor.execute(query,[uid])
@@ -122,44 +130,79 @@ class MetaUserView(View):
         if len(result) is not 0:
             for res in result:
                 identity = res[('sender_name','sender_phone')[res['sender_name'] is None]]
+                
+                if res['sender_picture'] is None:
+                    picture = '/static/resource/picture/silh/silh-80.jpg'
+                else:
+                    picture = MEDIA_URL+res['sender_picture']
+
+
+                #getting all files by this sender
+                sender_files = Delivery.objects.filter(user=uid,
+                            file__author__userid=res['sender_id']).order_by('-file__sent_ts')
+        
+                files = []
+                for sender_file in sender_files:
+                    files.append(getFileMeta(sender_file))
+
                 self.data['file']['senderlist'].append({
+                    '_id': res['sender_id'],
                     'identity': identity,
-                    'pic':      '/content/'+res['sender_picture'],
+                    'pic':      picture,
                     'total':    res['total_count'],
                     'new':      res['new_count'],
                     'time':     Time(str(res['last_sent'])).getDiff(),
+                    'files':    files,
                 })
-        """
-        if newfiles.exists():
-            for newfile in newfiles:
-                file = newfile.file
-                        
-                sender = file.author
-                sender_un = False
-                if sender.username is not None:
-                    sender_un = sender.username
-                sender_phone = str(sender.dialcode)+str(sender.phone)
-                        
-                if file.type:
-                    file_type = Helper().getFormattedType(file.type,file.filename)
-                else:
-                    file_type = 'NA'
-                    
-                directlink = 'file/direct?id='+str(file.fileid)+'&url='+str(file.path.url)
-                        
-                self.data['file']['lists'].append({
-                            'id'   : file.fileid,
-                            'name' : file.filename,
-                            'size' : file.size,
-                            'type' : file_type,
-                            'path' : directlink,
-                            'sender_phone': sender_phone,
-                            'sender_un': sender_un,
-                            'time':Time(str(file.sent_ts)).getDiff(),
-                            'tooltip': Time(str(file.sent_ts)).getTooltip(),
-                            'status': newfile.status
-                    })
-        """
+    def fetchSentFiles(self, uid):
+        self.data['sent'] = []
+        
+        sent_files = Delivery.objects.filter(~Q(user__userid=uid),
+                Q(file__author__userid=uid)).order_by('-file__sent_ts')
+        
+        blind_sentfiles = BlindDelivery.objects.filter(Q(file__author__userid=uid)).order_by('-file__sent_ts')
+        
+        all_sent = list(sent_files) + list(blind_sentfiles)
+        all_sent_sorted = sorted(all_sent, key=lambda x: x.file.sent_ts, reverse=True)
+        
+        if len(all_sent_sorted) is not 0:
+            for sent_file in all_sent_sorted:
+                self.data['sent'].append(getFileMeta(sent_file,True))
+
+def getFileMeta(delivery, sent=False):
+        f = delivery.file
+                                
+        if f.type:
+            file_type = Helper().getFormattedType(f.type,f.filename)
+        else:
+            file_type = 'NA'
+                            
+        directlink = '/file/direct?id='+str(f.fileid)+'&url='+str(f.path.url)
+
+        file_meta = {
+                    'id'   : f.fileid,
+                    'name' : f.filename,
+                    'size' : f.size,
+                    'type' : file_type,
+                    'path' : directlink,
+                    'time':Time(str(f.sent_ts)).getDiff(),
+                    'tooltip': Time(str(f.sent_ts)).getTooltip(),
+                    'status': delivery.status,
+        }
+        if sent is True:
+            if isinstance(delivery, BlindDelivery):
+                receiver = delivery.phone
+            else:
+                receiver = delivery.user.username
+                if receiver is None:
+                    receiver = delivery.user.dialcode \
+                        + str(delivery.user.phone)
+            file_meta['receiver'] = receiver
+            
+        return file_meta
+
+
+            
 
 class PhotoView(View):
     
@@ -305,5 +348,31 @@ class Country(View):
                 country['success'] = str(e).encode()
         res = simplejson.dumps(country)
         return HttpResponse(res, content_type='application/json')
+
+class FetchDeliveryReport(View):
+
+    @method_decorator(LoginRequired())
+    def get(self, request, *args, **kwargs):
+        self.uid = request.session.get('user_id', False)
+        if self.uid is False:
+            raise Exception()
+        response = {}
+        try:
+            sent = []
+            sent_files = Delivery.objects.filter(~Q(user__userid=self.uid),
+                Q(file__author__userid=self.uid)).order_by('-file__sent_ts')
+        
+            if sent_files.exists():
+                for sent_file in sent_files:
+                    sent.append(getFileMeta(sent_file,True))
+            response['status'] = 'ok'
+            response['sent'] = sent
+        except Exception as e:
+            response['status'] = 'failed'
+            response['error'] = str(e)
+
+        
+        result = simplejson.dumps(response)
+        return HttpResponse(result, content_type='application/json')
 
         

@@ -99,14 +99,13 @@ class PushView(View):
                 self.sendsms(target_phone,f.fileid,f.shorturl);
                 
                 self.res['success'] = 1
-        except:
-            self.res['error'] = traceback.format_exc()
-            raise
+        except Exception as e:
+            self.res['error'] = str
             
     def sendsms(self, phone,fid, surl):
         #type = Helper().getFormattedType(self.type,self.name,True)
         trimmed_name = Helper().getTrimmedFileName(self.name)
-        texturl = SHORT_URL_BASEHOST + '/' + str(surl)
+        texturl = SHORT_URL_BASEHOST + '/l/' + str(surl)
         
         msg = ("%s: (%s via sendboro) "\
                
@@ -148,10 +147,16 @@ class ChangeStateView(View):
     
     def post(self,request,*args,**kwargs):
         uid = request.session['user_id']
+        author_id = request.POST.get('aid', False)
         res = {}
         try:
-             Delivery.objects.filter(user__userid=uid,status='0').update(status='1')
-             res['success'] = 1
+            if author_id is False:
+                Delivery.objects.filter(user__userid=uid,status='0').update(status='1')
+            else:
+                Delivery.objects.filter(user__userid=uid, 
+                    status='0', 
+                    file__author__userid=int(author_id)).update(status='1')
+            res['success'] = 1
         except:
             res['error'] = traceback.format_exc()
         

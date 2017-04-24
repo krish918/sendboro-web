@@ -836,7 +836,8 @@ input[type=number] {
     background: #606060; }
 
 .widget-body.settings-body {
-  padding: 20px 0; }
+  padding: 20px 0;
+  font: normal 10pt/2 'sinkinsans','pigeosans','droidsans',arial, sans-serif; }
   .widget-body.settings-body .subsettings {
     padding: 20px;
     border-bottom: solid 1px #e0e0e0; }
@@ -915,11 +916,14 @@ img.loader {
   font-size: 12pt; }
 
 .widget-body.send-page {
-  padding: 30px; }
+  padding: 30px;
+  font: normal 11pt/2 'sinkinsans','pigeosans','droidsans',arial, sans-serif; }
   .widget-body.send-page .send-desc {
     line-height: 2; }
   .widget-body.send-page .inpt-container {
     padding: 20px 0px; }
+    .widget-body.send-page .inpt-container input {
+      font-size: 12pt; }
   .widget-body.send-page .upload-button-container {
     margin: 0;
     margin-top: 10px; }
@@ -1086,17 +1090,18 @@ img.loader {
   display: inline-block;
   border: solid 1px #0080f0; }
 
-.inbox-widget {
-  height: auto; }
+.inbox-widget, .inbox-sender-widget, .sent-container {
+  height: auto;
+  font: normal 11pt/1 'sinkinsans','droidsans', arial, sans-serif; }
 
-.widget-body .inbox-empty {
+.widget-body .inbox-empty, .widget-body .outbox-empty {
   padding: 20px 35px;
   text-align: right; }
-  .widget-body .inbox-empty .empty-quote {
+  .widget-body .inbox-empty .empty-quote, .widget-body .outbox-empty .empty-quote {
     font: normal 14pt/1.5 'pigeosans','sinkinsans','droidsans', arial, sans-serif;
     color: #009999;
     margin-bottom: 10px; }
-  .widget-body .inbox-empty .empty-message {
+  .widget-body .inbox-empty .empty-message, .widget-body .outbox-empty .empty-message {
     margin: 60px auto;
     margin-bottom: 20px;
     padding-top: 30px;
@@ -1107,10 +1112,25 @@ img.loader {
 .widget-body .file-block {
   padding: 20px 0;
   padding-right: 10px;
-  border-top: solid 1px #e6e6e6; }
+  border-bottom: solid 1px #e6e6e6; }
   .widget-body .file-block .file-container {
     padding: 0 30px;
     padding-right: 0; }
+    .widget-body .file-block .file-container table {
+      width: 100%; }
+    .widget-body .file-block .file-container td {
+      vertical-align: top; }
+      .widget-body .file-block .file-container td.icon {
+        width: 45px; }
+      .widget-body .file-block .file-container td.td-file-desc {
+        padding: 0 10px;
+        overflow-wrap: break-word; }
+      .widget-body .file-block .file-container td.file-type {
+        width: 20%;
+        vertical-align: middle;
+        border-left: solid 1px #d0d0d0;
+        text-align: center;
+        padding: 0 10px; }
     .widget-body .file-block .file-container .icon {
       width: 40px;
       height: 40px; }
@@ -1118,17 +1138,15 @@ img.loader {
         width: 100%;
         height: auto; }
     .widget-body .file-block .file-container .file-name {
-      width: 320px;
-      overflow-wrap: break-word;
+      display: inline-block;
+      overflow-wrap: break-all;
+      word-break: break-all;
       font-size: 9pt;
       line-height: 1.6; }
       .widget-body .file-block .file-container .file-name a:hover {
         color: #009999; }
-    .widget-body .file-block .file-container .file-type {
-      float: right;
-      width: 85px;
-      border-left: solid 1px #d0d0d0;
-      height: 40px;
+    .widget-body .file-block .file-container div.file-type {
+      display: inline-block;
       text-align: center;
       font: normal 11pt/1 'pigeosans','sinkinsans', sans-serif;
       color: #808080;
@@ -1139,6 +1157,11 @@ img.loader {
       margin-top: 12px;
       font-size: 8pt;
       color: #707070; }
+    .widget-body .file-block .file-container .delivery-status {
+      font-size: 16pt;
+      color: #006ac7; }
+      .widget-body .file-block .file-container .delivery-status.seen {
+        color: #34b572; }
     .widget-body .file-block .file-container .send-time {
       margin-top: 9px;
       font-size: 7pt;
@@ -1154,6 +1177,72 @@ img.loader {
   .widget-body .file-block:hover {
     background-color: #fbfbfb; }
 
+.file-block {
+  cursor: pointer; }
+  .file-block .sender-picture {
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    -moz-border-radius: 50px;
+    -o-border-radius: 50px;
+    -ms-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px; }
+    .file-block .sender-picture img {
+      margin-top: -15px;
+      margin-left: -15px; }
+  .file-block table {
+    width: 100%; }
+  .file-block td {
+    vertical-align: middle;
+    padding-right: 10px; }
+    .file-block td.sender-picture-cell {
+      width: 60px; }
+    .file-block td.new-files-cell {
+      max-width: 70px;
+      vertical-align: bottom;
+      text-align: right; }
+  .file-block .sender-identity {
+    font-size: 13pt;
+    line-height: 2; }
+  .file-block .total-files {
+    font-size: 10pt;
+    color: #707070;
+    font-style: italic;
+    line-height: 2; }
+  .file-block .last-sent-time {
+    font-size: 9pt;
+    font-weight: bold;
+    color: #509050;
+    line-height: 2; }
+  .file-block .new-files {
+    display: inline-block;
+    background: #47ca86;
+    color: white;
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+    vertical-align: middle;
+    width: 30px;
+    -moz-border-radius: 30px;
+    -o-border-radius: 30px;
+    -ms-border-radius: 30px;
+    -webkit-border-radius: 30px;
+    border-radius: 30px; }
+
+.inbox-sender-widget .sender-pic {
+  height: 30px;
+  width: 30px;
+  overflow: hidden;
+  -moz-border-radius: 30px;
+  -o-border-radius: 30px;
+  -ms-border-radius: 30px;
+  -webkit-border-radius: 30px;
+  border-radius: 30px; }
+  .inbox-sender-widget .sender-pic img {
+    margin-top: -15px;
+    margin-left: -15px; }
+
 .widget-header .widget-title {
   height: 50px;
   line-height: 50px;
@@ -1161,11 +1250,14 @@ img.loader {
   font-size: 12pt; }
 
 .widget-body.send-page {
-  padding: 30px; }
+  padding: 30px;
+  font: normal 11pt/2 'sinkinsans','pigeosans','droidsans',arial, sans-serif; }
   .widget-body.send-page .send-desc {
     line-height: 2; }
   .widget-body.send-page .inpt-container {
     padding: 20px 0px; }
+    .widget-body.send-page .inpt-container input {
+      font-size: 12pt; }
   .widget-body.send-page .upload-button-container {
     margin: 0;
     margin-top: 10px; }
@@ -1574,9 +1666,6 @@ input.contact-input {
     -webkit-border-radius: 70px;
     border-radius: 70px;
     overflow: hidden; }
-    .contactlist-container .contact-picture img {
-      margin-top: -5px;
-      margin-left: -5px; }
   .contactlist-container .contact-name {
     font-size: 13pt;
     line-height: 1.6; }
@@ -1805,6 +1894,7 @@ a {
     opacity: 0; }
 
 .identity-container {
+  cursor: pointer;
   flex: 0 1 auto;
   font: normal 9pt/1 'sinkinsans', 'droidsans', arial, sans-serif; }
   .identity-container .user-dp {

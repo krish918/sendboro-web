@@ -10,7 +10,9 @@ urlpatterns = [
                 url(r'^partial/send$', sendPartialView),
                 url(r'^partial/sent$', sentPartialView),
                 url(r'^partial/inbox$', inboxPartialView),
+                url(r'^partial/sender$', senderPartialView),
                 url(r'^settings$', settingsView),
                 url(r'^send$', sendView),
-                url(r'^inbox$', inboxView),
+                #url(r'^inbox$', inboxView),
+                url(r'^inbox/(?P<sender>[a-zA-Z0-9\.\-_#\*]{2,})$', SenderView.as_view()),
             ]

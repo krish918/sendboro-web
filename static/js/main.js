@@ -65,12 +65,18 @@
 						'widgetMiddle@homeframe' : {
 							templateUrl: '/partial/inbox',
 							controller: 'inboxController',
-							controllerAs: 'inbxCtrl'
+							controllerAs: 'inbxCtrl',
+							resolve: {
+								user: '$metaboro',
+							},
 						},
 						'widgetRight@homeframe' : {
 							templateUrl: '/partial/sent',
 							controller: 'sentController',
-							controllerAs: 'sntCtrl'
+							controllerAs: 'sntCtrl',
+							resolve: {
+								user: '$metaboro',
+							},
 						},
 					}
 				})
@@ -79,9 +85,12 @@
 					url: 'inbox/:sender',
 					views: {
 						'widgetMiddle@homeframe': {
-							templateUrl: '/partial/send',
-							controller: 'inboxController',
-							controllerAs: 'inbxCtrl',
+							templateUrl: '/partial/sender',
+							controller: 'senderController',
+							controllerAs: 'sndrCtrl',
+							resolve: {
+								user: '$metaboro',
+							},
 						},
 					},
 				})
@@ -89,7 +98,7 @@
 				.state('homeframe.settings', {
 					url: 'settings',
 					views: {
-						'widgetLeft@homeframe': {
+						'widgetMiddle@homeframe': {
 							templateUrl: '/partial/settings',
 							controller: 'settingsController',
 							controllerAs: 'setCtrl'
@@ -100,7 +109,7 @@
 				.state('homeframe.send', {
 					url: 'send',
 					views: {
-						'widgetLeft@homeframe' : {
+						'widgetMiddle@homeframe' : {
 							templateUrl: '/partial/send',
 							controller: 'shareController',
 							controllerAs: 'shCtrl'

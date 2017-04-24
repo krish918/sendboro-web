@@ -1,12 +1,15 @@
 from django.shortcuts import render
 from django.views.generic import View
 from django.views.decorators.http import require_GET, require_POST
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseNotFound
 from common.utils.decorator import LoginRequired
 from common.utils.general import Random
 from django.utils.decorators import method_decorator
 from common.models import *
 from django.db import transaction
+from django.core.exceptions import ObjectDoesNotExist 
+from django.db.models.functions import Concat
+from django.db.models import Q, CharField
 from control.bootstrap import Borouser
 try:    
     from django.utils import simplejson
@@ -77,6 +80,10 @@ def sentPartialView(request):
 def inboxPartialView(request):
     return render(request, 'partial/inbox.html')
 
+@LoginRequired()
+def senderPartialView(request):
+    return render(request, 'partial/sender.html')
+
 
 @LoginRequired(template='home.html')
 def settingsView(request):
@@ -86,6 +93,21 @@ def settingsView(request):
 def sendView(request):
     return {}
 
-@LoginRequired(template='home.html')
+'''@LoginRequired(template='home.html')
 def inboxView(request):
-    return {}
+    return {}'''
+
+class SenderView(View):
+    def get(self, request, *args, **kwargs):
+        if 'sender' not in kwargs:
+            return HttpResponseNotFound()
+        
+        try:
+            User.objects.annotate(full_phone=Concat('dialcode',
+            'phone',output_field=CharField())).\
+                get(Q(full_phone='+'+kwargs['sender']) | Q(username=str(kwargs['sender'])))
+        except ObjectDoesNotExist:
+            return HttpResponseNotFound()
+        
+        return render(request, 'home.html')
+

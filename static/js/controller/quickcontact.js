@@ -39,7 +39,7 @@
 
 		var loadContacts = function() {
 			self.processing = true;
-			var endpoint = 'contact/getlist'
+			var endpoint = '/contact/getlist'
 			$poll.get(endpoint)
 
 			.then(function(response) {
@@ -132,7 +132,7 @@
 					data += "&cp="+encodeURIComponent($scope.phoneNum);
 				}
 
-				var endpoint = 'contact/put';
+				var endpoint = '/contact/put';
 				$poll.post(endpoint,data)
 
 				.then(function(res) {

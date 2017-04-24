@@ -63,6 +63,7 @@
 			};
 			
 			this.pushFile = function (){
+				
 				var args = arguments[0];
 				plist.scope.total_count = items.length;
 				

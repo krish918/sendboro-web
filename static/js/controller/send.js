@@ -28,7 +28,7 @@
 			 });*/
 			 
 			 // for displaying inability to select file
-			 $scope.showInability = function () {
+			 rootScope.showInability = function () {
 				 $scope.inptErrorClass = 'invalid-entry red-border';
 				 
 				 //Removes the invalid-entry class after 1 sec.
@@ -84,18 +84,17 @@
 					
 				};
 				
-				var nativeHandler = function (arg) {
-					
+				var nativeHandler = function (arg1, arg2) {
 					PushBoro.handler({
 						scope: rootScope,
 						onFilterChoke: addingError,
-						houseKeeping: arg ? arg[0] : verifyRecipient,
+						houseKeeping: arg1 ? verifyRecipient: false,
 						onSuccess: showSuccess,
 						onError: showFailure,
 						onCancel: showCancelled,
 						recipient: $scope.recipient,
 						blind: $scope.blind,
-						uploadAllowed: arg ? arg[1]: !$scope.blockSelect,
+						uploadAllowed: arg2,
 					});
 				};
 				
@@ -129,12 +128,12 @@
 				};
 				
 				var verifyRecipient = function () {
-					 
 					//showing small loader while verifying recipient
 					$scope.verifying = true;
 					//sends a http request to verify the recipient
 					// value is being url-encoded so as to transmit '+' character
 					// successfully to server
+					console.log($scope.recipient);
 					$http({
 						url: '/api/verify',
 						data: 'rcpnt='+encodeURIComponent($scope.recipient),
@@ -163,8 +162,8 @@
 							else if('success' in response) {
 								//fill up the recipient array with verified 
 								//  UIDs from server
-								recipient = response.uid;
-								PushBoro.pushFile({recipient: recipient});
+								//recipient = response.uid;
+								PushBoro.pushFile({recipient: $scope.recipient});
 							}
 						}
 							
@@ -182,11 +181,21 @@
 				};
 				
 			 })();
-			 
-			 
 			  
 			 $scope.initPushEngine = function () {
-					upload.handle(arguments); 
+				 var uploadAllowed,
+				 	 housekeeping;
+
+				if(arguments.length == 2) {
+					housekeeping = arguments[0];
+					uploadAllowed = arguments[1];
+				}
+				else {
+					housekeeping = true;
+					uploadAllowed = !$scope.blockSelect;
+				}
+
+				upload.handle(housekeeping, uploadAllowed);
 			 };
 			 
 			 var showError = function(arg) {
@@ -218,10 +227,9 @@
 	}])
 	
 	
-	.controller('inboxController', ['$scope','$metaboro','PushBoro','$timeout','$cookies',
-	       '$http',function($scope, $metaboro, PushBoro, $timeout,$cookies,$http){
+	.controller('inboxController', ['$scope','user','PushBoro','$timeout','$cookies',
+	       '$http',function($scope, metaboro, PushBoro, $timeout,$cookies,$http){
 				
-				var metaboro = $metaboro.$$state.value;
 				this.user = metaboro.data;
 				$scope.isEmpty = false;
 				
@@ -237,10 +245,12 @@
 					if(!self.user.file.senderlist.length)
 						$scope.isEmpty = true;
 					
-					resetAlerts();
+					//resetAlerts();
 				};
 				
-				var resetAlerts = function () {
+				//now new files nnotification will
+				//reset when user navigates to sender view
+				/*var resetAlerts = function () {
 					$http({
 						url: '/file/changestate',
 						method: 'post',
@@ -259,6 +269,73 @@
 						console.log(response);
 					});
 
+				};*/
+				
+				this.initDownload = function (file) {
+					
+										
+				};
+	}])
+
+	.controller('senderController', ['$scope','user','$poll','$stateParams', 
+		   function($scope, metaboro, $poll, $stateParams){
+				
+				this.user = metaboro.data;
+				$scope.isEmpty = false;
+				
+				var self = this;
+		
+				$scope.init =  function () {
+					//document.title = 'Inbox';
+					self.files = [];
+					$scope.animateWidget="animateWidget";
+					metaboro.listenUpdate($scope, function() {
+						self.user = metaboro.data
+					});
+					
+					if(!self.user.file.senderlist.length)
+						$scope.isEmpty = true;
+
+					if($stateParams['sender']) {
+						self.sender = $stateParams['sender'];
+					}
+
+					welcomeSender();
+					if(self.new_files)
+						resetAlerts();
+				};
+
+				var welcomeSender = function() {
+					for(var sender of self.user.file.senderlist) {
+						if(sender.identity == self.sender 
+						|| sender.identity == '+'+self.sender) {
+							self.sender_id = sender._id;
+							self.files = sender.files;
+							self.sender_pic = sender.pic;
+							self.new_files = sender.new;
+						}
+					}
+					if(self.files.length == 0)
+						$scope.isEmpty = true;
+
+				}
+				
+				var resetAlerts = function () {
+					var endpoint = '/file/changestate';
+					var data = 'aid='+encodeURIComponent(self.sender_id);
+					$poll.post(endpoint, data)
+					
+					.then(function (response) {
+						console.log(response);
+						if('success' in response) {
+							metaboro.update({'file': {
+								'newcount': 
+							(self.user.file.newcount - self.new_files)}});
+						}
+					}, function (response) {
+						console.log(response);
+					});
+
 				};
 				
 				this.initDownload = function (file) {
@@ -266,6 +343,7 @@
 										
 				};
 	}]);
+	
 	
 	
 })();

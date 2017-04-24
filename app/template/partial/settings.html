@@ -1,16 +1,7 @@
 {% load staticfiles %}
 <div class="widget-container" ng-class="settingClass" ng-init="init()">
 	<div class="widget-header">
-		<div class="settings-tab-container inline-middle">
-			<div class="stab inline-middle" ng-class="{'active':setCtrl.checkPanel(1)}"
-				ng-click="setCtrl.setPanel(1)">
-				General
-			</div>
-			<div class="stab inline-middle" ng-class="{'active':setCtrl.checkPanel(2)}"
-				ng-click="setCtrl.setPanel(2)">
-				Advanced
-			</div>
-		</div>
+		<div class="widget-title inline-middle">SETTINGS</div>
 		<div class="widget-icon inline-middle">
 			<span class="glyphicon glyphicon-wrench"></span>
 		</div>

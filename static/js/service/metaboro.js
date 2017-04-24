@@ -14,7 +14,26 @@
 		
 		//called whenever a controller updates data of this service
 		var updateState = function (data) {
-			console.log(data);
+			
+
+				/*for(var key in self.dump) {
+				if(self.dump.hasOwnProperty(key)) {
+					for(key2 in data) {
+						if(data.hasOwnProperty(key2) && key2 == key) {
+							self.dump[key] = data[key2];
+						}
+					}
+				}
+				
+			}*/
+			//self.dump['sent'] = data.sent;
+			if('immediate' in data) {
+					self.dump['data'] = data['data'];
+					console.log(self.dump.data);
+					broadcast();
+			}
+			else {
+			
 			for (var key in data) {
 				if(typeof data[key] !== 'object')
 					self.dump.data[key] = data[key];
@@ -28,6 +47,7 @@
 								   self.dump.data[key][key2][key3] = data[key][key2][key3];
 						}
 				}
+			}
 			}
 			broadcast();
 		};

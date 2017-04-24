@@ -15,7 +15,7 @@
 		
 		&.active:hover {
 			background: lighten($dblack, 40);
-		}
+		}	
 		&:hover {
 			background: lighten($dblack, 25);
 		}
@@ -24,6 +24,7 @@
 
 .widget-body.settings-body {
 	padding: 20px 0;
+	font: normal 10pt/2 'sinkinsans','pigeosans','droidsans',arial, sans-serif;
 	.subsettings {
 		padding: 20px;
 		border-bottom: solid 1px #e0e0e0;

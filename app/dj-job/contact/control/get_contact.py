@@ -30,12 +30,12 @@ class ContactUtil(object):
                     
                 try:
                     if native_contact is not False:
-                        contact_pic = Picture.objects.get(user=native_contact.contact_user)
+                        contact_pic = Picture.objects.get(user=native_contact.contact_user,active=True)
                         cntct_info['picture'] = contact_pic.small.url
                     else:
                         raise NameError()
                 except (ObjectDoesNotExist, NameError) as e:
-                    cntct_info['picture'] = 'static/resource/picture/silh/silh-80.jpg'
+                    cntct_info['picture'] = '/static/resource/picture/silh/silh-80.jpg'
 
                 contacts.append(cntct_info)
 

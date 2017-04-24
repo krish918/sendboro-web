@@ -20,32 +20,46 @@
 		<div class="inbox-content" ng-show="!isEmpty">
 
 			<div class="file-block" ng-repeat="sender in inbxCtrl.user.file.senderlist"
-				ui-sref="homeframe.inbox({sender: (sender.identity[0]=='+')?sender.identity.slice(1):sender.identity})">
+				ui-sref="homeframe.inbox({sender: (sender.identity[0]=='+')?sender.identity.slice(1):sender.identity})"
+				>
 				<div class="file-container">
-					
+					<table>
+						<tr>
+							<td class="sender-picture-cell">	
 					<div class="sender-picture">
 						<img ng-src="{% verbatim %}{{sender.pic}}{% endverbatim %}"/>
 					</div>
+						</td>
+						<td>
 					<div class="sender-identity">
 						{% verbatim %}
 							{{sender.identity}}
 						{% endverbatim %}
 					</div>
 					<div class="total-files">
+						
 						{% verbatim %}
 							{{sender.total}}
-						{% endverbatim %}
+						{% endverbatim %} Files
 					</div>
-					<div class="new-files">
+						</td>
+						<td class="new-files-cell">
+					<div class="new-files" ng-show="{% verbatim %}
+							{{sender.new}}
+						{% endverbatim %}">
 						{% verbatim %}
 							{{sender.new}}
 						{% endverbatim %}
 					</div>
+						
 					<div class="last-sent-time">
 						{% verbatim %}
 							{{sender.time}}
 						{% endverbatim %}
 					</div>
+						</td>
+						</tr>
+						</table>
 					<!--
 					<div class="icon inline-top">
 						<a target="_blank" 

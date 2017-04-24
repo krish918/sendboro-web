@@ -9,6 +9,7 @@
 
 .widget-body.send-page {
 	padding: 30px;
+	font: normal 11pt/2 'sinkinsans','pigeosans','droidsans',arial, sans-serif;
 	
 	.send-desc {
 		line-height: 2;
@@ -16,6 +17,9 @@
 	
 	.inpt-container {
 		padding: 20px 0px;
+		input {
+			font-size: 12pt;
+		}
 	}
 	
 	.upload-button-container {

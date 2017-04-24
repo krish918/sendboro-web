@@ -1,9 +1,10 @@
-.inbox-widget {
+.inbox-widget, .inbox-sender-widget,.sent-container {
 	height:auto;
+	font: normal 11pt/1 'sinkinsans','droidsans', arial, sans-serif;
 }
 .widget-body {
 	
-	.inbox-empty {
+	.inbox-empty, .outbox-empty {
 		padding:20px 35px;
 		text-align: right;
 		.empty-quote {
@@ -27,24 +28,53 @@
 	.file-block {
 		padding: 20px 0;
 		padding-right:10px;
-		border-top: solid 1px #e6e6e6;
+		border-bottom: solid 1px #e6e6e6;
 		
 		.file-container {
 			padding: 0 30px;
 			padding-right:0;
 			
-			.icon {
-			width: 40px;
-			height:40px;
-			img {
+			table {
 				width:100%;
-				height:auto;
+			}
+			
+			td {
+				
+				vertical-align:top;
+				
+				&.icon {
+					width: 45px;
+				} 
+				
+				&.td-file-desc {
+					padding: 0 10px;
+					overflow-wrap: break-word;
+				}
+				
+				&.file-type {
+					width: 20%;
+					vertical-align:middle;
+					border-left: solid 1px #d0d0d0;
+					text-align:center;
+					padding: 0 10px;
+					
+				}
+			}
+			
+			.icon {
+				width: 40px;
+				height:40px;
+				
+				img {
+					width:100%;
+					height:auto;
 				}
 			}
 			
 			.file-name {
-				width: 320px;
-				overflow-wrap: break-word;
+				display: inline-block;
+				overflow-wrap: break-all;
+				word-break: break-all;
 				font-size:9pt;
 				line-height: 1.6;
 				a:hover {
@@ -52,11 +82,8 @@
 				}
 			}
 			
-			.file-type {
-				float:right;
-				width: 85px;
-				border-left: solid 1px #d0d0d0;
-				height: 40px;
+			div.file-type {
+				display: inline-block;
 				text-align:center;
 				font: normal 11pt/1 'pigeosans','sinkinsans', sans-serif;
 				color: #808080;
@@ -67,6 +94,15 @@
 				margin-top:12px;
 				font-size:8pt;
 				color: #707070;
+			}
+			
+			.delivery-status {
+				font-size: 16pt;
+				color: darken($sweet-blue,8);
+				
+				&.seen {
+					color: lighten($rumy-green, 12);
+				}
 			}
 			
 			.send-time {
@@ -93,6 +129,82 @@
 			background-color: #fbfbfb;
 		}
 		
+	}
+}
+
+.file-block {
+	cursor: pointer;
+	.sender-picture {
+		width: 50px;
+		height: 50px;
+		overflow:hidden;
+		@include radius(50px);
+		img {
+			margin-top: -15px;
+			margin-left: -15px;
+		
+		}
+	}	
+	table {
+		width: 100%;
+	}
+	td {
+		vertical-align: middle;
+		padding-right: 10px;
+		
+		
+		&.sender-picture-cell {
+			width:60px;
+		}
+		
+		&.new-files-cell {
+			max-width: 70px;
+			vertical-align:bottom;
+			text-align:right;
+		}
+	}
+	
+	.sender-identity {
+		font-size: 13pt;
+		line-height: 2;
+	}
+	.total-files {
+		font-size: 10pt;
+		color: #707070;
+		font-style: italic;
+		line-height:2;
+	}
+	
+	.last-sent-time {
+		font-size: 9pt;
+		font-weight: bold;
+		color: #509050;
+		line-height:2;
+	}
+	.new-files {
+		display:inline-block;
+		background: lighten($rumy-green, 20);
+		color:white;
+		text-align:center;
+		height:30px;
+		line-height:30px;
+		vertical-align:middle;
+		width:30px;
+		@include radius(30px);
+	}
+}
+
+.inbox-sender-widget {
+	.sender-pic {
+		height: 30px;
+		width: 30px;
+		overflow: hidden;
+		@include radius(30px);
+		
+		img {
+			margin-top: -15px;
+			margin-left:-15px;
+		}
 	}
 }
 
