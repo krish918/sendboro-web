@@ -111,7 +111,7 @@
 				color: #909090;
 			}
 			
-			.download-button {
+			.download-button {				
 				margin-top: 11px;
 				color: darken($light-blue,40);
 				cursor: pointer;
@@ -129,6 +129,24 @@
 			background-color: #fbfbfb;
 		}
 		
+	}
+}
+
+.outbox-content {
+	.file-block {
+		.file-container {
+			td.lower-download-row {
+				vertical-align: bottom;
+			}
+		}
+	}
+	
+	
+	.link-views {
+		vertical-align:middle;
+		text-align:right;
+		color: lighten($rumy-green, 10);
+		font-size: 10pt;
 	}
 }
 

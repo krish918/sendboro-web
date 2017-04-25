@@ -1177,6 +1177,14 @@ img.loader {
   .widget-body .file-block:hover {
     background-color: #fbfbfb; }
 
+.outbox-content .file-block .file-container td.lower-download-row {
+  vertical-align: bottom; }
+.outbox-content .link-views {
+  vertical-align: middle;
+  text-align: right;
+  color: #31ad6d;
+  font-size: 10pt; }
+
 .file-block {
   cursor: pointer; }
   .file-block .sender-picture {

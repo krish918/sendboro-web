@@ -9,7 +9,7 @@ import simplejson, traceback, re
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.db import transaction, connection
 from django.db.utils import IntegrityError
-from file.models import Delivery,File,BlindDelivery
+from file.models import Delivery,File,BlindDelivery, DirectUnsignedView
 from common.utils.general import Helper,Time,UserTrace
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.csrf import csrf_exempt 
@@ -178,13 +178,14 @@ def getFileMeta(delivery, sent=False):
             file_type = 'NA'
                             
         directlink = '/file/direct?id='+str(f.fileid)+'&url='+str(f.path.url)
-
+        unsigned_views = DirectUnsignedView.objects.filter(file=f)
         file_meta = {
                     'id'   : f.fileid,
                     'name' : f.filename,
                     'size' : f.size,
                     'type' : file_type,
                     'path' : directlink,
+                    'us_view': len(unsigned_views),
                     'time':Time(str(f.sent_ts)).getDiff(),
                     'tooltip': Time(str(f.sent_ts)).getTooltip(),
                     'status': delivery.status,
