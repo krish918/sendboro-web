@@ -1,0 +1,82 @@
+{% load staticfiles %}
+<div class="widget-container inbox-sender-widget" ng-class="animateWidget"
+	ng-init="init()">
+    <div class="widget-header">
+		<div class="widget-title inline-middle">
+            <a ui-sref="homeframe">RECEIVED<a/>
+            <span class="glyphicon glyphicon-chevron-right">
+            </span>
+			{% verbatim %} 
+			{{ sndrCtrl.sender }}
+			{% endverbatim %}
+        </div>
+		<div class="widget-icon inline-middle sender-pic">
+			<img ng-src="{% verbatim %}{{sndrCtrl.sender_pic}}{% endverbatim %}"/>
+		</div>
+	</div>
+    <div class="widget-body received-page">
+		<div class="inbox-empty" ng-show="isEmpty">
+			<div class="empty-quote">
+				"Blah Blah"
+			</div>
+			- Jackson Pearce, <span class="italic">Fathomless</span>
+			<div class="empty-message">
+				{% verbatim %} 
+			{{ sndrCtrl.sender }}
+			{% endverbatim %}
+			has sent you no files.
+			</div>
+		</div>
+		<div class="inbox-content" ng-show="!isEmpty">
+		<div class="file-block sender-n-sent" ng-repeat="file in sndrCtrl.files">
+			<div class="file-container">
+				<table>
+					<tr>
+						<td class="icon">
+				<div class="icon">
+						<a target="_blank" 
+						  ng-href="{% verbatim %}{{file.path}} {% endverbatim %}">
+							<img src="{% static 'resource/icons/file-small.png' %}">
+						</a>
+					</div>
+						</td>
+						<td class="td-file-desc">
+					
+					<div class="file-desc">
+						
+						<div class="file-name">
+							{% verbatim %} <a target="_blank" ng-href="{{file.path}}">
+								{{file.name}} </a> {% endverbatim %}
+						</div>
+						
+						<div class="send-time" title="{% verbatim %}{{file.tooltip}}{% endverbatim %}">
+							{% verbatim %} {{file.time}} {% endverbatim %}
+						</div>
+						
+						<form action="file/download" method="post">
+						{% csrf_token %}
+							
+						<input type="hidden" name="fileid"
+						 ng-value="{% verbatim %}{{file.id}}{% endverbatim %}">
+						 
+						<button class="download-button" type="submit">	
+							<span class="glyphicon glyphicon-download-alt"></span>
+								Download
+						</button>
+							
+						</form>
+						</td>
+						<td class="file-type">
+							<div class="file-type">
+							{% verbatim %} 
+									{{file.type}}
+								{% endverbatim %}
+							</div>
+						</td>
+					
+					</div>
+			</div>
+			</div>
+		</div>
+    </div>
+</div>
