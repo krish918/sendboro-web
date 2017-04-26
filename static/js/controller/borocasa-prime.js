@@ -33,14 +33,14 @@
 							user.update({'data': response, 
 								'immediate':true,
 							});
-							console.log(response);
+							//console.log(response);
 
 							$timeout(function() {
 								self.checkUpdates();
 							},6000);
 						})
 						.catch(function(res) {
-							console.log(res);
+							//console.log(res);
 						});
 					};
 		
@@ -116,7 +116,7 @@
 							$window.location.href = '/';
 						}
 						else {
-							console.log(res);
+							//console.log(res);
 							self.logoutMsg = "Sorry! There was an error.";
 							cleanup();
 						}
@@ -232,7 +232,7 @@
 				var uploadHandler = function (item) {
 					item.upload ();
 					uploader.onSuccessItem = function(item,response) {
-						console.log(response);
+						//console.log(response);
 						if('error' in response)
 							showError(false, response)
 						else
@@ -371,7 +371,7 @@
 							// disappear input text-box and tick button to let users
 							//  edit again
 							resetEditPanel(model);
-							console.log(response);
+							//console.log(response);
 							if('success' in response) {
 								//if uname is in response update username/identity
 								//  app-wide else do the same with fullname

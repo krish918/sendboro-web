@@ -61,7 +61,7 @@
 				else 
 					this.page = 1;
 				
-				console.log(this.page);
+				//console.log(this.page);
 				
 				if(data.y == nextPageHeight) {
 					

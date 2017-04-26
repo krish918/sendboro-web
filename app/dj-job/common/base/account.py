@@ -19,12 +19,11 @@ class Account:
         self.user.StartSession()
     
     def AttemptLogin(self, loginName):
-        vericode_res = self.user.SendVeriCode()
+        self.user.SendVeriCode()
         response = {'dialcode':self.user.dialcode,
                          'phone':self.user.phone,
                          'success':True,
                          'return':True,
-                         'vericode' : vericode_res, 
                          }        
         if loginName is not None:
             response['uname'] = loginName

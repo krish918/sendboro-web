@@ -61,7 +61,7 @@
 			restrict: 'A',
 			link: function(scope, element) {
 				element.bind('click', function(e) {
-					console.log(angular.element(document.querySelector("#upload-file")));
+					//console.log(angular.element(document.querySelector("#upload-file")));
 					setTimeout(function(){
 						document.getElementById("upload-file").click();
 					},0);

@@ -19,7 +19,7 @@
 
 		<div class="inbox-content" ng-show="!isEmpty">
 
-			<div class="file-block" ng-repeat="sender in inbxCtrl.user.file.senderlist"
+			<div class="file-block sender" ng-repeat="sender in inbxCtrl.user.file.senderlist"
 				ui-sref="homeframe.inbox({sender: (sender.identity[0]=='+')?sender.identity.slice(1):sender.identity})"
 				>
 				<div class="file-container">

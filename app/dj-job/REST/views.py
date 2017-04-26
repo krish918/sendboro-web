@@ -101,6 +101,7 @@ class MetaUserView(View):
 	                    t3.username as sender_name,
 	                    concat(t3.dialcode,t3.phone) as sender_phone,
 	                    h.small as sender_picture,
+                        h.large as sender_picture_large,
 	                    max(sent_ts) last_sent
                 from 
 	                    (file_delivery  t1 
@@ -111,7 +112,8 @@ class MetaUserView(View):
 				            on t2.author_id=t3.userid) on t1.file_id=t2.fileid) 
 	                    join common_user as c 
 		                    on t1.user_id= c.userid and c.userid = %s
-                group by sender_name,sender_phone,sender_id, sender_picture
+                group by sender_name,sender_phone,sender_id, sender_picture,
+                        sender_picture_large
                 order by last_sent desc
             '''
             cursor.execute(query,[uid])
@@ -133,8 +135,12 @@ class MetaUserView(View):
                 
                 if res['sender_picture'] is None:
                     picture = '/static/resource/picture/silh/silh-80.jpg'
+                    silh = True
+                    #picture_large = None
                 else:
                     picture = MEDIA_URL+res['sender_picture']
+                    silh = False
+                    #picture_large = MEDIA_URL+res['sender_picture_large']
 
 
                 #getting all files by this sender
@@ -149,6 +155,8 @@ class MetaUserView(View):
                     '_id': res['sender_id'],
                     'identity': identity,
                     'pic':      picture,
+                    'silh':     silh,
+                    #'piclarge': picture_large,
                     'total':    res['total_count'],
                     'new':      res['new_count'],
                     'time':     Time(str(res['last_sent'])).getDiff(),

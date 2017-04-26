@@ -3,7 +3,7 @@
 	angular.module('util')
 	
 	.factory('$poll', function($http,$q, $cookies){
-		console.log($cookies.csrftoken);
+		//console.log($cookies.csrftoken);
 		return {
 			get: function(api) {
 				var deferred = $q.defer(),
@@ -26,10 +26,10 @@
 					};
 				
 				$http.post(api, data, {headers: postheaders}).then(function(res) {
-					console.log(res.data);
+					//console.log(res.data);
 					deferred.resolve(res.data);
 				}, function(res) {
-					console.log(res.data);
+					//console.log(res.data);
 					deferred.reject({'errorcode': -1});
 				});
 				

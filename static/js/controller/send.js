@@ -108,7 +108,7 @@
 				}
 				
 				var showSuccess = function (item, response) {
-					console.log(response);
+					//console.log(response);
 					if('error' in response) {
 						if(response.error === 1)
 							showError(2);
@@ -123,7 +123,7 @@
 				};
 				
 				var showFailure = function (item, response) {
-					console.log(response);
+					//console.log(response);
 					showError(0);
 				};
 				
@@ -133,7 +133,7 @@
 					//sends a http request to verify the recipient
 					// value is being url-encoded so as to transmit '+' character
 					// successfully to server
-					console.log($scope.recipient);
+					//console.log($scope.recipient);
 					$http({
 						url: '/api/verify',
 						data: 'rcpnt='+encodeURIComponent($scope.recipient),
@@ -312,6 +312,8 @@
 							self.sender_id = sender._id;
 							self.files = sender.files;
 							self.sender_pic = sender.pic;
+							self.silh = sender.silh;
+							//self.piclarge = sender.piclarge;
 							self.new_files = sender.new;
 						}
 					}
@@ -326,14 +328,14 @@
 					$poll.post(endpoint, data)
 					
 					.then(function (response) {
-						console.log(response);
+						//console.log(response);
 						if('success' in response) {
 							metaboro.update({'file': {
 								'newcount': 
 							(self.user.file.newcount - self.new_files)}});
 						}
 					}, function (response) {
-						console.log(response);
+						//console.log(response);
 					});
 
 				};

@@ -29,7 +29,7 @@
 			//self.dump['sent'] = data.sent;
 			if('immediate' in data) {
 					self.dump['data'] = data['data'];
-					console.log(self.dump.data);
+					//console.log(self.dump.data);
 					broadcast();
 			}
 			else {

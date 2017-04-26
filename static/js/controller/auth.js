@@ -75,7 +75,7 @@
 					if(value <= CALL_TIMER && value > 0) {
 						$scope.callProcessingClass= "disabled";
 						self.processingCallFlag = 2;
-						console.log(value);
+						//console.log(value);
 						redialTimer = $timeout(function() {
 							$scope.$apply(model.assign($scope, value-1));
 						}, 1000);
@@ -94,7 +94,7 @@
 			(function() {
 				$poll.get('api/country')
 				.then(function(res){
-					console.log(res);
+					//console.log(res);
 					if(res.success === true) {
 						for(var obj of self.countryList) {
 							if(obj.code == res.data.country_code) {
@@ -278,7 +278,7 @@
 				$poll.get('authmod/challenge')
 				
 				.then(function(res) {
-					console.log(res);
+					//console.log(res);
 					if(res.status == POLL_ERROR || res.status == RESOLVED_CODE)
 						self.error = POLL_ERROR;
 					else if(res.status == EMPTY_POLL)
@@ -371,7 +371,7 @@
 						self.error = 0;
 					},5000);
 					
-					console.log(res);
+					//console.log(res);
 				});
 			};
 			
@@ -411,7 +411,7 @@
 				});
 				$poll.post(endpoint, null)
 				.then(function(res){
-					console.log(res);
+					//console.log(res);
 					if(res.success == false) {
 						throw 'UNKNOWN ERROR';
 					}

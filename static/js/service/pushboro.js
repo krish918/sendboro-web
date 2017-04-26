@@ -36,7 +36,7 @@
 			
 			this.handler = function (params) {
 				
-				console.log(params);
+				//console.log(params);
 				//storing all the params in plist
 				plist = params;
 				
@@ -132,7 +132,7 @@
 			};
 			
 			this.cancelPush = function () {
-				console.log(current_item);
+				//console.log(current_item);
 				uploader.cancelItem(current_item);
 			}
 			

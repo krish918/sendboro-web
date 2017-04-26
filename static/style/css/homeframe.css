@@ -1112,7 +1112,8 @@ img.loader {
 .widget-body .file-block {
   padding: 20px 0;
   padding-right: 10px;
-  border-bottom: solid 1px #e6e6e6; }
+  border-bottom: solid 1px #e6e6e6;
+  cursor: default; }
   .widget-body .file-block .file-container {
     padding: 0 30px;
     padding-right: 0; }
@@ -1185,6 +1186,8 @@ img.loader {
   color: #31ad6d;
   font-size: 10pt; }
 
+.file-block.sender {
+  cursor: pointer; }
 .file-block .sender-picture {
   width: 50px;
   height: 50px;
@@ -1237,14 +1240,14 @@ img.loader {
   border-radius: 30px; }
 
 .inbox-sender-widget .sender-pic {
-  height: 30px;
-  width: 30px;
+  height: 430px;
+  width: 430px;
   overflow: hidden;
-  -moz-border-radius: 30px;
-  -o-border-radius: 30px;
-  -ms-border-radius: 30px;
-  -webkit-border-radius: 30px;
-  border-radius: 30px; }
+  -moz-border-radius: 430px;
+  -o-border-radius: 430px;
+  -ms-border-radius: 430px;
+  -webkit-border-radius: 430px;
+  border-radius: 430px; }
   .inbox-sender-widget .sender-pic img {
     margin-top: -15px;
     margin-left: -15px; }

@@ -3,16 +3,18 @@
 	ng-init="init()">
     <div class="widget-header">
 		<div class="widget-title inline-middle">
-            <a ui-sref="homeframe">RECEIVED<a/>
+            <a ui-sref="homeframe">RECEIVED</a>
             <span class="glyphicon glyphicon-chevron-right">
             </span>
 			{% verbatim %} 
 			{{ sndrCtrl.sender }}
 			{% endverbatim %}
         </div>
+
 		<div class="widget-icon inline-middle sender-pic">
 			<img ng-src="{% verbatim %}{{sndrCtrl.sender_pic}}{% endverbatim %}"/>
 		</div>
+
 	</div>
     <div class="widget-body received-page">
 		<div class="inbox-empty" ng-show="isEmpty">
@@ -28,7 +30,7 @@
 			</div>
 		</div>
 		<div class="inbox-content" ng-show="!isEmpty">
-		<div class="file-block sender-n-sent" ng-repeat="file in sndrCtrl.files">
+		<div class="file-block" ng-repeat="file in sndrCtrl.files">
 			<div class="file-container">
 				<table>
 					<tr>
@@ -53,7 +55,7 @@
 							{% verbatim %} {{file.time}} {% endverbatim %}
 						</div>
 						
-						<form action="file/download" method="post">
+						<form action="/file/download" method="post">
 						{% csrf_token %}
 							
 						<input type="hidden" name="fileid"
