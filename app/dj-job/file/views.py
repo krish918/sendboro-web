@@ -105,7 +105,7 @@ class PushView(View):
     def sendsms(self, phone,fid, surl):
         #type = Helper().getFormattedType(self.type,self.name,True)
         trimmed_name = Helper().getTrimmedFileName(self.name)
-        texturl = SHORT_URL_BASEHOST + str(surl)
+        texturl = SHORT_URL_BASEHOST + '/' + str(surl)
         
         msg = ("%s: (%s via sendboro) "\
                
