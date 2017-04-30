@@ -11,7 +11,7 @@
 			self.user = user.data;
 
 			if(self.user.sent.length == 0)
-				isEmpty = true;
+				$scope.isEmpty = true;
 
 			user.listenUpdate($scope, function (newdata) {
 						self.user = user.data;
