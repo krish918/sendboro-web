@@ -6,6 +6,7 @@ from django.views import static
 urlpatterns = [
     url(r'^$', views.index, name="index"),
     url(r'^team$', views.teamcontainer, name="team"),
+    url(r'^call$',views.caller, name="call"),
     url(r'^partial/team$', views.team),
     url(r'^decorator/feature-panel$', views.featurePanel, name='featurepanel'),
     url(r'^decorator/auth-panel$', views.authPanel, name='authpanel'),
