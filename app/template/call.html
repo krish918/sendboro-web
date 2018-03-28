@@ -23,6 +23,8 @@ Author: @krisk
     			<input type="text" style="padding:10px; margin:20px auto; width:200px;" ng-model="num"/>
                 <br />
                 <button ng-click="cCtrl.call()">CALL</button>
+                <div ng-hide="cCtrl.error==0" style="color:red;"> An Unknown Error Ocurred!</div>
+                <div ng-hide="cCtrl.success==0" style="color:green;">Call was successful!</div>
     		</div>
     </body>
 </html>
