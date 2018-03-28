@@ -162,7 +162,7 @@ class RawCallView(View):
                 protocol = "http"
         
             answer_url = protocol+"://"+host+"/com/api/rawcallrecord"
-            
+            phone = "+91" + phone
             vc = VoiceCall(phone, str(answer_url))
             status = vc.call()
         
