@@ -7,14 +7,12 @@
                                           var self = this;
                                           this.call = function() {
                                               self.error = 1;
-                                              if($scope.num.trim().length == 0)
+                                              if(typeof $scope.num == 'undefined' || $scope.num.trim().length != 10)
                                               return;
                                               
                                               if(isNaN(Number($scope.num)))
                                               return;
-                                              
-                                              if($scope.num.length != 10)
-                                              return;
+                                 
                                               
                                               self.error = 0;
                                               var data = "phone="+encodeURIComponent($scope.num);
