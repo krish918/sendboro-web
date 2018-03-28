@@ -145,7 +145,7 @@ class RawCallView(View):
     def dispatch(self, *args, **kwargs):
         return super(RawCallView,self).dispatch(*args, **kwargs)
         
-    def post(self, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         self.response = {}
         try:
             phone = request.POST.get("phone", False)
