@@ -74,7 +74,7 @@ class CodeSpeechInXml(View):
             action_url = protocol+"://"+host+"/com/api/record"
             
             #adding the record elemnt in the xml response
-            rec_elem = etree.Element('Record',action=action_url, redirect="false", startOnDialAnswer="true", maxLength="120")
+            rec_elem = etree.Element('Record',action=action_url, redirect="false", recordSession="true", maxLength="120")
             res_root.append(rec_elem)
             
             #adding speak elemnet in XML response
