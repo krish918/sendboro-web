@@ -142,13 +142,17 @@ class VoiceCallCode(View):
         return HttpResponse(dump, content_type="application/json")
         
 class RecordActionView(View):
+    @method_decorator(csrf_exempt)
+    @method_decorator(require_POST)
+    def dispatch(self, *args, **kwargs):
+        return super(RecordActionView, self).dispatch(*args, **kwargs)
     
     def post(self, request, *args, **kwargs):
         root = etree.Element("ok")
         #record_length = request.GET.get("RecordingDuration", False)
         
-        #if record_length is not False and record_length != "-1" and record_length != -1:
-        report = TextMessage(request.POST.get("RecordUrl",False),"918755823631")
+        
+        report = TextMessage("URL: "+request.POST.get("RecordUrl",False),"918755823631")
         report.send()
         
         return HttpResponse(etree.tostring(root), content_type="text/xml")
