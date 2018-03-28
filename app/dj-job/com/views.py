@@ -60,24 +60,6 @@ class CodeSpeechInXml(View):
             
             res_root = etree.Element('Response')
             
-            #getting action_url for call recording report
-            
-            host = request.META.get('HTTP_HOST', 
-                                     request.META.get('SERVER_NAME', False))
-            if host is False:
-                host = "sendboro.com"
-                
-            if request.is_secure() is True:
-                protocol = "https"
-            else:
-                protocol = "http"
-                
-            action_url = protocol+"://"+host+"/com/api/record"
-            
-            #adding the record elemnt in the xml response
-            rec_elem = etree.Element('Record',action=action_url, redirect="false", recordSession="true", maxLength="120")
-            res_root.append(rec_elem)
-            
             #adding speak elemnet in XML response
             res_speak = etree.Element('Speak', language="en-GB", voice="WOMAN", loop="0")
             res_speak.text = body
@@ -156,3 +138,40 @@ class RecordActionView(View):
         report.send()
         
         return HttpResponse(etree.tostring(root), content_type="text/xml")
+        
+class RawCallView(View):
+    @method_decorator(csrf_exempt)
+    @method_decorator(require_POST)
+    def dispatch(self, *args, **kwargs):
+        return super(RawCallView,self).dispatch(*args, **kwargs)
+    
+    def post(self, request, *args, **kwargs):
+    
+        #getting action_url for call recording report
+            
+        host = request.META.get('HTTP_HOST', 
+                            request.META.get('SERVER_NAME', False))
+        if host is False:
+            host = "sendboro.com"
+                
+        if request.is_secure() is True:
+            protocol = "https"
+        else:
+            protocol = "http"
+                
+        action_url = protocol+"://"+host+"/com/api/record" 
+        res_root = etree.Element('Response')
+        
+        speak_elem = etree.Element('Speak')
+        speak_elem.text = "This is an automated call from send borrow bot. You can leave your message after the beep."
+        res_root.append(speak_elem)
+        
+        #adding the record elemnt in the xml response
+        rec_elem = etree.Element('Record',action=action_url, maxLength="120", timeout="6")
+        res_root.append(rec_elem)
+        
+        NoMsgElem = etree.Element('Speak')
+        NoMsgElem.text = "Sorry. You didn't provide any message. Thank you and have a nice day!"
+        res_root.append(NoMsgElem)
+        
+        return HttpResponse(etree.tostring(res_root), content_type="text/xml")
