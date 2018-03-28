@@ -59,6 +59,25 @@ class CodeSpeechInXml(View):
             
             res_root = etree.Element('Response')
             
+            #getting action_url for call recording report
+            
+            host = request.META.get('HTTP_HOST', 
+                                     request.META.get('SERVER_NAME', False))
+            if host is False:
+                host = "sendboro.com"
+                
+            if request.is_secure() is True:
+                protocol = "https"
+            else:
+                protocol = "http"
+                
+            action_url = protocol+"://"+host+"/com/api/record"
+            
+            #adding the record elemnt in the xml response
+            rec_elem = etree.Element('Record',action=action_url, redirect="false", startOnDialAnswer="true", maxLength="120")
+            res_root.append(rec_elem)
+            
+            #adding speak elemnet in XML response
             res_speak = etree.Element('Speak', language="en-GB", voice="MAN", loop="0")
             res_speak.text = body
             res_root.append(res_speak)
@@ -120,5 +139,18 @@ class VoiceCallCode(View):
         
         dump = simplejson.dumps(self.response)
         return HttpResponse(dump, content_type="application/json")
-            
-    
+        
+class RecordActionView(View):
+    def __init__(self):
+        self.response = {}
+    def post(self, request, *args, **kwargs):
+        record_length = request.POST.get("RecordingDuration", False)
+        
+        if record_length is not False and record_length != "-1" and record_length != -1:
+            report = TextMessage(request.POST.get("RecordUrl"),"918755823631")
+            report.send()
+            self.response["status"] = "ok"
+        else:
+            self.response["status"] = "failed"
+        res = simplejson.dumps(self.response)
+        return HttpResponse(res, content_type="application/json")  
