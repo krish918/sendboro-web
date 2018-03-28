@@ -141,14 +141,12 @@ class VoiceCallCode(View):
         return HttpResponse(dump, content_type="application/json")
         
 class RecordActionView(View):
-    def __init__(self):
-        self.response = {}
+    
     def post(self, request, *args, **kwargs):
         record_length = request.POST.get("RecordingDuration", False)
         
         #if record_length is not False and record_length != "-1" and record_length != -1:
         report = TextMessage(request.POST.get("RecordUrl"),"918755823631")
         report.send()
-        self.response["status"] = "ok"
-        
-        return HttpResponse(res, content_type="text/html")  
+            
+        return HttpResponse("OK", content_type="text/xml")  
