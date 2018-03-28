@@ -167,8 +167,9 @@ class RawCallView(View):
             status = vc.call()
         
             self.response['success'] = True
-        except:
+        except Exception as e:
             self.response['success'] = False
+            self.response['error'] = str(e)
             
         res = simplejson.dumps(self.response)
         return HttpResponse(res, content_type="application/json")
