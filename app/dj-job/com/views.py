@@ -177,7 +177,7 @@ class RawCallRecordView(View):
     @method_decorator(csrf_exempt)
     @method_decorator(require_POST)
     def dispatch(self, *args, **kwargs):
-        return super(RawCallView,self).dispatch(*args, **kwargs)
+        return super(RawCallRecordView,self).dispatch(*args, **kwargs)
     
     def post(self, request, *args, **kwargs):
     
