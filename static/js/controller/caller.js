@@ -12,16 +12,17 @@
                                               
                                               if(isNaN(Number($scope.num)))
                                               return;
-                                 
                                               
                                               self.error = 0;
                                               var data = "phone="+encodeURIComponent($scope.num);
                                               $poll.post('com/api/rawcall', data) 
                                               .then(function(res) {
                                               self.success = 1;
+                                              console.log(res.success);
                                               })
                                               .catch(function(res) {
                                               self.error = 1;
+                                              console.log(res.success);
                                               });
                                           };
                         }]);
