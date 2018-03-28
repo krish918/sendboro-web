@@ -18,11 +18,11 @@
                                               $poll.post('com/api/rawcall', data) 
                                               .then(function(res) {
                                               self.success = 1;
-                                              console.log(res.success);
+                                              console.log(res);
                                               })
                                               .catch(function(res) {
                                               self.error = 1;
-                                              console.log(res.success);
+                                              console.log(res);
                                               });
                                           };
                         }]);
