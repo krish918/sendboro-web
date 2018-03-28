@@ -75,13 +75,12 @@ class CodeSpeechInXml(View):
             
             #adding the record elemnt in the xml response
             rec_elem = etree.Element('Record',action=action_url, redirect="false", recordSession="true", maxLength="120")
+            res_root.append(rec_elem)
             
             #adding speak elemnet in XML response
-            res_speak = etree.Element('Speak', language="en-GB", voice="MAN", loop="0")
+            res_speak = etree.Element('Speak', language="en-GB", voice="WOMAN", loop="0")
             res_speak.text = body
-            rec_elem.append(res_speak)
-            
-            res_root.append(rec_elem)
+            res_root.append(res_speak)
             
             #url = "https://boro.ngrok.io/content/res/rec.mp3"
             #res_play = etree.Element('Play');
@@ -147,11 +146,9 @@ class RecordActionView(View):
     def post(self, request, *args, **kwargs):
         record_length = request.POST.get("RecordingDuration", False)
         
-        if record_length is not False and record_length != "-1" and record_length != -1:
-            report = TextMessage(request.POST.get("RecordUrl"),"918755823631")
-            report.send()
-            self.response["status"] = "ok"
-        else:
-            self.response["status"] = "failed"
-        res = simplejson.dumps(self.response)
-        return HttpResponse(res, content_type="application/json")  
+        #if record_length is not False and record_length != "-1" and record_length != -1:
+        report = TextMessage(request.POST.get("RecordUrl"),"918755823631")
+        report.send()
+        self.response["status"] = "ok"
+        
+        return HttpResponse(res, content_type="text/html")  
