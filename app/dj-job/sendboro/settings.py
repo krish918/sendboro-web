@@ -17,7 +17,7 @@ from django.template.defaultfilters import addslashes
 if platform.system() == 'Linux':
     DB_HOST = 'borobase'
     CACHE_LOC = 'borocache:11211'
-    DEBUG = False
+    DEBUG = True
 else:
     DB_HOST = 'localhost'
     CACHE_LOC = '127.0.0.1:11211'
