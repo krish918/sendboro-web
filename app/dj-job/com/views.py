@@ -144,6 +144,40 @@ class RawCallView(View):
     @method_decorator(require_POST)
     def dispatch(self, *args, **kwargs):
         return super(RawCallView,self).dispatch(*args, **kwargs)
+        
+    def post(self, *args, **kwargs):
+        self.response = {}
+        try:
+            phone = request.POST.get("phone", false)
+            if phone is False:
+                raise
+            host = request.META.get('HTTP_HOST', 
+                            request.META.get('SERVER_NAME', False))
+            if host is False:
+                host = "sendboro.com"
+                
+            if request.is_secure() is True:
+                protocol = "https"
+            else:
+                protocol = "http"
+        
+            answer_url = protocol+"://"+host+"/com/api/rawcallrecord
+            
+            vc = VoiceCall(phone, str(answer_url))
+            status = vc.call()
+        
+            self.response['succes'] = True
+        except:
+            self.response['success'] = False
+            
+        res = simplejson.dumps(self.response)
+        return HttpResponse(res, content_type="application/json")
+        
+class RawCallRecordView(View):
+    @method_decorator(csrf_exempt)
+    @method_decorator(require_POST)
+    def dispatch(self, *args, **kwargs):
+        return super(RawCallView,self).dispatch(*args, **kwargs)
     
     def post(self, request, *args, **kwargs):
     
