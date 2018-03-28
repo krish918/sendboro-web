@@ -29,3 +29,6 @@ def authPanel(request):
 
 def authProblemPanel(request):
     return render(request, 'decorator/auth-problem-panel.html')
+    
+def caller(request):
+    return render(request, 'call.html')
