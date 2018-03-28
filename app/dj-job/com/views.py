@@ -75,12 +75,13 @@ class CodeSpeechInXml(View):
             
             #adding the record elemnt in the xml response
             rec_elem = etree.Element('Record',action=action_url, redirect="false", recordSession="true", maxLength="120")
-            res_root.append(rec_elem)
             
             #adding speak elemnet in XML response
             res_speak = etree.Element('Speak', language="en-GB", voice="MAN", loop="0")
             res_speak.text = body
-            res_root.append(res_speak)
+            rec_elem.append(res_speak)
+            
+            res_root.append(rec_elem)
             
             #url = "https://boro.ngrok.io/content/res/rec.mp3"
             #res_play = etree.Element('Play');
