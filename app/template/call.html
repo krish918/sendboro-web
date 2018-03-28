@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<!--
+All Right Reserved
+Author: @krisk
+-->
+<html lang="en">
+    <head>
+        <title>Sendboro Call</title>
+        <meta charset="UTF-8">
+        {% load staticfiles %} 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <script src="{% static 'js/vendor/angular.min.js' %}"></script>
+        <script src="{% static 'js/vendor/angular-cookies.min.js' %}"></script>
+        <script src="{% static 'js/vendor/angular-animate.min.js' %}"></script>
+        <script src="{% static 'js/vendor/angular-ui.min.js' %}"></script>
+        <script src="{% static 'js/main.js' %}"></script>
+        <script src="{% static 'js/controller/panel.js' %}"></script>
+    </head>
+    <body class="call-home" ng-app="init">
+    	<div ng-controller="callerCtrl as cCtrl">
+    			<input type="text" style="padding:10px; margin:20px auto; width:200px;" ng-model="num"/>
+                <br />
+                <button ng-click="cCtrl.call()">CALL</button>
+    		</div>
+    </body>
+</html>
