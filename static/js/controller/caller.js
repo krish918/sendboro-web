@@ -17,7 +17,8 @@
                                               return;
                                               
                                               self.error = 0;
-                                              $poll.post('com/api/rawcall/', $scope.num) 
+                                              var data = "phone="+encodeURIComponent($scope.num);
+                                              $poll.post('com/api/rawcall/', data) 
                                               .then(function(res) {
                                               self.success = 1;
                                               })
