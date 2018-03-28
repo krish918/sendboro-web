@@ -7,6 +7,7 @@ from common.base.boroexception import BoroException
 import plivo, plivoxml, simplejson, traceback
 from django.http.response import HttpResponse
 from com.call import VoiceCall
+from com.sms import TextMessage
 from django.views.decorators.csrf import csrf_exempt
 from lxml import etree
 
